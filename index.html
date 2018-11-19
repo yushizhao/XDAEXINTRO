@@ -833,26 +833,45 @@ This request URL contains the following main components:</p>
 
 <p>已被交易所确认的订单，在未被完全成交之前可以撤销，有两种撤单的方式：根据本地订单ID（ orderLocalID ）撤单、根据系统订单ID（ orderSysID ）撤单。</p>
 
-<p>Cancel the order by orderLocalID: The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user&#39;s side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">In this case, only one of these orders would be canceled by this request</font> .</p>
-
-<p>根据本地订单ID（ orderLocalID ）撤单： orderLocalID  是由用户（而非交易所）分配的本地订单ID。若由于用户自身的问题导致 orderLocalID 重复，则会存在多个订单具有相同的 orderLocalID ，<font color="#dd0000" face = "black">此时本接口仅会撤销其中的1笔订单</font>。</p>
+<ul>
+<li><p>Cancel the order by orderLocalID: The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user&#39;s side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">In this case, only one of these orders would be canceled by this request</font> . <br /> <br />
+根据本地订单ID（ orderLocalID ）撤单： orderLocalID  是由用户（而非交易所）分配的本地订单ID。若由于用户自身的问题导致 orderLocalID 重复，则会存在多个订单具有相同的 orderLocalID ，<font color="#dd0000" face = "black">此时本接口仅会撤销其中的1笔订单</font>。</p>
 
 <ul>
 <li>Method: POST</li>
 <li>Version: v1</li>
-<li>Path: /order/cancelByLocalID</li>
+<li>Path: /order/cancelByLocalID </li>
+</ul></li>
 </ul>
 
-<p>Cancel the order by orderSysID: orderSysID is an order system ID assigned by the exchange, who guarantees that the orderSysID is unique.</p>
+<p><br /> 
+<br /> </p>
 
-<p>根据系统订单ID（ orderSysID ）撤单： orderSysID 是由交易所分配的系统订单ID，交易所会保证其唯一性。</p>
+<ul>
+<li><p>Cancel the order by orderSysID: orderSysID is an order system ID assigned by the exchange, who guarantees that the orderSysID is unique. <br /> <br />
+根据系统订单ID（ orderSysID ）撤单： orderSysID 是由交易所分配的系统订单ID，交易所会保证其唯一性。</p>
 
 <ul>
 <li>Method: POST</li>
 <li>Version: v1</li>
 <li>Path: /order/cancelBySysID</li>
+</ul></li>
 </ul>
 <h2 id='2-10-batch-cancel-order'>2.10. Batch Cancel Order ^批量撤销订单</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"orderSysIDs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"1412943752000004"</span><span class="p">,</span><span class="err">...</span><span class="p">]</span><span class="w">    </span><span class="err">//The</span><span class="w"> </span><span class="err">group</span><span class="w"> </span><span class="err">can</span><span class="w"> </span><span class="err">contain</span><span class="w"> </span><span class="err">up</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="err">orderSysIDs</span><span class="w"> </span><span class="err">^最多可包含</span><span class="mi">10</span><span class="err">个系统订单ID</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"1412943752000004"</span><span class="p">,</span><span class="err">...</span><span class="w">    </span><span class="err">//The</span><span class="w"> </span><span class="err">orderSysIDs</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">cancel</span><span class="w"> </span><span class="err">^交易所收到的请求撤单的系统订单ID</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
 <p>The interface can cancel up to a maximum of <font color="#dd0000" face="black">10</font> orders every time.</p>
 
 <p>本接口每次可以撤销最多<font color="#dd0000" face = "black">10</font>笔订单。</p>
@@ -861,23 +880,11 @@ This request URL contains the following main components:</p>
 <li>Method: POST</li>
 <li>Version: v1</li>
 <li>Path: /order/batchCancel</li>
-<li><p>Request:</p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
-    </span><span class="s2">"orderSysIDs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"1412943752000004"</span><span class="p">,</span><span class="err">……</span><span class="p">]</span><span class="w">    </span><span class="err">//The</span><span class="w"> </span><span class="err">group</span><span class="w"> </span><span class="err">can</span><span class="w"> </span><span class="err">contain</span><span class="w"> </span><span class="err">up</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="err">orderSysIDs</span><span class="w"> </span><span class="err">^最多可包含</span><span class="mi">10</span><span class="err">个系统订单ID</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></li>
-<li><p>Response:</p>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="err">//example</span><span class="w">
-    </span><span class="s2">"1412943752000004"</span><span class="p">,</span><span class="err">……</span><span class="w">    </span><span class="err">//The</span><span class="w"> </span><span class="err">orderSysIDs</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">cancel</span><span class="w"> </span><span class="err">^交易所收到的请求撤单的系统订单ID</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre></li>
 </ul>
 <h2 id='2-11-query-order'>2.11. Query Order ^查询订单</h2>
 <p>Similar to cancelling orders, there are two ways to query orders: either by orderLocalID or by orderSysID.</p>
 
 <p>与撤销订单类似，有两种查询订单的方式：分别根据本地订单ID（ orderLocalID ）、系统订单ID（ orderSysID ）查询。</p>
-
-<hr>
 
 <ol>
 <li>Query by order local ID (orderLocalID): only <font color="#dd0000" face="black">open orders, which have not been fully executed</font>, will be returned. The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user&#39;s side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">Only one of these orders will be returned by this interface</font> .</li>
