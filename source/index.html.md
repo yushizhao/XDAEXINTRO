@@ -420,23 +420,41 @@ The order that is confirmed by the exchange, but not completely executed, can be
 
 已被交易所确认的订单，在未被完全成交之前可以撤销，有两种撤单的方式：根据本地订单ID（ orderLocalID ）撤单、根据系统订单ID（ orderSysID ）撤单。
 
-Cancel the order by orderLocalID: The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user's side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">In this case, only one of these orders would be canceled by this request</font> .
-
+* Cancel the order by orderLocalID: The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user's side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">In this case, only one of these orders would be canceled by this request</font> . <br /> <br />
 根据本地订单ID（ orderLocalID ）撤单： orderLocalID  是由用户（而非交易所）分配的本地订单ID。若由于用户自身的问题导致 orderLocalID 重复，则会存在多个订单具有相同的 orderLocalID ，<font color="#dd0000" face = "black">此时本接口仅会撤销其中的1笔订单</font>。
 
-* Method: POST
-* Version: v1
-* Path: /order/cancelByLocalID
+  + Method: POST
+  + Version: v1
+  + Path: /order/cancelByLocalID 
 
-Cancel the order by orderSysID: orderSysID is an order system ID assigned by the exchange, who guarantees that the orderSysID is unique.
+<br /> 
+<br /> 
 
+* Cancel the order by orderSysID: orderSysID is an order system ID assigned by the exchange, who guarantees that the orderSysID is unique. <br /> <br />
 根据系统订单ID（ orderSysID ）撤单： orderSysID 是由交易所分配的系统订单ID，交易所会保证其唯一性。
 
-* Method: POST
-* Version: v1
-* Path: /order/cancelBySysID
+  + Method: POST
+  + Version: v1
+  + Path: /order/cancelBySysID
 
 ## 2.10. Batch Cancel Order ^批量撤销订单
+
+> Request:
+   
+```json
+{//example
+    "orderSysIDs": [ "1412943752000004",...]    //The group can contain up to 10 orderSysIDs ^最多可包含10个系统订单ID
+}
+```
+
+> Response:
+   
+```json
+[//example
+    "1412943752000004",...    //The orderSysIDs received by the exchange to cancel ^交易所收到的请求撤单的系统订单ID
+]
+```
+
 The interface can cancel up to a maximum of <font color="#dd0000" face="black">10</font> orders every time.
 
 本接口每次可以撤销最多<font color="#dd0000" face = "black">10</font>笔订单。
@@ -444,26 +462,12 @@ The interface can cancel up to a maximum of <font color="#dd0000" face="black">1
 * Method: POST
 * Version: v1
 * Path: /order/batchCancel
-* Request:
-   
-    ```json
-    {//example
-        "orderSysIDs": [ "1412943752000004",……]    //The group can contain up to 10 orderSysIDs ^最多可包含10个系统订单ID
-    }
-    ```
-* Response:
-   
-    ```json
-    [//example
-        "1412943752000004",……    //The orderSysIDs received by the exchange to cancel ^交易所收到的请求撤单的系统订单ID
-    ]
-    ```
 
 ## 2.11. Query Order ^查询订单
+
 Similar to cancelling orders, there are two ways to query orders: either by orderLocalID or by orderSysID.
 
 与撤销订单类似，有两种查询订单的方式：分别根据本地订单ID（ orderLocalID ）、系统订单ID（ orderSysID ）查询。
-***
 
 1. Query by order local ID (orderLocalID): only <font color="#dd0000" face="black">open orders, which have not been fully executed</font>, will be returned. The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user's side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">Only one of these orders will be returned by this interface</font> .
 
