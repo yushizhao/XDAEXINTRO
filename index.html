@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>XDAEX Trading and Market Data API Specification ^XDAEX 交易及行情API规范</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -201,7 +201,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;json&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -211,10 +211,7 @@
     <div class="toc-wrapper">
       <img src="images/logo.png" class="logo" alt="Logo" />
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
-              <a href="#" data-language-name="javascript">javascript</a>
+              <a href="#" data-language-name="json">JSON</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -222,22 +219,99 @@
         <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
           <li>
-            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
-          </li>
-          <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-          </li>
-          <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#1-quick-start" class="toc-h1 toc-link" data-title="1. Quick Start ^快速入门">1. Quick Start ^快速入门</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#1-1-preparation" class="toc-h2 toc-link" data-title="1.1. Preparation ^准备工作">1.1. Preparation ^准备工作</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
+                    <a href="#1-2-trading" class="toc-h2 toc-link" data-title="1.2. Trading ^交易">1.2. Trading ^交易</a>
                   </li>
                   <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#1-3-test-environment-and-preview-environment" class="toc-h2 toc-link" data-title="1.3. Test Environment And Preview Environment ^测试环境和预览环境">1.3. Test Environment And Preview Environment ^测试环境和预览环境</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#2-rest-interface-description-rest" class="toc-h1 toc-link" data-title="2. REST Interface Description ^REST接口说明">2. REST Interface Description ^REST接口说明</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#2-1-http-request-url-http-url" class="toc-h2 toc-link" data-title="2.1. HTTP Request URL ^HTTP 请求 URL">2.1. HTTP Request URL ^HTTP 请求 URL</a>
+                  </li>
+                  <li>
+                    <a href="#2-2-http-request-message-header-http" class="toc-h2 toc-link" data-title="2.2. HTTP Request Message Header ^HTTP 请求消息头">2.2. HTTP Request Message Header ^HTTP 请求消息头</a>
+                  </li>
+                  <li>
+                    <a href="#2-3-query-server-time" class="toc-h2 toc-link" data-title="2.3. Query Server Time ^查询服务器时间">2.3. Query Server Time ^查询服务器时间</a>
+                  </li>
+                  <li>
+                    <a href="#2-4-query-api-release-number-api" class="toc-h2 toc-link" data-title="2.4. Query API Release Number ^查询 API 发行号">2.4. Query API Release Number ^查询 API 发行号</a>
+                  </li>
+                  <li>
+                    <a href="#2-5-query-instrument" class="toc-h2 toc-link" data-title="2.5. Query Instrument ^查询合约">2.5. Query Instrument ^查询合约</a>
+                  </li>
+                  <li>
+                    <a href="#2-6-query-user-39-s-assets" class="toc-h2 toc-link" data-title="2.6. Query User's Assets ^查询用户资产">2.6. Query User's Assets ^查询用户资产</a>
+                  </li>
+                  <li>
+                    <a href="#2-7-query-the-user-39-s-rate-limit" class="toc-h2 toc-link" data-title="2.7. Query the User's Rate Limit ^查询流量控制">2.7. Query the User's Rate Limit ^查询流量控制</a>
+                  </li>
+                  <li>
+                    <a href="#2-8-insert-order" class="toc-h2 toc-link" data-title="2.8. Insert Order ^创建订单">2.8. Insert Order ^创建订单</a>
+                  </li>
+                  <li>
+                    <a href="#2-9-cancel-order" class="toc-h2 toc-link" data-title="2.9. Cancel Order ^撤销订单">2.9. Cancel Order ^撤销订单</a>
+                  </li>
+                  <li>
+                    <a href="#2-10-batch-cancel-order" class="toc-h2 toc-link" data-title="2.10. Batch Cancel Order ^批量撤销订单">2.10. Batch Cancel Order ^批量撤销订单</a>
+                  </li>
+                  <li>
+                    <a href="#2-11-query-order" class="toc-h2 toc-link" data-title="2.11. Query Order ^查询订单">2.11. Query Order ^查询订单</a>
+                  </li>
+                  <li>
+                    <a href="#2-12-query-trade" class="toc-h2 toc-link" data-title="2.12. Query Trade ^查询成交">2.12. Query Trade ^查询成交</a>
+                  </li>
+                  <li>
+                    <a href="#2-13-query-level2-market-data-level2" class="toc-h2 toc-link" data-title="2.13. Query Level2 Market Data ^查询Level2行情数据">2.13. Query Level2 Market Data ^查询Level2行情数据</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#3-websocket-interface-description-websocket" class="toc-h1 toc-link" data-title="3. WebSocket Interface Description ^WebSocket 接口说明">3. WebSocket Interface Description ^WebSocket 接口说明</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#3-1-websocket-request-url-websocket-url" class="toc-h2 toc-link" data-title="3.1. WebSocket Request URL ^WebSocket 请求 URL">3.1. WebSocket Request URL ^WebSocket 请求 URL</a>
+                  </li>
+                  <li>
+                    <a href="#3-2-private-message-flow" class="toc-h2 toc-link" data-title="3.2. Private Message Flow ^私有消息流">3.2. Private Message Flow ^私有消息流</a>
+                  </li>
+                  <li>
+                    <a href="#3-3-public-message-flow" class="toc-h2 toc-link" data-title="3.3. Public Message Flow ^公有消息流">3.3. Public Message Flow ^公有消息流</a>
+                  </li>
+                  <li>
+                    <a href="#3-4-heartbeat-mechanism" class="toc-h2 toc-link" data-title="3.4. Heartbeat Mechanism ^心跳机制">3.4. Heartbeat Mechanism ^心跳机制</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#4-sample-code" class="toc-h1 toc-link" data-title="4. Sample Code ^示例代码">4. Sample Code ^示例代码</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#4-1-rest-interface-sample-code-rest" class="toc-h2 toc-link" data-title="4.1. REST Interface Sample Code ^REST接口示例代码">4.1. REST Interface Sample Code ^REST接口示例代码</a>
+                  </li>
+                  <li>
+                    <a href="#4-2-websocket-subscription-sample-code-websocket" class="toc-h2 toc-link" data-title="4.2. WebSocket Subscription Sample Code ^WebSocket订阅示例代码">4.2. WebSocket Subscription Sample Code ^WebSocket订阅示例代码</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#5-request-response-code-table" class="toc-h1 toc-link" data-title="5. Request-Response Code Table ^请求应答编码对照表">5. Request-Response Code Table ^请求应答编码对照表</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#5-1-success-response" class="toc-h2 toc-link" data-title="5.1. Success Response ^成功应答">5.1. Success Response ^成功应答</a>
+                  </li>
+                  <li>
+                    <a href="#5-2-failure-response-table" class="toc-h2 toc-link" data-title="5.2. Failure Response Table ^失败应答表">5.2. Failure Response Table ^失败应答表</a>
                   </li>
               </ul>
           </li>
@@ -245,193 +319,1292 @@
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
           </li>
       </ul>
-        <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
-        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+        <h1 id='1-quick-start'>1. Quick Start ^快速入门</h1>
+<p>The exchange provides two interface modes for API users:</p>
 
-<p>We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<ul>
+<li>REST mode: Use the &quot;request/reply&quot; method to insert orders, cancel orders, query orders, query instruments, query assets, query trades, query market data, etc.</li>
+<li>WebSocket mode: Use the &quot;publish/subscribe&quot; method to publish order confirmation, execution reports, market data, etc.</li>
+</ul>
 
-<p>This example API documentation page was created with <a href="https://github.com/lord/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
-<h1 id='authentication'>Authentication</h1>
+<p>交易所为 API 用户提供了两种接口模式：</p>
+
+<ul>
+<li>REST 模式：采用“请求/应答”方式，完成创建订单、撤销订单、查询订单、查询合约、查询资产、查询成交、查询行情信息等。</li>
+<li>WebSocket 模式：采用“发布/订阅”方式，推送订单确认、成交回报、行情信息等。</li>
+</ul>
+
+<p>To make it easier to get started, here are the general steps for writing a trading program with the API:  (The details of each call can be found in subsequent chapters.)</p>
+
+<p>为方便用户快速理解，以下列出了使用本 API 编写交易程序的常规步骤：（各个调用的详细内容可以查看后续对应的章节）</p>
+<h2 id='1-1-preparation'>1.1. Preparation ^准备工作</h2><h3 id='1-1-1-api-key-management-api-key'>1.1.1. API-KEY Management ^API-KEY 管理</h3>
+<p>API users need their own API-KEYs to complete the authentication. Details on how to apply for and re-generate the API-KEY are noted below:</p>
+
+<ul>
+<li>The API-KEY needs to be set via the &quot;User Center--API Interface&quot; of the exchange website by users. When appling for the API-KEY, users choose an authentication method between &quot;public-private key pair method&quot; and &quot;message authentication code method&quot;, which are referred to as &quot;PUB-PRIV&quot; and &quot;HMAC&quot; in this specification, respectively. </li>
+<li>When a user choose &quot;PUB-PRIV&quot;, in addition to an API-KEY, a public-private key pair is generated. In that key pair, the private key is stored locally; Only the public key is uploaded to the server. Please ensure to keep the private key safe and backup properly. <b>(Do not disclose the private key as this is closely related to the security of your account.)</b></li>
+<li>When a user choose &quot;HMAC&quot;, in addition to an API-KEY, a secret key is generated. Both the user and the server keep a copy of the secret key. Please ensure to keep it safe and backup properly. <b>(Do not disclose the secret key as this is closely related to the security of your account.)</b></li>
+<li>If the API user&#39;s private key or secret key is lost or stolen, the corresponding API-KEY can be removed in the &quot;User Center--API Interface&quot; of the exchange website by the API user. After that, a new API-KEY can be appiled for.</li>
+</ul>
+
+<p>API 用户需要使用自己的 API-KEY 完成身份认证。 API-KEY 的申请和更换：</p>
+
+<ul>
+<li>API-KEY 需由 API 用户在交易所网站的“用户中心-- API 接口”中设置。在申请 API-KEY 时，用户从“公钥-私钥模式”和“消息验证码模式”中选择一种授权方式。在后文中，它们分别被称为 “ PUB-PRIV ” 和 “ HMAC ”。</li>
+<li>当用户选择“ PUB-PRIV ”时，除 API-KEY 之外，会对应生成一对公私钥。其中的私钥在用户本地保存；只有公钥会被传送到服务器。请用户妥善保管和备份该私钥。<b>（该私钥与您的账户安全密切相关，请勿泄露！）</b></li>
+<li>当用户选择“ HMAC ”时，除 API-KEY 之外，会对应生成一个密钥。用户和交易所各持有一份该密钥的副本。<b>（该密钥与您的账户安全密切相关，请勿泄露！）</b></li>
+<li>若用户的私钥或密钥发生丢失、被盗用等异常情况，可在交易所网页的“用户中心-- API 接口”中删除对应的 API-KEY ，再申请新的 API-KEY 。</li>
+</ul>
+
+<p>For security reasons, an API-KEY can be blacklisted by the administrator. If the API-KEY is blacklisted, the API user can send an email to support@xdaex.com and apply to be removed from the blacklist.</p>
+
+<p>由于安全原因，某 API-KEY 可能被管理员加入黑名单。若 API-KEY 处于黑名单中， API 用户可发送邮件至 support@xdaex.com ，申请从黑名单中移除。</p>
+<h3 id='1-1-2-query-info-and-subscribe-to-websocket-flow-websocket'>1.1.2. Query Info and Subscribe to WebSocket Flow ^查询信息和订阅 WebSocket 流</h3>
+<p>Before trading, it is recommended to call the following REST interface to query the server time, instruments, asset balances and other related information to ensure that the user&#39;s trading program is in the correct status:</p>
+
+<ul>
+<li>Get server time: Call the /marketData/time interface. The system time is in UTC (Coordinated Universal Time). The time difference between Hong Kong and UTC is +8, aka. UTC+8.</li>
+<li>Get instruments information: Call the /marketData/instrument interface to get the requirement for the decimal precision and the maximum value of the price and volume of the instrument.</li>
+<li>Get the user&#39;s asset balances: Call the /account/assets interface.</li>
+<li>Subscribe to WebSocket public and private message flow. (Ignore this step if not use WebSocket to receive published messages).</li>
+</ul>
+
+<p>在开始交易前，建议调用以下 REST 接口，查询服务器时间、合约、用户资产余额等信息，以确保用户交易程序处于正确的状态：</p>
+
+<ul>
+<li>获取服务器时间：调用 /marketData/time 接口。系统时间采用 UTC。香港时间与 UTC 的时差为 +8 ，也就是 UTC+8 。</li>
+<li>获取合约信息：调用 /marketData/instrument 接口，得到对指定合约的价格和数量的小数精度、最大取值的要求。</li>
+<li>获取用户资产余额：调用 /account/assets 接口。</li>
+<li>订阅 WebSocket 公有流、私有流（如果不使用 WebSocket 接收推送的消息，则忽略本条）。</li>
+</ul>
+<h2 id='1-2-trading'>1.2. Trading ^交易</h2>
+<ul>
+<li><p>Call the REST interface /order/insert to insert order, the user can specify the <font color="#dd0000" face = "black">orderLocalID</font> in the order. The orderLocalID is an order local ID assigned by the user rather than the exchange. It is recommended to ensure that the number is incremental and unique.</p></li>
+<li><p>Get the order confirmation and execution reports</p>
+
+<ul>
+<li>If you are using WebSocket to receive messages, you will receive a message published through the WebSocket private flow:
+
+<ul>
+<li>order_return message: Indicates the order has been confirmed by the exchange. The message contains the <font color="#dd0000" face = "black">orderSysID</font> which is assigned to the order by the exchange.</li>
+<li>order_insert_rsp message: Indicates that the order failed to be confirmed by the exchange.</li>
+</ul></li>
+<li>If you are not using WebSocket to receive messages, call the REST interface /order/getorderbyLocalID by using orderLocalID to query the order confirmation. If the order has been confirmed by the exchange, the results will contain the <font color="#dd0000" face = "black">orderSysID</font> which is assigned to the order by the exchange. If the order failed to be confirmed by the exchange, the query result will be null.</li>
+</ul></li>
+<li><p>调用 REST 接口 /order/insert 创建订单（以下简称：下单），用户可以在订单中自行指定 <font color="#dd0000" face = "black">orderLocalID</font> 。orderLocalID 是由用户（而非交易所）分配的本地订单ID。建议应确保 orderLocalID 的增长性和唯一性。</p></li>
+<li><p>获取订单确认和成交回报：</p>
+
+<ul>
+<li>如果使用 WebSocket 接收消息，则会接收到通过 WebSocket 私有流推送的消息：
+
+<ul>
+<li>order_return 消息：表示订单已经被交易所确认。该消息中含有交易所为该订单分配的系统订单ID <font color="#dd0000" face = "black">orderSysID</font> 。</li>
+<li>order_insert_rsp 消息：表示订单没能通过交易所的确认。</li>
+</ul></li>
+<li>如果不使用 WebSocket 接收消息，则需要调用 REST 接口 /order/getOrderByLocalID , 使用 orderLocalID 查询订单确认信息。如果订单已经被交易所确认，则查询结果中会含有交易所为该订单分配的系统订单ID <font color="#dd0000" face = "black">orderSysID</font> ；否则查询结果为 null 。</li>
+<li>The order can be canceled by the following two methods:</li>
+<li>Call the /order/cancelbyLocalID interface to cancel the order based on the orderLocalID assigned to the order by the user rather than the exchange.</li>
+<li>Call the /order/cancel interface to cancel the order based on the orderSysID assigned to the order by the exchange.</li>
+</ul></li>
+<li><p>若需撤销订单（以下简称：撤单），可采取以下两种方式：</p>
+
+<ul>
+<li>根据由用户（而非交易所）分配的本地订单ID orderLocalID 调用 /order/cancelByLocalID 接口撤销订单。</li>
+<li>根据交易所为该订单分配的系统订单ID orderSysID 调用 /order/cancel 接口撤销订单。</li>
+</ul></li>
+</ul>
+
+<p>Note: For related information about API access management, rate limit and test/preview environment, please refer to the relevant contents in later sections. There are &#39;sample codes&#39; in some programming languages for your reference at the end of this document.</p>
+
+<p>注意：关于 API 接入管理、流量控制和测试环境等内容，请查阅后面的有关章节。在本文档的最后，有多种编程语言的“示例代码”供您参考。</p>
+<h2 id='1-3-test-environment-and-preview-environment'>1.3. Test Environment And Preview Environment ^测试环境和预览环境</h2>
+<p>In addition to the production environment, where users interact with the real market, the exchange provides other two environments:</p>
+
+<ul>
+<li>Test Environment: In order to protect users&#39; assets, it is highly recommended that API users complete the necessary system tests in the test environment before accessing the production environment for trading. 
+
+<ul>
+<li>Domain name: api-test.xdaex.com</li>
+</ul></li>
+<li>Preview Environment: To help users prepare for API updates, conduct compatible tests for instance, all API updates take effect in the preview environment first. Then, after a preannounced period of time, the test environment and the production environment will be updated.
+
+<ul>
+<li>Domain name: api-preview.xdaex.com</li>
+</ul></li>
+</ul>
+
+<p>在与真实市场交互的生产环境之外，交易所还为 API 用户们提供了两种环境：</p>
+
+<ul>
+<li>测试环境：为了保护用户资产，建议 API 用户在测试环境中完成必要的系统测试后，再接入生产系统进行交易。
+
+<ul>
+<li>域名：api-test.xdaex.com</li>
+</ul></li>
+<li>预览环境：每次 API 功能迭代时会先对预览环境进行升级，以便于用户尽早开展兼容性测试等升级准备工作，并将在约定的一段时间后同步更新测试环境和生产环境。
+
+<ul>
+<li>域名：api-preview.xdaex.com</li>
+</ul></li>
+</ul>
+
+<p>API users can send an email to support@xdaex.com to apply for accessing the test environment and the preview environment.</p>
+
+<p>API 用户可以发送邮件至 support@xdaex.com ，申请使用测试环境和预览环境。</p>
+<h1 id='2-rest-interface-description-rest'>2. REST Interface Description ^REST接口说明</h1><h2 id='2-1-http-request-url-http-url'>2.1. HTTP Request URL ^HTTP 请求 URL</h2>
+<p>The REST interface requests a URL as: https://xdaex.com/APITrade/v1/account/assets
+This request URL contains the following main components:</p>
+
+<ul>
+<li>Protocol: https</li>
+<li>Domain name: xdaex.com (To access the test\preview environment, please replace it with the corresponding domain name.)</li>
+<li>Interface name: APITrade</li>
+<li>Version: v1</li>
+<li>Path: Different functions need to be accessed via different paths. For example: query the user&#39;s asset balance via /account/assets.</li>
+</ul>
+
+<p>REST 接口请求 URL 形如： https://xdaex.com/APITrade/v1/account/assets
+该 URL 中主要包括以下组成部分：</p>
+
+<ul>
+<li>协议: https</li>
+<li>域名: xdaex.com （如访问测试或预览环境，则需替换成指定的域名）</li>
+<li>接口名称: APITrade</li>
+<li>版本: v1</li>
+<li>路径: 使用不同功能要访问不同的路径，例如：查询用户资产余额对应的路径是 /account/assets</li>
+</ul>
+<h2 id='2-2-http-request-message-header-http'>2.2. HTTP Request Message Header ^HTTP 请求消息头</h2>
+<ul>
+<li>The HTTP request message header of the REST interface must contain the following:</li>
+<li>REST 接口 HTTP 请求消息头（Header）中必须包含以下内容：</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Properties <br />属性</th>
+<th>Description <br />描述</th>
+<th>Example <br />示例</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>API-KEY</td>
+<td>API access identification, as described in the &#39;API-KEY management&#39; <br /> API 接入身份标识，详见“ API-KEY 管理”</td>
+<td>－－－</td>
+</tr>
+<tr>
+<td>API-TIMESTAMP</td>
+<td>A timestamp at the moment of initiating the request (UTC) <br /> 请求发起时的时间戳（ UTC ）</td>
+<td>&quot;1420674445201&quot;</td>
+</tr>
+<tr>
+<td>API-SIGNATURE</td>
+<td>A digital signature or a message authentication code derived from the hash of the request content <br /> 基于请求内容的 Hash 值得出的数字签名或消息验证码</td>
+<td>Described as below <br /> 详见下面</td>
+</tr>
+<tr>
+<td>AUTH-TYPE</td>
+<td>The authorization method determined in the API-KEY application <br /> 申请当前 API-KEY 时所决定的授权方式</td>
+<td>&quot;PUB-PRIV&quot; \ &quot;HMAC&quot;</td>
+</tr>
+<tr>
+<td>Content-Type</td>
+<td>Content-Type defined by MIME (Multipurpose Internet Mail Extentions) <br /> MIME （ Multipurpose Internet Mail Extentions ）中定义的 Content-Type</td>
+<td>&quot;application/json&quot;</td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<ul>
+<li>Steps to get an API-SIGNATURE with AUTH-TYPE &quot;PUB-PRIV&quot;
+
+<ul>
+<li>Combine data: data = timestamp + HttpMethod + version + path + jsonBody</li>
+<li>timestamp is the timestamp（UTC）in the HTTP request message header.</li>
+<li>HTTP Method can be GET or POST, all in uppercase.</li>
+<li>version + path, such as: /v1/account/assets
+
+<ul>
+<li>The jsonBody is in JSON format. If the HTTP Method is GET, the jsonBody must be empty.</li>
+<li>GET request example: data = &quot;1539324192349GET/v1/account/assets&quot;</li>
+<li>POST request example: data = &quot;1539324192349POST/v1/order/cancelByLocalID{&quot;orderLocalID&quot;:&quot;1234567891234&quot;}&quot;</li>
+</ul></li>
+<li>Use SHA256 algorithm to get the hash of the data, then convert the hash into a hexadecimal string in lowercase: hashedData = SHA256(data) </li>
+<li>Example:
+
+<ul>
+<li>Input:</li>
+<li>data = &quot;1539324192349GET/v1/account/assets&quot;</li>
+<li>Output:</li>
+<li>hashedData = &quot;5ec9dc37816d865230b0e93bfd845a3c5fdef7dddf675b53e91d9259b6fa2a23&quot;</li>
+</ul></li>
+<li>Use the private key to sign the hash of the data (Algorithm: ECC, Elliptic Curve: secp256k1): sign (hashedData)</li>
+<li>Example:
+
+<ul>
+<li>Input:</li>
+<li>hashedData = &quot;5ec9dc37816d865230b0e93bfd845a3c5fdef7dddf675b53e91d9259b6fa2a23&quot;</li>
+<li>privateKey = &quot;VAoASo72TbEYsasQAD64nHlZVyBglPw13kfvlqM1j5Z=&quot;</li>
+<li>Output:</li>
+<li>signedData = {&quot;r&quot;:&quot;egMRmhmMNL9N94eKxj0xCDgh115u54cWPHNQEKt4nL4=&quot;, &quot;s&quot;:&quot;QlgLvEbzRqIBVEsusI7gbDnVtpqVxHWBQw2CdgBrpUU=&quot;,&quot;v&quot;:27}</li>
+</ul></li>
+</ul></li>
+<li>获得 AUTH-TYPE 为 &quot;PUB-PRIV&quot; 的 API-SIGNATURE 的步骤
+
+<ul>
+<li>拼装原文：data = timestamp + HttpMethod + version + path + jsonBody</li>
+<li>timestamp 就是HTTP请求消息头中的时间戳（UTC）</li>
+<li>HTTP Method 可以是 GET 或 POST，全部为大写格式</li>
+<li>version + path， 如：/v1/account/assets</li>
+<li>jsonBody 采用了 json 格式，如果是 GET 请求，则 jsonBody 为空
+
+<ul>
+<li>GET 请求范例：data = &quot;1539324192349GET/v1/account/assets&quot;</li>
+<li>POST 请求范例：data = &quot;1539324192349POST/v1/order/cancelByLocalID{&quot;orderLocalID&quot;:&quot;1234567891234&quot;}&quot;</li>
+</ul></li>
+<li>用 SHA256 算法对原文计算 hash ，得到小写16进制字符串： hashedData = SHA256(data)</li>
+<li>范例：
+
+<ul>
+<li>输入：</li>
+<li>data = &quot;1234567891234GET/v1/account/assets&quot;</li>
+<li>输出：</li>
+<li>hashedData = &quot;5ec9dc37816d865230b0e93bfd845a3c5fdef7dddf675b53e91d9259b6fa2a23&quot;</li>
+</ul></li>
+<li>用私钥对 hash 结果签名（算法：ECC，椭圆曲线：secp256k1 ）: sign(hashedData)</li>
+<li>范例：
+
+<ul>
+<li>输入：</li>
+<li>hashedData = &quot;5ec9dc37816d865230b0e93bfd845a3c5fdef7dddf675b53e91d9259b6fa2a23&quot;</li>
+<li>privateKey = &quot;VAoASo72TbEYsasQAD64nHlZVyBglPw13kfvlqM1j5Z=&quot;</li>
+<li>输出：</li>
+<li>signedData = {&quot;r&quot;:&quot;egMRmhmMNL9N94eKxj0xCDgh115u54cWPHNQEKt4nL4=&quot;, &quot;s&quot;:&quot;QlgLvEbzRqIBVEsusI7gbDnVtpqVxHWBQw2CdgBrpUU=&quot;,&quot;v&quot;:27}</li>
+</ul></li>
+</ul></li>
+<li>Steps to get an API-SIGNATURE with AUTH-TYPE &quot;HMAC&quot;
+
+<ul>
+<li>Combine data: data = timestamp + HttpMethod + version + path + jsonBody</li>
+<li>timestamp is the timestamp (UTC) in the HTTP request message header.</li>
+<li>HTTP Method can be GET or POST, all in uppercase.</li>
+<li>version + path, such as: /v1/account/assets
+
+<ul>
+<li>The jsonBody is in JSON format. If the HTTP Method is GET, the jsonBody must be empty.</li>
+<li>GET request example: data = &quot;1539324192349GET/v1/account/assets&quot;</li>
+<li>POST request example: data = &quot;1539324192349POST/v1/order/cancelByLocalID{&quot;orderLocalID&quot;:&quot;1234567891234&quot;}&quot;</li>
+</ul></li>
+<li>Use SHA256 algorithm to get the hash of the data, then convert the hash into a hexadecimal string in lowercase: hashedData = SHA256(data) </li>
+<li>Example:
+
+<ul>
+<li>Input:</li>
+<li>data = &quot;1539324192349GET/v1/account/assets&quot;</li>
+<li>Output:</li>
+<li>hashedData = &quot;5ec9dc37816d865230b0e93bfd845a3c5fdef7dddf675b53e91d9259b6fa2a23&quot;</li>
+</ul></li>
+<li>Derive the message authentication code from the hash and the secret key (Algorithm: SHA256HMAC): SHA256HMAC (secretKey, hashedData)</li>
+<li>Example:
+
+<ul>
+<li>Input:</li>
+<li>hashedData = &quot;5ec9dc37816d865230b0e93bfd845a3c5fdef7dddf675b53e91d9259b6fa2a23&quot;</li>
+<li>secretKey = &quot;0adabfc46fa8062d92a4e8313ffce285efbb70dfcdb1e3d0c415dd17759a8303&quot;</li>
+<li>Output:</li>
+<li>signedData = &quot;Gkg0nwKpeQNw7h3hSiNGH1jem2y9M+vILdSDnG3ucSQ=&quot;</li>
+</ul></li>
+</ul></li>
+<li>获得对应 AUTH-TYPE 为 &quot;HMAC&quot; 的 API-SIGNATURE 的步骤
+
+<ul>
+<li>拼装原文：data = timestamp + HttpMethod + version + path + jsonBody</li>
+<li>timestamp 就是HTTP请求消息头中的时间戳（UTC）</li>
+<li>HTTP Method 可以是 GET 或 POST，全部为大写格式</li>
+<li>version + path， 如：/v1/account/assets</li>
+<li>jsonBody 采用了 json 格式，如果是 GET 请求，则 jsonBody 为空
+
+<ul>
+<li>GET 请求范例：data = &quot;1539324192349GET/v1/account/assets&quot;</li>
+<li>POST 请求范例：data = &quot;1539324192349POST/v1/order/cancelByLocalID{&quot;orderLocalID&quot;:&quot;1234567891234&quot;}&quot;</li>
+</ul></li>
+<li>用 SHA256 算法对原文计算 hash ，得到小写16进制字符串： hashedData = SHA256(data)</li>
+<li>范例：
+
+<ul>
+<li>输入：</li>
+<li>data = &quot;1234567891234GET/v1/account/assets&quot;</li>
+<li>输出：</li>
+<li>hashedData = &quot;5ec9dc37816d865230b0e93bfd845a3c5fdef7dddf675b53e91d9259b6fa2a23&quot;</li>
+</ul></li>
+<li>用密钥结合原文的 hash 计算出消息验证码（算法： SHA256HMAC ）: SHA256HMAC(secretKey, hashedData)</li>
+<li>范例：
+
+<ul>
+<li>输入：</li>
+<li>hashedData = &quot;5ec9dc37816d865230b0e93bfd845a3c5fdef7dddf675b53e91d9259b6fa2a23&quot;</li>
+<li>secretKey = &quot;0adabfc46fa8062d92a4e8313ffce285efbb70dfcdb1e3d0c415dd17759a8303&quot;</li>
+<li>输出：</li>
+<li>signedData = &quot;Gkg0nwKpeQNw7h3hSiNGH1jem2y9M+vILdSDnG3ucSQ=&quot;</li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id='2-3-query-server-time'>2.3. Query Server Time ^查询服务器时间</h2>
 <blockquote>
-<p>To authorize, use this code:</p>
+<p>Response:</p>
 </blockquote>
-<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1420674445201"</span><span class="w"> </span><span class="err">//timestamp</span><span class="w"> </span><span class="err">(UTC)</span><span class="w"> </span><span class="err">^时间戳（UTC）</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Query the server time in UTC (Coordinated Universal Time).</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<p>查询服务器时间，采用 UTC 时间。</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-</code></pre>
+<ul>
+<li>Method: GET</li>
+<li>Version: v1</li>
+<li>Path: /info/time</li>
+</ul>
+<h2 id='2-4-query-api-release-number-api'>2.4. Query API Release Number ^查询 API 发行号</h2>
 <blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
+<p>Response:</p>
 </blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4.1.2"</span><span class="w">    </span><span class="err">//API</span><span class="w"> </span><span class="err">release</span><span class="w"> </span><span class="err">number</span><span class="w"> </span><span class="err">^API</span><span class="w"> </span><span class="err">发行号</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Query the API release number that applies to the current environment.</p>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p>查询适用于当前环境的 API 发行号。</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
-
-<p><code>Authorization: meowmeowmeow</code></p>
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
-</code></pre>
+<ul>
+<li>Method: GET</li>
+<li>Version: v1</li>
+<li>Path: /info/version</li>
+</ul>
+<h2 id='2-5-query-instrument'>2.5. Query Instrument ^查询合约</h2>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Response:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="err">//example</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"instrumentID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">    </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+        </span><span class="s2">"tradingAsset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">        </span><span class="err">//Trading</span><span class="w"> </span><span class="err">asset</span><span class="w"> </span><span class="err">^交易资产</span><span class="w">
+        </span><span class="s2">"tradingTarget"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH"</span><span class="p">,</span><span class="w">       </span><span class="err">//Trading</span><span class="w"> </span><span class="err">target</span><span class="w"> </span><span class="err">^交易标的</span><span class="w">
+        </span><span class="s2">"volumePrecision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">       </span><span class="err">//The</span><span class="w"> </span><span class="err">decimal</span><span class="w"> </span><span class="err">points</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">^数量的小数部分位数</span><span class="w">
+        </span><span class="s2">"pricePrecision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8"</span><span class="w">         </span><span class="err">//The</span><span class="w"> </span><span class="err">decimal</span><span class="w"> </span><span class="err">points</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">^价格的小数部分位数</span><span class="w">
+    </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
-</tr>
-</tbody></table>
+<p>Query instrument information. If instrumentID is not specified, then this returns all valid instrument information.</p>
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<p>查询合约信息。若未指定 instrumentID ，则返回全部有效合约的信息。</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
+<ul>
+<li>Method: GET</li>
+<li>Version: v1</li>
+<li>Path: /referenceData/instrument or
+/referenceData/instrument?instrumentID=ETH-BTC&amp;instrumentID=CYB-BTC（Optional）</li>
+</ul>
+<h2 id='2-6-query-user-39-s-assets'>2.6. Query User&#39;s Assets ^查询用户资产</h2>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Response:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="err">//example</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"accountID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0000000020"</span><span class="p">,</span><span class="w">    </span><span class="err">//User's</span><span class="w"> </span><span class="err">account</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^用户的账户ID</span><span class="w">
+    </span><span class="s2">"asset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">               </span><span class="err">//Digital</span><span class="w"> </span><span class="err">asset</span><span class="w"> </span><span class="err">type</span><span class="w"> </span><span class="err">^资产类型</span><span class="w">
+    </span><span class="s2">"balance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9.96"</span><span class="p">,</span><span class="w">            </span><span class="err">//The</span><span class="w"> </span><span class="err">balance</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">digital</span><span class="w"> </span><span class="err">asset</span><span class="w"> </span><span class="err">^该类资产的余额</span><span class="w">
+    </span><span class="s2">"available"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9.91"</span><span class="w">           </span><span class="err">//The</span><span class="w"> </span><span class="err">available</span><span class="w"> </span><span class="err">balance</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">digital</span><span class="w"> </span><span class="err">asset</span><span class="w"> </span><span class="err">^该类资产的可用余额</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>Query the user&#39;s asset information.</p>
+
+<p>查询用户的资产信息。</p>
+
+<ul>
+<li>Method: GET</li>
+<li>Version: v1</li>
+<li>Path: /account/assets</li>
+</ul>
+<h2 id='2-7-query-the-user-39-s-rate-limit'>2.7. Query the User&#39;s Rate Limit ^查询流量控制</h2>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"queryRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">      </span><span class="err">//Rate</span><span class="w"> </span><span class="err">limit</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">query</span><span class="w"> </span><span class="err">interfaces</span><span class="w"> </span><span class="err">(times</span><span class="w"> </span><span class="err">per</span><span class="w"> </span><span class="err">second)</span><span class="w"> </span><span class="err">^查询接口限速值（次/秒）</span><span class="w">
+    </span><span class="s2">"orderRateLimit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"300"</span><span class="p">,</span><span class="w">    </span><span class="err">//Rate</span><span class="w"> </span><span class="err">limit</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">inserting</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">canceling</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">interfaces</span><span class="w"> </span><span class="err">(times</span><span class="w"> </span><span class="err">per</span><span class="w"> </span><span class="err">second)</span><span class="w"> </span><span class="err">^下单和撤单接口限速值（次/秒）</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span></code></pre>
+<p>The server will perform rate limiting for the requests sent by API users. Query the user&#39;s rate limit:</p>
+
+<p>服务器会对 API 用户提交的请求进行流量控制。查询本用户的流量控制信息：</p>
+
+<ul>
+<li>Method: GET</li>
+<li>Version: v1</li>
+<li>Path: /referenceData/rateLimit</li>
+</ul>
+
+<p>Note: If there are m order IDs in 1 batch cancel order, the number of orders counted within the rate limit will be m.</p>
+
+<p>注意：1个批量撤单（ batchCancel ）中若包括了m个订单ID，则计入流量指标的数量是m。</p>
+<h2 id='2-8-insert-order'>2.8. Insert Order ^创建订单</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"instrumentID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">             </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+    </span><span class="s2">"orderPriceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span><span class="w">             </span><span class="err">//Price</span><span class="w"> </span><span class="err">type</span><span class="p">,</span><span class="w"> </span><span class="err">only</span><span class="w"> </span><span class="err">limit</span><span class="w"> </span><span class="err">orders</span><span class="w"> </span><span class="err">are</span><span class="w"> </span><span class="err">supported</span><span class="w"> </span><span class="err">now</span><span class="w"> </span><span class="err">(limit)</span><span class="w"> </span><span class="err">^订单价格类型，目前支持限价订单（limit）</span><span class="w">
+    </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">                    </span><span class="err">//Direction</span><span class="p">:</span><span class="w"> </span><span class="err">buy/sell</span><span class="w"> </span><span class="err">^方向：买/卖</span><span class="w">
+    </span><span class="s2">"limitPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.23"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Price</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">limit</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">(can</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">empty</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">needs</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">greater</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="mi">0</span><span class="err">.)</span><span class="w"> </span><span class="err">^限价订单的价格（不能为空且需大于</span><span class="mi">0</span><span class="err">）</span><span class="w">
+    </span><span class="s2">"volumeTotalOriginal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4.56"</span><span class="p">,</span><span class="w">         </span><span class="err">//Original</span><span class="w"> </span><span class="err">total</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">(can</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">empty</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">needs</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">greater</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="mi">0</span><span class="err">.)</span><span class="w"> </span><span class="err">^初始的总数量（不能为空且需大于</span><span class="mi">0</span><span class="err">）</span><span class="w">
+    </span><span class="s2">"timeCondition"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GTC"</span><span class="p">,</span><span class="w">                </span><span class="err">//Time</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">force</span><span class="w"> </span><span class="err">conditions</span><span class="p">,</span><span class="w"> </span><span class="err">only</span><span class="w"> </span><span class="err">GTC</span><span class="w"> </span><span class="err">(Good</span><span class="w"> </span><span class="err">Till</span><span class="w"> </span><span class="err">Cancel)</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">supported</span><span class="w"> </span><span class="err">now.</span><span class="w"> </span><span class="err">GFS</span><span class="w"> </span><span class="err">(Good</span><span class="w"> </span><span class="err">For</span><span class="w"> </span><span class="err">Session)</span><span class="p">,</span><span class="w"> </span><span class="err">IOC</span><span class="w"> </span><span class="err">(Immediate</span><span class="w"> </span><span class="err">Or</span><span class="w"> </span><span class="err">Cancel)</span><span class="p">,</span><span class="w"> </span><span class="err">etc.</span><span class="w"> </span><span class="err">will</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">supported</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">future.</span><span class="w"> </span><span class="err">^有效期类型，目前支持</span><span class="w"> </span><span class="err">GTC（撤销前一直有效），未来计划支持</span><span class="w"> </span><span class="err">GFS（当前Session有效）、</span><span class="w"> </span><span class="err">IOC（立即成交否则撤销）等。</span><span class="w">
+    </span><span class="s2">"orderLocalID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15362989689714502"</span><span class="w">    </span><span class="err">//order</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">rather</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange.</span><span class="w"> </span><span class="err">It</span><span class="w"> </span><span class="err">should</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">incremental</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">unique.</span><span class="w"> </span><span class="err">^由用户（而非交易所）分配的本地订单ID，建议确保其增长性及唯一性。</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
-</tr>
-</tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -X DELETE
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Response:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"orderLocalID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15362989689714502"</span><span class="p">,</span><span class="w">    </span><span class="err">//orderLocalID</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">an</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">rather</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange.</span><span class="w"> </span><span class="err">It</span><span class="w"> </span><span class="err">should</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">incremental</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">unique.</span><span class="w"> </span><span class="err">^orderLocalID</span><span class="w"> </span><span class="err">是由用户（而非交易所）分配的本地订单ID，建议确保其增长性及唯一性。</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
+<p>Once the order is confirmed by the exchange, the corresponding assets will be frozen until completely executed.</p>
+
+<p>创建订单一旦成功，相应占用资产在订单未成交期间将被冻结。</p>
+
+<p>We currently only support limit orders (orderPriceType: limit).</p>
+
+<p>目前支持限价单（ orderPriceType ： limit ）。</p>
+
+<p>The orderLocalID is an order local ID assigned by the user rather than the exchange. The maximum length of orderLocalID is 20. <font color="#dd0000" face="black">In order to facilitate the management of the user&#39;s subsequent order, it is strongly recommended for users to ensure that the orderLocalID is incremental and unique, such as: String (timestamp * 10000 + Local self-increment sequence) </font></p>
+
+<p>orderLocalID 是由用户（而非交易所）分配的本地订单ID， orderLocalID 的最大长度为20， <font color="#dd0000" face = "black">为了用户后续订单管理的便利，强烈建议用户要保证 orderLocalID 的增长性及唯一性，例如采用： String(时间戳 * 10000 + 本地自增序列) </font>。</p>
+
+<p>Calling this interface only returns whether or not the exchange has received the order. The relevant information of the order will be published via the WebSocket private flow. If WebSocket not used, the information can be queried by the below REST interface - &#39;Order Query&#39;.</p>
+
+<p>本接口调用后仅返回交易所是否收到了用户的下单请求。该订单的相关信息会通过 WebSocket 私有流推送。如果不使用 WebSocket ，也可以通过后面的“查询订单”接口获得相关信息。</p>
+
+<ul>
+<li>Method: POST</li>
+<li>Version: v1</li>
+<li>Path: /order/insert</li>
+</ul>
+<h2 id='2-9-cancel-order'>2.9. Cancel Order ^撤销订单</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"orderLocalID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15362989689714502"</span><span class="w">    </span><span class="err">//order</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">rather</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由用户（而非交易所）分配的本地订单ID</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="err">//example</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"orderLocalID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15362989689714502"</span><span class="p">,</span><span class="w">    </span><span class="err">//order</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">rather</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由用户（而非交易所）分配的本地订单ID</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"received"</span><span class="w">                   </span><span class="err">//Status</span><span class="p">:</span><span class="w"> </span><span class="s2">"received"</span><span class="err">/</span><span class="s2">"failed"</span><span class="err">.</span><span class="w"> </span><span class="s2">"received"</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">has</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">cancellation</span><span class="w"> </span><span class="err">request</span><span class="p">,</span><span class="w"> </span><span class="err">but</span><span class="w"> </span><span class="err">this</span><span class="w"> </span><span class="err">does</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">mean</span><span class="w"> </span><span class="err">that</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">has</span><span class="w"> </span><span class="err">been</span><span class="w"> </span><span class="err">canceled.</span><span class="w"> </span><span class="err">^状态：“</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">已收到”/“</span><span class="w"> </span><span class="err">failed</span><span class="w"> </span><span class="err">已失败”。“</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">”</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="err">表示交易所已收到了撤单请求，但不代表已经撤单完毕。</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"orderSysID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1412943752000004"</span><span class="w">    </span><span class="err">//order</span><span class="w"> </span><span class="err">system</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由交易所分配的系统订单ID</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"orderSysID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1412943752000004"</span><span class="p">,</span><span class="w">    </span><span class="err">//order</span><span class="w"> </span><span class="err">system</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由交易所分配的系统订单ID</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"received"</span><span class="w">                </span><span class="err">//Status</span><span class="p">:</span><span class="w"> </span><span class="s2">"received"</span><span class="err">/</span><span class="s2">"failed"</span><span class="err">.</span><span class="w"> </span><span class="s2">"received"</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">has</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">cancellation</span><span class="w"> </span><span class="err">request</span><span class="p">,</span><span class="w"> </span><span class="err">but</span><span class="w"> </span><span class="err">this</span><span class="w"> </span><span class="err">does</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">mean</span><span class="w"> </span><span class="err">that</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">has</span><span class="w"> </span><span class="err">been</span><span class="w"> </span><span class="err">canceled.</span><span class="w"> </span><span class="err">^状态：“</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">已收到”/“</span><span class="w"> </span><span class="err">failed</span><span class="w"> </span><span class="err">已失败”。“</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">”</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="err">表示交易所已收到了撤单请求，但不代表已经撤单完毕。</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>The order that is confirmed by the exchange, but not completely executed, can be canceled in 2 ways: either by orderLocalID or by orderSysID.</p>
+
+<p>已被交易所确认的订单，在未被完全成交之前可以撤销，有两种撤单的方式：根据本地订单ID（ orderLocalID ）撤单、根据系统订单ID（ orderSysID ）撤单。</p>
+
+<p>Cancel the order by orderLocalID: The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user&#39;s side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">In this case, only one of these orders would be canceled by this request</font> .</p>
+
+<p>根据本地订单ID（ orderLocalID ）撤单： orderLocalID  是由用户（而非交易所）分配的本地订单ID。若由于用户自身的问题导致 orderLocalID 重复，则会存在多个订单具有相同的 orderLocalID ，<font color="#dd0000" face = "black">此时本接口仅会撤销其中的1笔订单</font>。</p>
+
+<ul>
+<li>Method: POST</li>
+<li>Version: v1</li>
+<li>Path: /order/cancelByLocalID</li>
+</ul>
+
+<p>Cancel the order by orderSysID: orderSysID is an order system ID assigned by the exchange, who guarantees that the orderSysID is unique.</p>
+
+<p>根据系统订单ID（ orderSysID ）撤单： orderSysID 是由交易所分配的系统订单ID，交易所会保证其唯一性。</p>
+
+<ul>
+<li>Method: POST</li>
+<li>Version: v1</li>
+<li>Path: /order/cancelBySysID</li>
+</ul>
+<h2 id='2-10-batch-cancel-order'>2.10. Batch Cancel Order ^批量撤销订单</h2>
+<p>The interface can cancel up to a maximum of <font color="#dd0000" face="black">10</font> orders every time.</p>
+
+<p>本接口每次可以撤销最多<font color="#dd0000" face = "black">10</font>笔订单。</p>
+
+<ul>
+<li>Method: POST</li>
+<li>Version: v1</li>
+<li>Path: /order/batchCancel</li>
+<li><p>Request:</p>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"orderSysIDs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"1412943752000004"</span><span class="p">,</span><span class="err">……</span><span class="p">]</span><span class="w">    </span><span class="err">//The</span><span class="w"> </span><span class="err">group</span><span class="w"> </span><span class="err">can</span><span class="w"> </span><span class="err">contain</span><span class="w"> </span><span class="err">up</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="err">orderSysIDs</span><span class="w"> </span><span class="err">^最多可包含</span><span class="mi">10</span><span class="err">个系统订单ID</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></li>
+<li><p>Response:</p>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"1412943752000004"</span><span class="p">,</span><span class="err">……</span><span class="w">    </span><span class="err">//The</span><span class="w"> </span><span class="err">orderSysIDs</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">cancel</span><span class="w"> </span><span class="err">^交易所收到的请求撤单的系统订单ID</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></li>
+</ul>
+<h2 id='2-11-query-order'>2.11. Query Order ^查询订单</h2>
+<p>Similar to cancelling orders, there are two ways to query orders: either by orderLocalID or by orderSysID.</p>
+
+<p>与撤销订单类似，有两种查询订单的方式：分别根据本地订单ID（ orderLocalID ）、系统订单ID（ orderSysID ）查询。</p>
+
+<hr>
+
+<ol>
+<li>Query by order local ID (orderLocalID): only <font color="#dd0000" face="black">open orders, which have not been fully executed</font>, will be returned. The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user&#39;s side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">Only one of these orders will be returned by this interface</font> .</li>
+</ol>
+
+<p>根据本地订单ID（ orderLocalID ）查询订单：仅返回<font color="#dd0000" face = "black">还未被完全成交</font>的订单。 orderLocalID 是由用户（而非交易所）分配的本地订单ID。若由于用户自身的问题导致 orderLocalID 重复，则会存在多个订单具有相同的 orderLocalID ，<font color="#dd0000" face = "black">此时本接口仅返回其中的1笔订单</font>。
+* Method: POST
+* Version: v1
+* Path: /order/getOrderByLocalID
+* Request:</p>
+
+<p><code>json
+    {//example
+        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+    }
+</code>
+* Response:</p>
+
+<p><code>json
+    {//example
+        &quot;orderSysID&quot;: &quot;1412943752000004&quot;,      //order system ID assigned by the exchange ^由交易所分配的系统订单ID
+        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,   //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+        &quot;instrumentID&quot;: &quot;ETH-BTC&quot;,             //Instrument ID ^合约ID
+        &quot;direction&quot;: &quot;buy&quot;,                    //Direction: buy/sell ^方向：买/卖
+        &quot;orderPriceType&quot;: &quot;limit&quot;,             //Price type, only limit orders are supported now (limit) ^订单价格类型，目前支持限价订单（limit）
+        &quot;limitPrice&quot;: &quot;0.1&quot;,                   //Price of limit order ^限价订单的价格
+        &quot;volumeTotalOriginal&quot;: &quot;1&quot;,            //Original total volume ^初始的总数量
+        &quot;volumeTotal &quot;: &quot;0.2&quot;,                 //Remaining open volume ^剩余未成交量
+        &quot;volumeTraded&quot;: &quot;0.8&quot;,                 //Total traded volume ^已成交总量
+        &quot;timeCondition&quot;: &quot;GTC&quot;,                //Time in force conditions, only GTC (Good Till Cancel) is supported now. GFS (Good For Session), IOC (Immediate Or Cancel), etc. will be supported in the future. ^有效期类型，目前支持 GTC（撤销前一直有效），未来计划支持 GFS（当前Session有效）、 IOC（立即成交否则撤销）等。
+        &quot;orderStatus&quot;: &quot;1&quot;,                    //Order status: (0-fully executed; 1-partially executed, order still in order book; 2-partially executed, order not in order book; 3-not executed, order still in order book; 4-not executed, order not in order book; 5-fully cancelled; 6-partially executed, partially cancelled) ^订单状态（0-全部成交；1-部分成交，订单还在订单簿中；2-部分成交，订单不在订单簿中；3-未成交，订单还在订单簿中；4-未成交，订单不在订单簿中；5-订单全部被撤销；6-部分成交，部分撤单）
+        &quot;actionTimestamp&quot;: &quot;1536298968123&quot;,    //Timestamp of the last change to the order status^ 状态变化时间戳
+        &quot;insertDate&quot;: &quot;20180829&quot;,              //Date of insertion ^下单日期
+        &quot;insertTime&quot;: &quot;07:45:10&quot;,              //Time of insertion ^下单时间
+        &quot;insertTimestamp&quot;: &quot;1536298968&quot;,       //Timestamp of insertion ^下单时间戳
+        &quot;cancelDate&quot;: &quot;20180907&quot;,              //Date of cancellation ^撤单日期
+        &quot;cancelTime&quot;: &quot;05:42:57&quot;,              //Time of cancellation ^撤单时间
+    }
+</code></p>
+
+<hr>
+
+<ol>
+<li>Query by order system ID ( orderSysID ): If orderSysID is not specified, it will query the maximum number of <font color="#dd0000" face="black">100</font> orders, sorted by time of insertion <b>(starting from the most recent order to the oldest order)</b>.</li>
+</ol>
+
+<p>根据系统订单ID（ orderSysID ）查询订单：如果不指定 orderSysID ，最多返回<font color="#dd0000" face = "black">100</font>条订单，按照下单时间排序<b>（最近的订单排在最前面）</b>。
+* Method: POST
+* Version: v1
+* Path: /order/getOrder
+* Request:</p>
+
+<p><code>json
+    {//example
+        &quot;startTimestamp&quot;: &quot;1420674445&quot;,    //Start timestamp of query (optional) ^查询起始时间戳（非必填）
+        &quot;endTimestamp&quot;: &quot;1420674567&quot;,      //End timestamp of query (optional) ^查询结束时间戳（非必填）
+        &quot;orderStatus&quot;: &quot;active&quot;,           //Order status (optional) {(active-order still in order book, corresponding to status 1, 3), (closed-order not in order book, corresponding to status 0, 2, 4, 5, 6), (not specified or an empty string - all status)} ^订单状态（非必填）{(active-订单在订单簿中，对应状态1、3), (closed-订单不在订单簿中，对应状态0、2、4、5、6), (未指定本项或本项为空字符串-对应所有状态)｝。
+        &quot;instrumentID&quot;: &quot;ETH-BTC&quot;,         //Instrument ID (optional) ^合约ID（非必填）
+        &quot;orderSysID&quot;: &quot;1412943752000004&quot;   //Order system ID (optional) ^系统订单ID（非必填）
+    }
+</code>
+* Response:</p>
+
+<p><code>json
+    {//example
+        &quot;orderSysID&quot;: &quot;1412943752000004&quot;,     //order system ID assigned by the exchange ^由交易所分配的系统订单ID
+        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,  //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+        &quot;instrumentID&quot;: &quot;ETH-BTC&quot;,            //Instrument ID ^合约ID
+        &quot;direction&quot;: &quot;buy&quot;,                   //Direction: buy/sell ^方向：买/卖
+        &quot;orderPriceType&quot;: &quot;limit&quot;,            //Price type, limit order is supported now (limit) ^订单价格类型，目前支持限价订单（limit）
+        &quot;limitPrice&quot;: &quot;0.11&quot;,                 //Price of limit order ^限价订单的价格
+        &quot;volumeTotalOriginal&quot;: &quot;1&quot;,           //Original total volume ^初始的总数量
+        &quot;volumeTotal &quot;: &quot;0.2&quot;,                //Remaining open volume ^剩余未成交量
+        &quot;volumeTraded&quot;: &quot;0&quot;,                  //Total traded volume ^已成交总量
+        &quot;timeCondition&quot;: &quot;GTC&quot;,               //Time in force conditions, GTC (Good Till Cancel) is supported now, GFS (Good For Session), IOC (Immediate Or Cancel), etc. will be supported in the future. ^有效期类型，目前支持 GTC （撤销前一直有效），未来计划支持 GFS （当前Session有效）、 IOC （立即成交否则撤销）等。
+        &quot;orderStatus&quot;: &quot;0&quot;,                   //Order status: (0-fully executed; 1-partially executed, order still in order book; 2-partially executed, order not in order book; 3-not executed, order still in order book; 4-not executed, order not in order book; 5-fully cancelled; 6-partially executed, partially cancelled) ^订单状态（0-全部成交；1-部分成交，订单还在订单簿中；2-部分成交，订单不在订单簿中；3-未成交，订单还在订单簿中；4-未成交，订单不在订单簿中；5-订单全部被撤销；6-部分成交，部分撤单）
+        &quot;actionTimestamp&quot;: &quot;1536298968123&quot;,    //Timestamp of the last change to the order status^ 状态变化时间戳
+        &quot;insertDate&quot;: &quot;20180829&quot;,             //Date of insertion ^下单日期
+        &quot;insertTime&quot;: &quot;07:45:10&quot;,             //Time of insertion ^下单时间
+        &quot;insertTimestamp&quot;: &quot;1536298968&quot;,      //Timestamp of insertion ^下单时间戳
+        &quot;cancelDate&quot;: &quot;20180907&quot;,             //Date of cancellation ^撤单日期
+        &quot;cancelTime&quot;: &quot;05:42:57&quot;,             //Time of cancellation ^撤单时间
+    }
+</code></p>
+<h2 id='2-12-query-trade'>2.12. Query Trade ^查询成交</h2>
+<p>Query the maximum number of <font color="#dd0000" face="black">100</font> trades which is sorted by traded time <b>(starting from most recent trade to the oldest trade)</b>.</p>
+
+<p>最多查询 <font color="#dd0000" face="black">100</font> 条成交，按照成交时间排序<b>（最近的成交排在最前面）</b>。
+* Method: POST
+* Version: v1
+* Path: /trade/getTrade
+* Request:</p>
+
+<p><code>json
+    {//example
+        &quot;startTimestamp&quot;: &quot;1420674445&quot;,  //Start timestamp of query (optional) ^查询起始时间戳（非必填）
+        &quot;endTimestamp&quot;: &quot;1420674445&quot;,    //End timestamp of query (optional) ^查询结束时间戳（非必填）
+        &quot;instrumentID&quot;: &quot;ETH-BTC&quot;        //Instrument ID (optional) ^合约ID（非必填）
+    }
+</code>
+* Response:</p>
+
+<p><code>json
+    [//example
+        {
+            &quot;tradeID&quot;: &quot;141334225600003&quot;,           //trade ID ^成交ID
+            &quot;orderSysID&quot;: &quot;1412943752000004&quot;,       //order system ID assigned by the exchange ^由交易所分配的系统订单ID
+            &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+            &quot;instrumentID&quot;: &quot;ETH-BTC&quot;,              //Instrument ID ^合约ID
+            &quot;direction&quot;: &quot;buy&quot;,                     //Direction: buy/sell ^方向：买/卖
+            &quot;price&quot;: &quot;1.1&quot;,                         //Trade price ^成交价格
+            &quot;priceSource&quot;: &quot;buy&quot;,                   //Source of trade price ^成交价来源
+            &quot;volume&quot;: &quot;5.23512&quot;,                    //Traded volume in the execution ^本次成交的数量
+            &quot;fee&quot;: &quot;0.1&quot;,                           //Fee ^手续费
+            &quot;tradeDate&quot;: &quot;20180829&quot;,                //Date of trade ^成交日期
+            &quot;tradeTime&quot;: &quot;07:45:10&quot;,                //Time of trade ^成交时间
+            &quot;tradeTimestamp&quot;: &quot;1420674445&quot;          //Timestamp of trade ^成交时间戳
+        }
+    ]
+</code></p>
+<h2 id='2-13-query-level2-market-data-level2'>2.13. Query Level2 Market Data ^查询Level2行情数据</h2>
+<p>Query Level2 market data for a specific instrument.</p>
+
+<p>查询指定合约的 level2 行情信息。
+* Method: GET
+* Version: v1
+* Path: /marketData/getLevel2?instrumentID=ETH-BTC
+Instrument ID must be specified.</p>
+
+<p>必须指定合约ID。
+* Response:</p>
+
+<p><code>json
+    {//example
+        &quot;instrumentID &quot;: &quot;ETH-BTC&quot;,      //Instrument ID ^合约ID
+        &quot;buy&quot;: [[&quot;6500.11&quot;, &quot;0.45054140&quot;], [&quot;6500.10&quot;, &quot;0.35054140&quot;]...],   //Buy prices and volumes ^买价位
+        &quot;sell&quot;: [[&quot;6500.15&quot;, &quot;0.57753524&quot;], [&quot;6500.16&quot;, &quot;0.77753524&quot;]...],  //Sell prices and volumes ^卖价位
+        &quot;pubDate&quot;: &quot;20180907&quot;,           //Publish date ^发布日期
+        &quot;pubTime&quot;: &quot;09:08:07&quot;,           //Publish time ^发布时间
+        &quot;pubTimestamp&quot;: &quot;1420674445201&quot;  //Publish timestamp ^发布时间戳
+    }
+</code></p>
+<h1 id='3-websocket-interface-description-websocket'>3. WebSocket Interface Description ^WebSocket 接口说明</h1>
+<p>The WebSocket protocol, as defined by HTML5, allows the server to push/publish data to the client, which can save more server resources and bandwidth, and can communicate in real time. Through the WebSocket API, the client and the server only need one handshake to create a persistent connection and a two-way data transmission.</p>
+
+<p>HTML5 定义了 WebSocket 协议，允许服务端向客户端推送数据，能更好的节省服务器资源和带宽，并且能够实时地进行通讯。在 WebSocket API 中，客户端和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。</p>
+<h2 id='3-1-websocket-request-url-websocket-url'>3.1. WebSocket Request URL ^WebSocket 请求 URL</h2>
+<p>The WebSocket interface request URL is: wss://xdaex.com/APITradeWS/v1/messages.
+This request URL contains the following main components:
+* Protocol: wss
+* Domain name: xdaex.com (To access the test\preview environment, please replace it with the corresponding domain name.)
+* Interface name: APITradeWS
+* Version: v1
+* Path: /messages</p>
+
+<p>WebSocket 接口请求 URL 为: wss://xdaex.com/APITradeWS/v1/messages 。
+URL 中主要包括以下组成部分：
+* 协议: wss
+* 域名: xdaex.com （如访问测试或预览环境，则需替换成指定的域名）
+* 接口名称: APITradeWS
+* 版本: v1
+* 路径: /messages</p>
+<h2 id='3-2-private-message-flow'>3.2. Private Message Flow ^私有消息流</h2><h3 id='3-2-1-subscribe-to-private-message-flow'>3.2.1. Subscribe to Private Message Flow ^订阅私有消息流</h3>
+<p>API Users can subscribe to the private message flows published by the server. The subscription to the private flow needs the API-KEY for authentication.</p>
+
+<p>API 接入用户可通过订阅方式获取由交易所推送的私有消息流。提交私有流订阅请求时需要通过 API-KEY 进行认证。</p>
+
+<ul>
+<li><p>Use the string &quot;WSS/APITradeWS/v1/messages&quot; directly (<font color="#dd0000" face="black">no need to hash the string</font>) to generate a digital signature or a message authentication code. </p></li>
+<li><p>直接使用字串&quot;WSS/APITradeWS/v1/messages&quot;（<font color="#dd0000" face ="black">不需要对它计算hash </font>）生成数字签名或消息验证码。</p></li>
+<li><p>Steps to get an API-SIGNATURE with AUTH-TYPE &quot;PUB-PRIV&quot;</p>
+
+<ul>
+<li>Use the private key to sign the string &quot;WSS/APITradeWS/v1/messages&quot; (Algorithm: ECC, Elliptic Curve: secp256k1): sign (&quot;WSS/APITradeWS/v1/messages&quot;)</li>
+<li>Example:
+
+<ul>
+<li>Input:</li>
+<li>data = &quot;WSS/APITradeWS/v1/messages&quot;</li>
+<li>privateKey = &quot;VAoASo72TbEYsasQAD64nHlZVyBglPw13kfvlqM1j5Z=&quot;</li>
+<li>Output:</li>
+<li>signedData = {&quot;r&quot;:&quot;vFDn9TZI041Xyeklcbnw8Qp20wx2ODfCgqa3dgm5t2s=&quot;, &quot;s&quot;:&quot;U7FgvfG+xjiZtxXtnKhGCSWwkSuUncsFOPr+M9UuV1k=&quot;, &quot;v&quot;:28}</li>
+</ul></li>
+</ul></li>
+<li><p>Example of subscribing request:</p></li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<ul>
+<li>Example of unsubscribing request:</li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<ul>
+<li><p>获得 AUTH-TYPE 为 &quot;PUB-PRIV&quot; 的 API-SIGNATURE 的步骤</p>
+
+<ul>
+<li>用私钥对字串 &quot;WSS/APITradeWS/v1/messages&quot; 签名（算法： ECC ，椭圆曲线： secp256k1 ）: sign(&quot;WSS/APITradeWS/v1/messages&quot;)</li>
+<li>范例：
+
+<ul>
+<li>输入：</li>
+<li>data = &quot;WSS/APITradeWS/v1/messages&quot;</li>
+<li>privateKey = &quot;VAoASo72TbEYsasQAD64nHlZVyBglPw13kfvlqM1j5Z=&quot;</li>
+<li>输出：</li>
+<li>signedData = {&quot;r&quot;:&quot;vFDn9TZI041Xyeklcbnw8Qp20wx2ODfCgqa3dgm5t2s=&quot;, &quot;s&quot;:&quot;U7FgvfG+xjiZtxXtnKhGCSWwkSuUncsFOPr+M9UuV1k=&quot;, &quot;v&quot;:28}</li>
+</ul></li>
+</ul></li>
+<li><p>订阅请求，例如：</p></li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<ul>
+<li>取消订阅请求，例如：</li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<ul>
+<li><p>Steps to get an API-SIGNATURE with AUTH-TYPE &quot;HMAC&quot;</p>
+
+<ul>
+<li>Derive the message authentication code from the string and the secret key (Algorithm:
+SHA256HMAC): SHA256HMAC (secretKey, &quot;WSS/APITradeWS/v1/messages&quot;)</li>
+<li>Example:
+
+<ul>
+<li>Input:</li>
+<li>data = &quot;WSS/APITradeWS/v1/messages&quot;</li>
+<li>secretKey = &quot;0adabfc46fa8062d92a4e8313ffce285efbb70dfcdb1e3d0c415dd17759a8303&quot;</li>
+<li>Output:</li>
+<li>signedData = &quot;pRXgKcONtvwSCAENxYTIjwBJaZtPa23GLQnm7+xPmhY=&quot;</li>
+</ul></li>
+</ul></li>
+<li><p>Example of subscribing request:</p></li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<ul>
+<li>Example of unsubscribing request:</li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<ul>
+<li><p>获得 AUTH-TYPE 为 &quot;HMAC&quot; 的 API-SIGNATURE 的步骤</p>
+
+<ul>
+<li>用密钥结合字串计算出消息验证码（算法： SHA256HMAC ）: SHA256HMAC(secretKey, &quot;WSS/APITradeWS/v1/messages&quot;)</li>
+<li>范例：
+
+<ul>
+<li>输入：</li>
+<li>data = &quot;WSS/APITradeWS/v1/messages&quot;</li>
+<li>secretKey = &quot;0adabfc46fa8062d92a4e8313ffce285efbb70dfcdb1e3d0c415dd17759a8303&quot;</li>
+<li>输出：</li>
+<li>signedData = &quot;pRXgKcONtvwSCAENxYTIjwBJaZtPa23GLQnm7+xPmhY=&quot;</li>
+</ul></li>
+</ul></li>
+<li><p>订阅请求，例如：</p></li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<ul>
+<li>取消订阅请求，例如：</li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='3-2-2-receive-private-message-flow'>3.2.2. Receive Private Message Flow ^接收私有消息流</h3>
+<p>After subscribing to a private flow, the subscriber will receive the following types of messages:</p>
+
+<p>当订阅私有消息流之后，订阅者将收到以下几类消息：</p>
+<h4 id='3-2-2-1-change-of-order-status'>3.2.2.1. Change of Order Status ^订单状态变化</h4>
+<p>When the order status changes (e.g. success of insertion, success of cancellation, execution, etc.), the following message will be published:</p>
+
+<p>当订单状态发生变化时（如：下单成功、撤单成功、成交等），如下消息会被推送：
+* Messages:</p>
+
+<p><code>json
+    {//example
+        &quot;type&quot;: &quot;order_return&quot;,                //Message type ^消息类型
+        &quot;orderSysID&quot;: &quot;1412943752000004&quot;,      //order system ID assigned by the exchange ^由交易所分配的系统订单编号
+        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,   //order local ID assigned by the user rather than the exchange. ^由用户（而非交易所）分配的本地订单ID。
+        &quot;instrumentID &quot;: &quot;ETH-BTC&quot;,            //Instrument ID ^合约ID
+        &quot;direction&quot;: &quot;buy&quot;,                    //Direction: buy/sell ^方向：买/卖
+        &quot;orderPriceType&quot;: &quot;limit&quot;,             //Price type, limit order is supported now (limit) ^订单价格类型，目前支持限价订单（limit）
+        &quot;limitPrice&quot;: &quot;502.1&quot;,                 //Price of limit order ^限价订单的价格
+        &quot;volumeTotalOriginal&quot;: &quot;1.34&quot;,         //Original total volume ^初始的总数量
+        &quot;volumeTotal&quot;: &quot;1.33&quot;,                 //Remaining open volume ^剩余未成交量
+        &quot;volumeTraded&quot;: &quot;0.1&quot;,                 //Total traded volume ^已成交总量
+        &quot;timeCondition&quot;: &quot;GTC&quot;,                //Time in force conditions, only GTC (Good Till Cancel) is supported now. GFS (Good For Session), IOC (Immediate Or Cancel), etc. will be supported in the future. ^有效期类型，目前支持 GTC（撤销前一直有效），未来计划支持 GFS（当前Session有效）、 IOC（立即成交否则撤销）等。
+        &quot;orderStatus&quot;: &quot;5&quot;,                    //Order status: (0-fully executed; 1-partially executed, order still in order book; 2-partially executed, order not in order book; 3-not executed, order still in order book; 4-not executed, order not in order book; 5-fully cancelled; 6-partially executed, partially cancelled) ^订单状态（0-全部成交；1-部分成交，订单还在订单簿中；2-部分成交，订单不在订单簿中；3-未成交，订单还在订单簿中；4-未成交，订单不在订单簿中；5-订单全部被撤销；6-部分成交，部分撤单）
+        &quot;actionTimestamp&quot;: &quot;1536298968123&quot;,    //Timestamp of the last change to the order status^ 状态变化时间戳
+        &quot;insertDate&quot;: &quot;20180907&quot;,              //Date of insertion ^下单日期
+        &quot;insertTime&quot;: &quot;05:42:38&quot;,              //Time of insertion ^下单时间
+        &quot;insertTimestamp&quot;: &quot;1536298968&quot;,       //Timestamp of insertion ^下单时间戳
+        &quot;cancelDate&quot;: &quot;20180907&quot;,              //Date of cancellation ^撤单日期
+        &quot;cancelTime&quot;: &quot;05:42:57&quot;,              //Time of cancellation ^撤单时间
+    }
+</code></p>
+<h4 id='3-2-2-2-order-execution-report'>3.2.2.2. Order Execution Report ^订单成交回报</h4>
+<p>When the order is executed, the following message will be published:</p>
+
+<p>当订单成交时，如下消息会被推送：
+* Messages:</p>
+
+<p><code>json
+    {//example
+        &quot;type&quot;: &quot;trade_return&quot;,                //Message type ^消息类型
+        &quot;tradeID&quot;: &quot;141334225600003&quot;,          //trade ID ^成交ID
+        &quot;orderSysID&quot;: &quot;1412943752000004&quot;,      //order system ID assigned by the exchange ^由交易所分配的系统订单ID
+        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,   //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+        &quot;instrumentID &quot;: &quot;ETH-BTC&quot;,            //Instrument ID ^合约ID
+        &quot;direction&quot;: &quot;buy&quot;,                    //Direction: buy/sell ^方向：买/卖
+        &quot;price&quot;: &quot;400.23&quot;,                     //Trade price ^成交价格
+        &quot;priceSource&quot;: &quot;buy&quot;,                  //Source of trade price ^成交价来源
+        &quot;volume&quot;: &quot;5.23512&quot;,                   //Traded volume in the execution ^本次成交的数量
+        &quot;fee &quot;: &quot;0.001&quot;,                       //Fee ^手续费
+        &quot;tradeDate&quot;: &quot;20180829&quot;,               //Date of trade ^成交日期
+        &quot;tradeTime&quot;: &quot;09:33:01&quot;,               //Time of trade ^成交时间
+        &quot;tradeTimestamp&quot;: &quot;1420674445201&quot;,     //Timestamp of trade ^成交时间戳
+    }
+</code></p>
+<h4 id='3-2-2-3-failure-to-inserting-order'>3.2.2.3. Failure to Inserting Order ^创建订单失败</h4>
+<p>When order insertion fails, the following message will be published:</p>
+
+<p>当下单失败时，如下消息会被推送：
+* Messages：</p>
+
+<p>```json
+    {//example
+        &quot;type&quot;: &quot;order_insert_rsp&quot;,             //Message type ^消息类型
+        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+        &quot;respCode&quot;: &quot;2012&quot;,                     //Failure response code. Please refer to the contents of the above &#39;Failure Response Table&#39; ^失败应答码，请参见后面的“失败应答表”内容。
+        &quot;respMsg&quot;: &quot;Invalid volume&quot;             //Failure response message. Please refer to the contents of the above &#39;Failure Response Table&#39; ^失败应答消息，请参见后面的“失败应答表”内容。</p>
+
+<p>}
+    ```</p>
+<h4 id='3-2-2-4-failure-to-cancelling-order'>3.2.2.4. Failure to Cancelling Order ^撤销订单失败</h4>
+<p>When order cancellation fails, the following message will be published:</p>
+
+<p>当撤单失败时，如下消息会被推送：
+* Messages：</p>
+
+<p><code>json
+    {//example
+        &quot;type&quot;: &quot;order_cancel_rsp&quot;,             //Message type ^消息类型
+        &quot;orderSysID&quot;: &quot;1412943752000004&quot;,       //order system ID assigned by the exchange ^由交易所分配的系统订单ID
+        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+        &quot;respCode&quot;: &quot;1005&quot;,                     //Failure response code. Please refer to the contents of the above &#39;Failure Response Table&#39; ^失败应答码，请参见后面的“失败应答表”内容。
+        &quot;respMsg&quot;: &quot;Internal service error&quot;     //Failure response message. Please refer to the contents of the above &#39;Failure Response Table&#39; ^失败应答消息，请参见后面的“失败应答表”内容。
+    }
+</code></p>
+<h2 id='3-3-public-message-flow'>3.3. Public Message Flow ^公有消息流</h2><h3 id='3-3-1-ticker'>3.3.1. Ticker ^逐笔成交信息</h3>
+<p>Subscribe and unsubscribe to ticker requests:</p>
+
+<p>订阅和取消订阅 ticker 请求：
+* Messages:</p>
+
+<p>```json
+    { &quot;type&quot;: &quot;subscribe&quot;, &quot;channel&quot;: {&quot;ticker&quot;:[&quot;ETH-BTC&quot;, &quot;CYB-BTC&quot;]} }</p>
+
+<p>{ &quot;type&quot;: &quot;unsubscribe&quot;, &quot;channel&quot;: {&quot;ticker&quot;:[&quot;ETH-BTC&quot;, &quot;CYB-BTC&quot;]} }
+    ```</p>
+
+<p>If you&#39;ve subscribed to the ticker message flow, the following ticker message will be published when orders are executed:</p>
+
+<p>如果订阅了 ticker 消息流，当有订单被成交时，如下的 ticker 消息会被推送：
+* Messages:</p>
+
+<p>```json
+    {//example
+        &quot;type&quot;: &quot;trade_detail&quot;,         //Message type ^消息类型
+        &quot;instrumentID &quot;: &quot;ETH-BTC&quot;,     //Instrument ID ^合约ID
+        &quot;price &quot;: &quot;1.97&quot;,               //Trade price ^成交价格
+        &quot;priceSource&quot;:&quot;buy&quot;,            //Source of trade price ^成交价来源
+        &quot;volume &quot;: &quot;0.03&quot;,              //Traded volume in the execution ^本次成交的数量
+        &quot;tradeDate&quot;: &quot;20180907&quot;,        //Date of trade ^成交日期
+        &quot;tradeTime&quot;: &quot;10:08:06&quot;,        //Time of trade ^成交时间
+        &quot;tradeTimestamp&quot;: &quot;1420674445&quot;  //Timestamp of trade ^成交时间戳
+    }</p>
+
+<p>{//example
+        &quot;type&quot;: &quot;trade_detail&quot;,         //Message type ^消息类型
+        &quot;instrumentID &quot;: &quot;CYB-BTC&quot;,     //Instrument ID ^合约ID
+        &quot;price &quot;: &quot;0.01&quot;,               //Trade price ^成交价格
+        &quot;priceSource&quot;:&quot;buy&quot;,            //Source of trade price ^成交价来源
+        &quot;volume &quot;: &quot;0.03&quot;,              //Traded volume in the execution ^本次成交的数量
+        &quot;tradeDate&quot;: &quot;20180907&quot;,        //Date of trade ^成交日期
+        &quot;tradeTime&quot;: &quot;10:08:06&quot;,        //Time of trade ^成交时间
+        &quot;tradeTimestamp&quot;: &quot;1420674445&quot;  //Timestamp of trade ^成交时间戳
+    }
+    ```</p>
+<h3 id='3-3-2-level2-market-data-level2'>3.3.2. Level2 Market Data ^Level2行情数据</h3>
+<p>Different subscription topics correspond to different depths of market data (price levels), as below.</p>
+
+<p>行情的不同深度（价位档数）对应不同的订阅主题：</p>
+
 <table><thead>
 <tr>
-<th>Parameter</th>
-<th>Description</th>
+<th>Topic <br />主题</th>
+<th>Price Levels <br />价位档数</th>
+<th>Snapshot Frequency (per second) <br />快照频率（每秒）</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
+<td>level2</td>
+<td>5</td>
+<td>2</td>
+</tr>
+<tr>
+<td>level2@10</td>
+<td>10</td>
+<td>2</td>
+</tr>
+<tr>
+<td>level2@20</td>
+<td>20</td>
+<td>2</td>
+</tr>
+<tr>
+<td>level2@50</td>
+<td>50</td>
+<td>2</td>
 </tr>
 </tbody></table>
+
+<p>Requests to subscribe and unsubscribe to level2 market data:</p>
+
+<p>订阅和取消订阅 level2 行情请求：</p>
+
+<ul>
+<li><p>Messages:</p>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"level2@10"</span><span class="p">:[</span><span class="s2">"ETH-BTC"</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+
+</span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"level2@10"</span><span class="p">:[</span><span class="s2">"ETH-BTC"</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></li>
+</ul>
+
+<p>If you subscribe to level2 market data message flow, at first the full snapshot of level2 market data will be published and then only incremental updates of level2 market data are sent.</p>
+
+<p>如果订阅了 level2 行情消息流，首次先推送完整的行情快照，之后就仅推送增量的行情更新。</p>
+
+<ul>
+<li><p>Messages:</p>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"level2@10_snapshot"</span><span class="p">,</span><span class="w">           </span><span class="err">//Message</span><span class="w"> </span><span class="err">type</span><span class="p">:</span><span class="w"> </span><span class="err">full</span><span class="w"> </span><span class="err">snapshot</span><span class="w"> </span><span class="err">^消息类型：完整的行情快照</span><span class="w">
+    </span><span class="s2">"instrumentID "</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">             </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+    </span><span class="s2">"buy"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"5500.21"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.47545240"</span><span class="p">]</span><span class="err">...</span><span class="p">],</span><span class="w">  </span><span class="err">//Buy</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">^买价位</span><span class="w">
+    </span><span class="s2">"sell"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"5500.25"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.56544624"</span><span class="p">]</span><span class="err">...</span><span class="p">],</span><span class="w"> </span><span class="err">//Sell</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">^卖价位</span><span class="w">
+    </span><span class="s2">"pubDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180907"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Publish</span><span class="w"> </span><span class="err">date</span><span class="w"> </span><span class="err">^发布日期</span><span class="w">
+    </span><span class="s2">"pubTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"09:07:45"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Publish</span><span class="w"> </span><span class="err">time</span><span class="w"> </span><span class="err">^发布时间</span><span class="w">
+    </span><span class="s2">"pubTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1420674445201"</span><span class="w">         </span><span class="err">//Publish</span><span class="w"> </span><span class="err">timestamp</span><span class="w"> </span><span class="err">^发布时间戳</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"level2@10_update"</span><span class="p">,</span><span class="w">             </span><span class="err">//Message</span><span class="w"> </span><span class="err">type</span><span class="p">:</span><span class="w"> </span><span class="err">incremental</span><span class="w"> </span><span class="err">update</span><span class="w"> </span><span class="err">^消息类型：增量的行情更新</span><span class="w">
+    </span><span class="s2">"instrumentID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">              </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+    </span><span class="s2">"buy"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"5500.21"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.47545240"</span><span class="p">]</span><span class="err">...</span><span class="p">],</span><span class="w">  </span><span class="err">//Buy</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">^买价位</span><span class="w">
+    </span><span class="s2">"sell"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"5500.25"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0"</span><span class="p">]</span><span class="err">...</span><span class="p">],</span><span class="w">          </span><span class="err">//Sell</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">(note</span><span class="p">:</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="mi">0</span><span class="err">)</span><span class="w"> </span><span class="err">^卖价位（注意：数量为</span><span class="mi">0</span><span class="err">）</span><span class="w">
+    </span><span class="s2">"pubDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180907"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Publish</span><span class="w"> </span><span class="err">date</span><span class="w"> </span><span class="err">^发布日期</span><span class="w">
+    </span><span class="s2">"pubTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"09:07:45"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Publish</span><span class="w"> </span><span class="err">time</span><span class="w"> </span><span class="err">^发布时间</span><span class="w">
+    </span><span class="s2">"pubTimestamp"</span><span class="p">:</span><span class="s2">"1420674445201"</span><span class="w">          </span><span class="err">//Publish</span><span class="w"> </span><span class="err">timestamp</span><span class="w"> </span><span class="err">^发布时间戳</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></li>
+</ul>
+<h2 id='3-4-heartbeat-mechanism'>3.4. Heartbeat Mechanism ^心跳机制</h2>
+<p>In order to implement the heartbeat mechanism, the WebSocket subscriber should sends a &#39;ping&#39; message to the server once per <b>15</b> seconds and then the server replies to the subscriber with a &#39;pong&#39; message.</p>
+
+<p>为了实现心跳机制，WebSocket 订阅方每<b>15</b>秒向服务器发送一次&quot;ping&quot; 消息，然后服务器会向订阅方回复一个 &quot;pong&quot; 消息。</p>
+<h1 id='4-sample-code'>4. Sample Code ^示例代码</h1><h2 id='4-1-rest-interface-sample-code-rest'>4.1. REST Interface Sample Code ^REST接口示例代码</h2>
+<ul>
+<li>Java
+
+<ul>
+<li> Java SDK: https://github.com/XDAEX/API/raw/master/java/xdaex-trading-sdk-1.0.jar</li>
+<li> Java Sample: https://github.com/XDAEX/API/wiki/REST_sample_java</li>
+</ul></li>
+<li>Python
+
+<ul>
+<li> Python Sample: https://github.com/XDAEX/API/wiki/REST_sample_python</li>
+</ul></li>
+<li>Golang
+
+<ul>
+<li> Golang Sample: https://github.com/XDAEX/API/wiki/REST_sample_golang</li>
+</ul></li>
+<li>C++
+
+<ul>
+<li> C++ header: https://github.com/XDAEX/API/raw/master/cpp/eccutils.hpp</li>
+<li> C++ Sample: https://github.com/XDAEX/API_Docs/wiki/REST_sample_cpp</li>
+</ul></li>
+</ul>
+<h2 id='4-2-websocket-subscription-sample-code-websocket'>4.2. WebSocket Subscription Sample Code ^WebSocket订阅示例代码</h2>
+<ul>
+<li>JavaScript sample code for the public and private message flow subscription: https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_javascript</li>
+<li>Golang sample code for the public and private message flow subscription: https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_golang</li>
+<li>C++ sample code for the public and private message flow subscription: https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_cpp</li>
+</ul>
+<h1 id='5-request-response-code-table'>5. Request-Response Code Table ^请求应答编码对照表</h1><h2 id='5-1-success-response'>5.1. Success Response ^成功应答</h2>
+<p>The HTTP response code is 200 for all success responses which may contain other information about the response. Please refer to the details of the specific interface.</p>
+
+<p>对于成功的请求，HTTP 协议状态返回码均为 200 ，同时包含具体 Response 信息，具体可详见各类业务接口。</p>
+<h2 id='5-2-failure-response-table'>5.2. Failure Response Table ^失败应答表</h2>
+<p>Failure modes are described by respcode and respmsg in the failure response.</p>
+
+<p>对于失败的请求，在其应答中通过 respCode 和 respMsg 说明失败的原因。</p>
+
+<table><thead>
+<tr>
+<th>respCode <br /> 应答码</th>
+<th>respMsg <br />应答消息</th>
+<th>Note <br />备注</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>1000</td>
+<td>Failed to validate signature</td>
+<td>--- <br /> 签名验证失败</td>
+</tr>
+<tr>
+<td>1001</td>
+<td>Request timeout (30s)</td>
+<td>--- <br /> 已过期的请求（超过30秒）</td>
+</tr>
+<tr>
+<td>1002</td>
+<td>API-KEY not found</td>
+<td>--- <br /> API-KEY 未找到</td>
+</tr>
+<tr>
+<td>1003</td>
+<td>Locked account</td>
+<td>User account is locked <br /> 用户账号被锁定</td>
+</tr>
+<tr>
+<td>1004</td>
+<td>Too many requests</td>
+<td>--- <br /> 接口访问频次超限</td>
+</tr>
+<tr>
+<td>1005</td>
+<td>Internal service error</td>
+<td>--- <br /> 内部服务错误</td>
+</tr>
+<tr>
+<td>1006</td>
+<td>API-KEY blacklisted</td>
+<td>--- <br /> API-KEY 已被禁用</td>
+</tr>
+<tr>
+<td>1007</td>
+<td>Unexpected property found in request body</td>
+<td>--- <br />请求参数属性有误</td>
+</tr>
+<tr>
+<td>1008</td>
+<td>Missing API-TIMESTAMP in HTTP request header</td>
+<td>--- <br /> HTTP 请求消息头中缺少 API-TIMESTAMP</td>
+</tr>
+<tr>
+<td>1009</td>
+<td>Missing API-KEY in HTTP request header</td>
+<td>--- <br /> HTTP 请求消息头中缺少 API-KEY</td>
+</tr>
+<tr>
+<td>1010</td>
+<td>Missing API-SIGNATURE in HTTP request header</td>
+<td>--- <br /> HTTP 请求消息头中缺少 API-SIGNATURE</td>
+</tr>
+<tr>
+<td>1011</td>
+<td>Missing valid AUTH-TYPE in HTTP request header</td>
+<td>--- <br /> HTTP 请求消息头中未提供有效的 AUTH-TYPE</td>
+</tr>
+<tr>
+<td>2001</td>
+<td>Order price decimal precision error</td>
+<td>The decimal points of the order price exceeded the limit (Please query the price decimal precision limit of the corresponding instrument via REST interface /marketData/instrument) <br /> 订单价格的小数部分位数超限（请通过 REST 接口 /marketData/instrument 查询对应合约的价格精度要求）</td>
+</tr>
+<tr>
+<td>2002</td>
+<td>Order volume decimal precision error</td>
+<td>The decimal points of the order volume (size) exceeded the limit (Query the volume decimal precision limit of the corresponding instrument via REST interface /marketData/instrument) <br /> 订单数量（ volume/size ）的小数部分位数超限（请通过 REST 接口 /marketData/instrument 查询对应合约的数量精度要求）</td>
+</tr>
+<tr>
+<td>2003</td>
+<td>Maximum orderLocalID field length: 20</td>
+<td>--- <br /> orderLocalID 长度超限（20）</td>
+</tr>
+<tr>
+<td>2004</td>
+<td>orderSysID or orderLocalID not exist</td>
+<td>--- <br /> orderSysID 或 orderLocalID 不存在。</td>
+</tr>
+<tr>
+<td>2005</td>
+<td>Maximum number of batch order cancellations: 10</td>
+<td>The quantity of batch cancel order exceeded the limit (10) <br /> 批量撤单数量超限（10条）</td>
+</tr>
+<tr>
+<td>2006</td>
+<td>instrumentID does not exist</td>
+<td>--- <br /> 合约ID不存在</td>
+</tr>
+<tr>
+<td>2007</td>
+<td>Operation not supported by current instrument status</td>
+<td>--- <br /> 当前合约状态禁止此项操作</td>
+</tr>
+<tr>
+<td>2008</td>
+<td>Client not found</td>
+<td>--- <br /> 客户找不到</td>
+</tr>
+<tr>
+<td>2009</td>
+<td>Order field error</td>
+<td>--- <br /> 订单字段错误</td>
+</tr>
+<tr>
+<td>2010</td>
+<td>Account not found</td>
+<td>--- <br /> 找不到账号</td>
+</tr>
+<tr>
+<td>2011</td>
+<td>Insufficient trading asset balance</td>
+<td>--- <br /> 资产不足</td>
+</tr>
+<tr>
+<td>2012</td>
+<td>Invalid volume</td>
+<td>--- <br /> 不合法的数量（ volume/size ）</td>
+</tr>
+<tr>
+<td>2013</td>
+<td>Invalid order type</td>
+<td>--- <br /> 不支持的订单类型</td>
+</tr>
+<tr>
+<td>2014</td>
+<td>Order already fully executed</td>
+<td>--- <br /> 该订单已经全部成交</td>
+</tr>
+<tr>
+<td>2015</td>
+<td>Order already canceled</td>
+<td>--- <br /> 该订单已经撤销</td>
+</tr>
+<tr>
+<td>2016</td>
+<td>orderSysID can not be empty</td>
+<td>--- <br /> 系统订单号不能为空</td>
+</tr>
+<tr>
+<td>2017</td>
+<td>Order direction (sell or buy) error</td>
+<td>--- <br /> 订单方向（ Sell or Buy ）错误</td>
+</tr>
+<tr>
+<td>2018</td>
+<td>orderLocalID can not be empty</td>
+<td>--- <br /> orderLocalID 不能为空</td>
+</tr>
+<tr>
+<td>2019</td>
+<td>Order volume should be less than 10000000</td>
+<td>--- <br /> 订单数量应小于10000000</td>
+</tr>
+<tr>
+<td>2020</td>
+<td>Order price should be less than 10000000</td>
+<td>--- <br /> 订单价格应小于10000000</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>Order price type error</td>
+<td>Order price type error. Only limit order (orderPriceType: limit) is supported now. <br /> 订单价格类型错误。目前支持限价订单（ orderPriceType:  limit ）。</td>
+</tr>
+<tr>
+<td>2022</td>
+<td>TimeCondition error</td>
+<td>TimeCondition error. Only GTC (Good Till Cancel) is supported now. <br /> 订单有效期类型错误，目前支持 GTC（撤销前一直有效）。</td>
+</tr>
+</tbody></table>
+
+<p>For any questions related to the above, please sending an email to support@xdaex.com.</p>
+
+<p>若 API 用户对于以上仍有疑问，请发送邮件至 support@xdaex.com 。</p>
+
+<hr>
+
+<table><thead>
+<tr>
+<th>Version <br />版本</th>
+<th>Revision Date <br />修订日期</th>
+<th>Change Log <br />修订摘要</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>3.1</td>
+<td>2018/09/14</td>
+<td>Update document structure. ^调整文档结构。</td>
+</tr>
+<tr>
+<td>3.2</td>
+<td>2018/09/15</td>
+<td>Optimize document structure. ^优化文档结构。</td>
+</tr>
+<tr>
+<td>4.0</td>
+<td>2018/10/9</td>
+<td>Optimize API, merge into a bilingual version. ^优化接口，合并成双语版本。</td>
+</tr>
+<tr>
+<td>4.1</td>
+<td>2018/10/15</td>
+<td>Improve English content. ^改进英文内容。</td>
+</tr>
+<tr>
+<td>4.2</td>
+<td>2018/11/8</td>
+<td>Add an authentication method &quot;HMAC&quot;; Add descriptions for the preview environment; Add an API to query API Release Number. ^增加“ HMAC ”授权方式；增加关于预览环境的描述；增加查询 API 发行号的 API。</td>
+</tr>
+</tbody></table>
+
+<hr>
 <h1 id='errors'>Errors</h1>
 <aside class="notice">
 This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
@@ -494,10 +1667,7 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
-                <a href="#" data-language-name="javascript">javascript</a>
+                <a href="#" data-language-name="json">JSON</a>
           </div>
       </div>
     </div>
