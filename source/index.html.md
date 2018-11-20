@@ -1,8 +1,8 @@
 ---
 title: XDAEX Trading and Market Data API Specification ^XDAEX 交易及行情API规范
 
-language_tabs: # must be one of https://git.io/vQNgJ
-  - json: JSON 
+# language_tabs: # must be one of https://git.io/vQNgJ
+#   - json: JSON 
 
 search: true
 ---
