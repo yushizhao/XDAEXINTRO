@@ -286,7 +286,25 @@
                     <a href="#3-2-private-message-flow" class="toc-h2 toc-link" data-title="3.2. Private Message Flow ^私有消息流">3.2. Private Message Flow ^私有消息流</a>
                   </li>
                   <li>
+                    <a href="#3-2-1-change-of-order-status" class="toc-h2 toc-link" data-title="3.2.1. Change of Order Status ^订单状态变化">3.2.1. Change of Order Status ^订单状态变化</a>
+                  </li>
+                  <li>
+                    <a href="#3-2-2-order-execution-report" class="toc-h2 toc-link" data-title="3.2.2. Order Execution Report ^订单成交回报">3.2.2. Order Execution Report ^订单成交回报</a>
+                  </li>
+                  <li>
+                    <a href="#3-2-3-failure-to-inserting-order" class="toc-h2 toc-link" data-title="3.2.3. Failure to Inserting Order ^创建订单失败">3.2.3. Failure to Inserting Order ^创建订单失败</a>
+                  </li>
+                  <li>
+                    <a href="#3-2-4-failure-to-cancelling-order" class="toc-h2 toc-link" data-title="3.2.4. Failure to Cancelling Order ^撤销订单失败">3.2.4. Failure to Cancelling Order ^撤销订单失败</a>
+                  </li>
+                  <li>
                     <a href="#3-3-public-message-flow" class="toc-h2 toc-link" data-title="3.3. Public Message Flow ^公有消息流">3.3. Public Message Flow ^公有消息流</a>
+                  </li>
+                  <li>
+                    <a href="#3-3-1-ticker" class="toc-h2 toc-link" data-title="3.3.1. Ticker ^逐笔成交信息">3.3.1. Ticker ^逐笔成交信息</a>
+                  </li>
+                  <li>
+                    <a href="#3-3-2-level2-market-data-level2" class="toc-h2 toc-link" data-title="3.3.2. Level2 Market Data ^Level2行情数据">3.3.2. Level2 Market Data ^Level2行情数据</a>
                   </li>
                   <li>
                     <a href="#3-4-heartbeat-mechanism" class="toc-h2 toc-link" data-title="3.4. Heartbeat Mechanism ^心跳机制">3.4. Heartbeat Mechanism ^心跳机制</a>
@@ -314,9 +332,6 @@
                     <a href="#5-2-failure-response-table" class="toc-h2 toc-link" data-title="5.2. Failure Response Table ^失败应答表">5.2. Failure Response Table ^失败应答表</a>
                   </li>
               </ul>
-          </li>
-          <li>
-            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
           </li>
       </ul>
     </div>
@@ -814,6 +829,22 @@ This request URL contains the following main components:</p>
     </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"received"</span><span class="w">                   </span><span class="err">//Status</span><span class="p">:</span><span class="w"> </span><span class="s2">"received"</span><span class="err">/</span><span class="s2">"failed"</span><span class="err">.</span><span class="w"> </span><span class="s2">"received"</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">has</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">cancellation</span><span class="w"> </span><span class="err">request</span><span class="p">,</span><span class="w"> </span><span class="err">but</span><span class="w"> </span><span class="err">this</span><span class="w"> </span><span class="err">does</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">mean</span><span class="w"> </span><span class="err">that</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">has</span><span class="w"> </span><span class="err">been</span><span class="w"> </span><span class="err">canceled.</span><span class="w"> </span><span class="err">^状态：“</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">已收到”/“</span><span class="w"> </span><span class="err">failed</span><span class="w"> </span><span class="err">已失败”。“</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">”</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="err">表示交易所已收到了撤单请求，但不代表已经撤单完毕。</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+<p>The order that is confirmed by the exchange, but not completely executed, can be canceled in 2 ways: either by orderLocalID or by orderSysID.</p>
+
+<p>已被交易所确认的订单，在未被完全成交之前可以撤销，有两种撤单的方式：根据本地订单ID（ orderLocalID ）撤单、根据系统订单ID（ orderSysID ）撤单。</p>
+
+<ul>
+<li><p>Cancel the order by orderLocalID: The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user&#39;s side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">In this case, only one of these orders would be canceled by this request</font> . 
+<br />
+根据本地订单ID（ orderLocalID ）撤单： orderLocalID  是由用户（而非交易所）分配的本地订单ID。若由于用户自身的问题导致 orderLocalID 重复，则会存在多个订单具有相同的 orderLocalID ，<font color="#dd0000" face = "black">此时本接口仅会撤销其中的1笔订单</font>。</p>
+
+<ul>
+<li>Method: POST</li>
+<li>Version: v1</li>
+<li>Path: /order/cancelByLocalID </li>
+</ul></li>
+</ul>
+
 <blockquote>
 <p>Request:</p>
 </blockquote>
@@ -829,26 +860,9 @@ This request URL contains the following main components:</p>
     </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"received"</span><span class="w">                </span><span class="err">//Status</span><span class="p">:</span><span class="w"> </span><span class="s2">"received"</span><span class="err">/</span><span class="s2">"failed"</span><span class="err">.</span><span class="w"> </span><span class="s2">"received"</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">has</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">cancellation</span><span class="w"> </span><span class="err">request</span><span class="p">,</span><span class="w"> </span><span class="err">but</span><span class="w"> </span><span class="err">this</span><span class="w"> </span><span class="err">does</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">mean</span><span class="w"> </span><span class="err">that</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">has</span><span class="w"> </span><span class="err">been</span><span class="w"> </span><span class="err">canceled.</span><span class="w"> </span><span class="err">^状态：“</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">已收到”/“</span><span class="w"> </span><span class="err">failed</span><span class="w"> </span><span class="err">已失败”。“</span><span class="w"> </span><span class="err">received</span><span class="w"> </span><span class="err">”</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="err">表示交易所已收到了撤单请求，但不代表已经撤单完毕。</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>The order that is confirmed by the exchange, but not completely executed, can be canceled in 2 ways: either by orderLocalID or by orderSysID.</p>
-
-<p>已被交易所确认的订单，在未被完全成交之前可以撤销，有两种撤单的方式：根据本地订单ID（ orderLocalID ）撤单、根据系统订单ID（ orderSysID ）撤单。</p>
-
 <ul>
-<li><p>Cancel the order by orderLocalID: The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user&#39;s side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">In this case, only one of these orders would be canceled by this request</font> . <br /> <br />
-根据本地订单ID（ orderLocalID ）撤单： orderLocalID  是由用户（而非交易所）分配的本地订单ID。若由于用户自身的问题导致 orderLocalID 重复，则会存在多个订单具有相同的 orderLocalID ，<font color="#dd0000" face = "black">此时本接口仅会撤销其中的1笔订单</font>。</p>
-
-<ul>
-<li>Method: POST</li>
-<li>Version: v1</li>
-<li>Path: /order/cancelByLocalID </li>
-</ul></li>
-</ul>
-
-<p><br /> 
-<br /> </p>
-
-<ul>
-<li><p>Cancel the order by orderSysID: orderSysID is an order system ID assigned by the exchange, who guarantees that the orderSysID is unique. <br /> <br />
+<li><p>Cancel the order by orderSysID: orderSysID is an order system ID assigned by the exchange, who guarantees that the orderSysID is unique. 
+<br />
 根据系统订单ID（ orderSysID ）撤单： orderSysID 是由交易所分配的系统订单ID，交易所会保证其唯一性。</p>
 
 <ul>
@@ -882,172 +896,202 @@ This request URL contains the following main components:</p>
 <li>Path: /order/batchCancel</li>
 </ul>
 <h2 id='2-11-query-order'>2.11. Query Order ^查询订单</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"orderLocalID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15362989689714502"</span><span class="p">,</span><span class="w">    </span><span class="err">//order</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">rather</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由用户（而非交易所）分配的本地订单ID</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"orderSysID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1412943752000004"</span><span class="p">,</span><span class="w">      </span><span class="err">//order</span><span class="w"> </span><span class="err">system</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由交易所分配的系统订单ID</span><span class="w">
+    </span><span class="s2">"orderLocalID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15362989689714502"</span><span class="p">,</span><span class="w">   </span><span class="err">//order</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">rather</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由用户（而非交易所）分配的本地订单ID</span><span class="w">
+    </span><span class="s2">"instrumentID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">             </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+    </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">                    </span><span class="err">//Direction</span><span class="p">:</span><span class="w"> </span><span class="err">buy/sell</span><span class="w"> </span><span class="err">^方向：买/卖</span><span class="w">
+    </span><span class="s2">"orderPriceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span><span class="w">             </span><span class="err">//Price</span><span class="w"> </span><span class="err">type</span><span class="p">,</span><span class="w"> </span><span class="err">only</span><span class="w"> </span><span class="err">limit</span><span class="w"> </span><span class="err">orders</span><span class="w"> </span><span class="err">are</span><span class="w"> </span><span class="err">supported</span><span class="w"> </span><span class="err">now</span><span class="w"> </span><span class="err">(limit)</span><span class="w"> </span><span class="err">^订单价格类型，目前支持限价订单（limit）</span><span class="w">
+    </span><span class="s2">"limitPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1"</span><span class="p">,</span><span class="w">                   </span><span class="err">//Price</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">limit</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">^限价订单的价格</span><span class="w">
+    </span><span class="s2">"volumeTotalOriginal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">            </span><span class="err">//Original</span><span class="w"> </span><span class="err">total</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">^初始的总数量</span><span class="w">
+    </span><span class="s2">"volumeTotal "</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.2"</span><span class="p">,</span><span class="w">                 </span><span class="err">//Remaining</span><span class="w"> </span><span class="err">open</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">^剩余未成交量</span><span class="w">
+    </span><span class="s2">"volumeTraded"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.8"</span><span class="p">,</span><span class="w">                 </span><span class="err">//Total</span><span class="w"> </span><span class="err">traded</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">^已成交总量</span><span class="w">
+    </span><span class="s2">"timeCondition"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GTC"</span><span class="p">,</span><span class="w">                </span><span class="err">//Time</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">force</span><span class="w"> </span><span class="err">conditions</span><span class="p">,</span><span class="w"> </span><span class="err">only</span><span class="w"> </span><span class="err">GTC</span><span class="w"> </span><span class="err">(Good</span><span class="w"> </span><span class="err">Till</span><span class="w"> </span><span class="err">Cancel)</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">supported</span><span class="w"> </span><span class="err">now.</span><span class="w"> </span><span class="err">GFS</span><span class="w"> </span><span class="err">(Good</span><span class="w"> </span><span class="err">For</span><span class="w"> </span><span class="err">Session)</span><span class="p">,</span><span class="w"> </span><span class="err">IOC</span><span class="w"> </span><span class="err">(Immediate</span><span class="w"> </span><span class="err">Or</span><span class="w"> </span><span class="err">Cancel)</span><span class="p">,</span><span class="w"> </span><span class="err">etc.</span><span class="w"> </span><span class="err">will</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">supported</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">future.</span><span class="w"> </span><span class="err">^有效期类型，目前支持</span><span class="w"> </span><span class="err">GTC（撤销前一直有效），未来计划支持</span><span class="w"> </span><span class="err">GFS（当前Session有效）、</span><span class="w"> </span><span class="err">IOC（立即成交否则撤销）等。</span><span class="w">
+    </span><span class="s2">"orderStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">                    </span><span class="err">//Order</span><span class="w"> </span><span class="err">status</span><span class="p">:</span><span class="w"> </span><span class="err">(</span><span class="mi">0</span><span class="err">-fully</span><span class="w"> </span><span class="err">executed;</span><span class="w"> </span><span class="mi">1</span><span class="err">-partially</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">still</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book;</span><span class="w"> </span><span class="mi">2</span><span class="err">-partially</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book;</span><span class="w"> </span><span class="mi">3</span><span class="err">-not</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">still</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book;</span><span class="w"> </span><span class="mi">4</span><span class="err">-not</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book;</span><span class="w"> </span><span class="mi">5</span><span class="err">-fully</span><span class="w"> </span><span class="err">cancelled;</span><span class="w"> </span><span class="mi">6</span><span class="err">-partially</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">partially</span><span class="w"> </span><span class="err">cancelled)</span><span class="w"> </span><span class="err">^订单状态（</span><span class="mi">0</span><span class="err">-全部成交；</span><span class="mi">1</span><span class="err">-部分成交，订单还在订单簿中；</span><span class="mi">2</span><span class="err">-部分成交，订单不在订单簿中；</span><span class="mi">3</span><span class="err">-未成交，订单还在订单簿中；</span><span class="mi">4</span><span class="err">-未成交，订单不在订单簿中；</span><span class="mi">5</span><span class="err">-订单全部被撤销；</span><span class="mi">6</span><span class="err">-部分成交，部分撤单）</span><span class="w">
+    </span><span class="s2">"actionTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1536298968123"</span><span class="p">,</span><span class="w">    </span><span class="err">//Timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">last</span><span class="w"> </span><span class="err">change</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">status^</span><span class="w"> </span><span class="err">状态变化时间戳</span><span class="w">
+    </span><span class="s2">"insertDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180829"</span><span class="p">,</span><span class="w">              </span><span class="err">//Date</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">insertion</span><span class="w"> </span><span class="err">^下单日期</span><span class="w">
+    </span><span class="s2">"insertTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07:45:10"</span><span class="p">,</span><span class="w">              </span><span class="err">//Time</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">insertion</span><span class="w"> </span><span class="err">^下单时间</span><span class="w">
+    </span><span class="s2">"insertTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1536298968"</span><span class="p">,</span><span class="w">       </span><span class="err">//Timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">insertion</span><span class="w"> </span><span class="err">^下单时间戳</span><span class="w">
+    </span><span class="s2">"cancelDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180907"</span><span class="p">,</span><span class="w">              </span><span class="err">//Date</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">cancellation</span><span class="w"> </span><span class="err">^撤单日期</span><span class="w">
+    </span><span class="s2">"cancelTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"05:42:57"</span><span class="p">,</span><span class="w">              </span><span class="err">//Time</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">cancellation</span><span class="w"> </span><span class="err">^撤单时间</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>Similar to cancelling orders, there are two ways to query orders: either by orderLocalID or by orderSysID.</p>
 
 <p>与撤销订单类似，有两种查询订单的方式：分别根据本地订单ID（ orderLocalID ）、系统订单ID（ orderSysID ）查询。</p>
 
-<ol>
-<li>Query by order local ID (orderLocalID): only <font color="#dd0000" face="black">open orders, which have not been fully executed</font>, will be returned. The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user&#39;s side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">Only one of these orders will be returned by this interface</font> .</li>
-</ol>
+<ul>
+<li><p>Query by order local ID (orderLocalID): only <font color="#dd0000" face="black">open orders, which have not been fully executed</font>, will be returned. The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user&#39;s side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">Only one of these orders will be returned by this interface</font> .
+<br />
+根据本地订单ID（ orderLocalID ）查询订单：仅返回<font color="#dd0000" face = "black">还未被完全成交</font>的订单。 orderLocalID 是由用户（而非交易所）分配的本地订单ID。若由于用户自身的问题导致 orderLocalID 重复，则会存在多个订单具有相同的 orderLocalID ，<font color="#dd0000" face = "black">此时本接口仅返回其中的1笔订单</font>。</p>
 
-<p>根据本地订单ID（ orderLocalID ）查询订单：仅返回<font color="#dd0000" face = "black">还未被完全成交</font>的订单。 orderLocalID 是由用户（而非交易所）分配的本地订单ID。若由于用户自身的问题导致 orderLocalID 重复，则会存在多个订单具有相同的 orderLocalID ，<font color="#dd0000" face = "black">此时本接口仅返回其中的1笔订单</font>。
-* Method: POST
-* Version: v1
-* Path: /order/getOrderByLocalID
-* Request:</p>
+<ul>
+<li>Method: POST</li>
+<li>Version: v1</li>
+<li>Path: /order/getOrderByLocalID</li>
+</ul></li>
+</ul>
 
-<p><code>json
-    {//example
-        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-    }
-</code>
-* Response:</p>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"startTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1420674445"</span><span class="p">,</span><span class="w">    </span><span class="err">//Start</span><span class="w"> </span><span class="err">timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">query</span><span class="w"> </span><span class="err">(optional)</span><span class="w"> </span><span class="err">^查询起始时间戳（非必填）</span><span class="w">
+    </span><span class="s2">"endTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1420674567"</span><span class="p">,</span><span class="w">      </span><span class="err">//End</span><span class="w"> </span><span class="err">timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">query</span><span class="w"> </span><span class="err">(optional)</span><span class="w"> </span><span class="err">^查询结束时间戳（非必填）</span><span class="w">
+    </span><span class="s2">"orderStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">           </span><span class="err">//Order</span><span class="w"> </span><span class="err">status</span><span class="w"> </span><span class="err">(optional)</span><span class="w"> </span><span class="p">{</span><span class="err">(active-order</span><span class="w"> </span><span class="err">still</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book</span><span class="p">,</span><span class="w"> </span><span class="err">corresponding</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">status</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="err">)</span><span class="p">,</span><span class="w"> </span><span class="err">(closed-order</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book</span><span class="p">,</span><span class="w"> </span><span class="err">corresponding</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">status</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="err">)</span><span class="p">,</span><span class="w"> </span><span class="err">(not</span><span class="w"> </span><span class="err">specified</span><span class="w"> </span><span class="err">or</span><span class="w"> </span><span class="err">an</span><span class="w"> </span><span class="err">empty</span><span class="w"> </span><span class="err">string</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="err">all</span><span class="w"> </span><span class="err">status)</span><span class="p">}</span><span class="w"> </span><span class="err">^订单状态（非必填）</span><span class="p">{</span><span class="err">(active-订单在订单簿中，对应状态</span><span class="mi">1</span><span class="err">、</span><span class="mi">3</span><span class="err">)</span><span class="p">,</span><span class="w"> </span><span class="err">(closed-订单不在订单簿中，对应状态</span><span class="mi">0</span><span class="err">、</span><span class="mi">2</span><span class="err">、</span><span class="mi">4</span><span class="err">、</span><span class="mi">5</span><span class="err">、</span><span class="mi">6</span><span class="err">)</span><span class="p">,</span><span class="w"> </span><span class="err">(未指定本项或本项为空字符串-对应所有状态)｝。</span><span class="w">
+    </span><span class="s2">"instrumentID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">         </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">(optional)</span><span class="w"> </span><span class="err">^合约ID（非必填）</span><span class="w">
+    </span><span class="s2">"orderSysID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1412943752000004"</span><span class="w">   </span><span class="err">//Order</span><span class="w"> </span><span class="err">system</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">(optional)</span><span class="w"> </span><span class="err">^系统订单ID（非必填）</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"orderSysID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1412943752000004"</span><span class="p">,</span><span class="w">     </span><span class="err">//order</span><span class="w"> </span><span class="err">system</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由交易所分配的系统订单ID</span><span class="w">
+    </span><span class="s2">"orderLocalID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15362989689714502"</span><span class="p">,</span><span class="w">  </span><span class="err">//order</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">rather</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由用户（而非交易所）分配的本地订单ID</span><span class="w">
+    </span><span class="s2">"instrumentID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">            </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+    </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">                   </span><span class="err">//Direction</span><span class="p">:</span><span class="w"> </span><span class="err">buy/sell</span><span class="w"> </span><span class="err">^方向：买/卖</span><span class="w">
+    </span><span class="s2">"orderPriceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span><span class="w">            </span><span class="err">//Price</span><span class="w"> </span><span class="err">type</span><span class="p">,</span><span class="w"> </span><span class="err">limit</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">supported</span><span class="w"> </span><span class="err">now</span><span class="w"> </span><span class="err">(limit)</span><span class="w"> </span><span class="err">^订单价格类型，目前支持限价订单（limit）</span><span class="w">
+    </span><span class="s2">"limitPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.11"</span><span class="p">,</span><span class="w">                 </span><span class="err">//Price</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">limit</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">^限价订单的价格</span><span class="w">
+    </span><span class="s2">"volumeTotalOriginal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">           </span><span class="err">//Original</span><span class="w"> </span><span class="err">total</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">^初始的总数量</span><span class="w">
+    </span><span class="s2">"volumeTotal "</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.2"</span><span class="p">,</span><span class="w">                </span><span class="err">//Remaining</span><span class="w"> </span><span class="err">open</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">^剩余未成交量</span><span class="w">
+    </span><span class="s2">"volumeTraded"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Total</span><span class="w"> </span><span class="err">traded</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">^已成交总量</span><span class="w">
+    </span><span class="s2">"timeCondition"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GTC"</span><span class="p">,</span><span class="w">               </span><span class="err">//Time</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">force</span><span class="w"> </span><span class="err">conditions</span><span class="p">,</span><span class="w"> </span><span class="err">GTC</span><span class="w"> </span><span class="err">(Good</span><span class="w"> </span><span class="err">Till</span><span class="w"> </span><span class="err">Cancel)</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">supported</span><span class="w"> </span><span class="err">now</span><span class="p">,</span><span class="w"> </span><span class="err">GFS</span><span class="w"> </span><span class="err">(Good</span><span class="w"> </span><span class="err">For</span><span class="w"> </span><span class="err">Session)</span><span class="p">,</span><span class="w"> </span><span class="err">IOC</span><span class="w"> </span><span class="err">(Immediate</span><span class="w"> </span><span class="err">Or</span><span class="w"> </span><span class="err">Cancel)</span><span class="p">,</span><span class="w"> </span><span class="err">etc.</span><span class="w"> </span><span class="err">will</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">supported</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">future.</span><span class="w"> </span><span class="err">^有效期类型，目前支持</span><span class="w"> </span><span class="err">GTC</span><span class="w"> </span><span class="err">（撤销前一直有效），未来计划支持</span><span class="w"> </span><span class="err">GFS</span><span class="w"> </span><span class="err">（当前Session有效）、</span><span class="w"> </span><span class="err">IOC</span><span class="w"> </span><span class="err">（立即成交否则撤销）等。</span><span class="w">
+    </span><span class="s2">"orderStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">                   </span><span class="err">//Order</span><span class="w"> </span><span class="err">status</span><span class="p">:</span><span class="w"> </span><span class="err">(</span><span class="mi">0</span><span class="err">-fully</span><span class="w"> </span><span class="err">executed;</span><span class="w"> </span><span class="mi">1</span><span class="err">-partially</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">still</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book;</span><span class="w"> </span><span class="mi">2</span><span class="err">-partially</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book;</span><span class="w"> </span><span class="mi">3</span><span class="err">-not</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">still</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book;</span><span class="w"> </span><span class="mi">4</span><span class="err">-not</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book;</span><span class="w"> </span><span class="mi">5</span><span class="err">-fully</span><span class="w"> </span><span class="err">cancelled;</span><span class="w"> </span><span class="mi">6</span><span class="err">-partially</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">partially</span><span class="w"> </span><span class="err">cancelled)</span><span class="w"> </span><span class="err">^订单状态（</span><span class="mi">0</span><span class="err">-全部成交；</span><span class="mi">1</span><span class="err">-部分成交，订单还在订单簿中；</span><span class="mi">2</span><span class="err">-部分成交，订单不在订单簿中；</span><span class="mi">3</span><span class="err">-未成交，订单还在订单簿中；</span><span class="mi">4</span><span class="err">-未成交，订单不在订单簿中；</span><span class="mi">5</span><span class="err">-订单全部被撤销；</span><span class="mi">6</span><span class="err">-部分成交，部分撤单）</span><span class="w">
+    </span><span class="s2">"actionTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1536298968123"</span><span class="p">,</span><span class="w">    </span><span class="err">//Timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">last</span><span class="w"> </span><span class="err">change</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">status^</span><span class="w"> </span><span class="err">状态变化时间戳</span><span class="w">
+    </span><span class="s2">"insertDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180829"</span><span class="p">,</span><span class="w">             </span><span class="err">//Date</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">insertion</span><span class="w"> </span><span class="err">^下单日期</span><span class="w">
+    </span><span class="s2">"insertTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07:45:10"</span><span class="p">,</span><span class="w">             </span><span class="err">//Time</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">insertion</span><span class="w"> </span><span class="err">^下单时间</span><span class="w">
+    </span><span class="s2">"insertTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1536298968"</span><span class="p">,</span><span class="w">      </span><span class="err">//Timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">insertion</span><span class="w"> </span><span class="err">^下单时间戳</span><span class="w">
+    </span><span class="s2">"cancelDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180907"</span><span class="p">,</span><span class="w">             </span><span class="err">//Date</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">cancellation</span><span class="w"> </span><span class="err">^撤单日期</span><span class="w">
+    </span><span class="s2">"cancelTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"05:42:57"</span><span class="p">,</span><span class="w">             </span><span class="err">//Time</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">cancellation</span><span class="w"> </span><span class="err">^撤单时间</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<ul>
+<li><p>Query by order system ID ( orderSysID ): If orderSysID is not specified, it will query the maximum number of <font color="#dd0000" face="black">100</font> orders, sorted by time of insertion <b>(starting from the most recent order to the oldest order)</b>.
+<br />
+根据系统订单ID（ orderSysID ）查询订单：如果不指定 orderSysID ，最多返回<font color="#dd0000" face = "black">100</font>条订单，按照下单时间排序<b>（最近的订单排在最前面）</b>。</p>
 
-<p><code>json
-    {//example
-        &quot;orderSysID&quot;: &quot;1412943752000004&quot;,      //order system ID assigned by the exchange ^由交易所分配的系统订单ID
-        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,   //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-        &quot;instrumentID&quot;: &quot;ETH-BTC&quot;,             //Instrument ID ^合约ID
-        &quot;direction&quot;: &quot;buy&quot;,                    //Direction: buy/sell ^方向：买/卖
-        &quot;orderPriceType&quot;: &quot;limit&quot;,             //Price type, only limit orders are supported now (limit) ^订单价格类型，目前支持限价订单（limit）
-        &quot;limitPrice&quot;: &quot;0.1&quot;,                   //Price of limit order ^限价订单的价格
-        &quot;volumeTotalOriginal&quot;: &quot;1&quot;,            //Original total volume ^初始的总数量
-        &quot;volumeTotal &quot;: &quot;0.2&quot;,                 //Remaining open volume ^剩余未成交量
-        &quot;volumeTraded&quot;: &quot;0.8&quot;,                 //Total traded volume ^已成交总量
-        &quot;timeCondition&quot;: &quot;GTC&quot;,                //Time in force conditions, only GTC (Good Till Cancel) is supported now. GFS (Good For Session), IOC (Immediate Or Cancel), etc. will be supported in the future. ^有效期类型，目前支持 GTC（撤销前一直有效），未来计划支持 GFS（当前Session有效）、 IOC（立即成交否则撤销）等。
-        &quot;orderStatus&quot;: &quot;1&quot;,                    //Order status: (0-fully executed; 1-partially executed, order still in order book; 2-partially executed, order not in order book; 3-not executed, order still in order book; 4-not executed, order not in order book; 5-fully cancelled; 6-partially executed, partially cancelled) ^订单状态（0-全部成交；1-部分成交，订单还在订单簿中；2-部分成交，订单不在订单簿中；3-未成交，订单还在订单簿中；4-未成交，订单不在订单簿中；5-订单全部被撤销；6-部分成交，部分撤单）
-        &quot;actionTimestamp&quot;: &quot;1536298968123&quot;,    //Timestamp of the last change to the order status^ 状态变化时间戳
-        &quot;insertDate&quot;: &quot;20180829&quot;,              //Date of insertion ^下单日期
-        &quot;insertTime&quot;: &quot;07:45:10&quot;,              //Time of insertion ^下单时间
-        &quot;insertTimestamp&quot;: &quot;1536298968&quot;,       //Timestamp of insertion ^下单时间戳
-        &quot;cancelDate&quot;: &quot;20180907&quot;,              //Date of cancellation ^撤单日期
-        &quot;cancelTime&quot;: &quot;05:42:57&quot;,              //Time of cancellation ^撤单时间
-    }
-</code></p>
-
-<hr>
-
-<ol>
-<li>Query by order system ID ( orderSysID ): If orderSysID is not specified, it will query the maximum number of <font color="#dd0000" face="black">100</font> orders, sorted by time of insertion <b>(starting from the most recent order to the oldest order)</b>.</li>
-</ol>
-
-<p>根据系统订单ID（ orderSysID ）查询订单：如果不指定 orderSysID ，最多返回<font color="#dd0000" face = "black">100</font>条订单，按照下单时间排序<b>（最近的订单排在最前面）</b>。
-* Method: POST
-* Version: v1
-* Path: /order/getOrder
-* Request:</p>
-
-<p><code>json
-    {//example
-        &quot;startTimestamp&quot;: &quot;1420674445&quot;,    //Start timestamp of query (optional) ^查询起始时间戳（非必填）
-        &quot;endTimestamp&quot;: &quot;1420674567&quot;,      //End timestamp of query (optional) ^查询结束时间戳（非必填）
-        &quot;orderStatus&quot;: &quot;active&quot;,           //Order status (optional) {(active-order still in order book, corresponding to status 1, 3), (closed-order not in order book, corresponding to status 0, 2, 4, 5, 6), (not specified or an empty string - all status)} ^订单状态（非必填）{(active-订单在订单簿中，对应状态1、3), (closed-订单不在订单簿中，对应状态0、2、4、5、6), (未指定本项或本项为空字符串-对应所有状态)｝。
-        &quot;instrumentID&quot;: &quot;ETH-BTC&quot;,         //Instrument ID (optional) ^合约ID（非必填）
-        &quot;orderSysID&quot;: &quot;1412943752000004&quot;   //Order system ID (optional) ^系统订单ID（非必填）
-    }
-</code>
-* Response:</p>
-
-<p><code>json
-    {//example
-        &quot;orderSysID&quot;: &quot;1412943752000004&quot;,     //order system ID assigned by the exchange ^由交易所分配的系统订单ID
-        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,  //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-        &quot;instrumentID&quot;: &quot;ETH-BTC&quot;,            //Instrument ID ^合约ID
-        &quot;direction&quot;: &quot;buy&quot;,                   //Direction: buy/sell ^方向：买/卖
-        &quot;orderPriceType&quot;: &quot;limit&quot;,            //Price type, limit order is supported now (limit) ^订单价格类型，目前支持限价订单（limit）
-        &quot;limitPrice&quot;: &quot;0.11&quot;,                 //Price of limit order ^限价订单的价格
-        &quot;volumeTotalOriginal&quot;: &quot;1&quot;,           //Original total volume ^初始的总数量
-        &quot;volumeTotal &quot;: &quot;0.2&quot;,                //Remaining open volume ^剩余未成交量
-        &quot;volumeTraded&quot;: &quot;0&quot;,                  //Total traded volume ^已成交总量
-        &quot;timeCondition&quot;: &quot;GTC&quot;,               //Time in force conditions, GTC (Good Till Cancel) is supported now, GFS (Good For Session), IOC (Immediate Or Cancel), etc. will be supported in the future. ^有效期类型，目前支持 GTC （撤销前一直有效），未来计划支持 GFS （当前Session有效）、 IOC （立即成交否则撤销）等。
-        &quot;orderStatus&quot;: &quot;0&quot;,                   //Order status: (0-fully executed; 1-partially executed, order still in order book; 2-partially executed, order not in order book; 3-not executed, order still in order book; 4-not executed, order not in order book; 5-fully cancelled; 6-partially executed, partially cancelled) ^订单状态（0-全部成交；1-部分成交，订单还在订单簿中；2-部分成交，订单不在订单簿中；3-未成交，订单还在订单簿中；4-未成交，订单不在订单簿中；5-订单全部被撤销；6-部分成交，部分撤单）
-        &quot;actionTimestamp&quot;: &quot;1536298968123&quot;,    //Timestamp of the last change to the order status^ 状态变化时间戳
-        &quot;insertDate&quot;: &quot;20180829&quot;,             //Date of insertion ^下单日期
-        &quot;insertTime&quot;: &quot;07:45:10&quot;,             //Time of insertion ^下单时间
-        &quot;insertTimestamp&quot;: &quot;1536298968&quot;,      //Timestamp of insertion ^下单时间戳
-        &quot;cancelDate&quot;: &quot;20180907&quot;,             //Date of cancellation ^撤单日期
-        &quot;cancelTime&quot;: &quot;05:42:57&quot;,             //Time of cancellation ^撤单时间
-    }
-</code></p>
+<ul>
+<li>Method: POST</li>
+<li>Version: v1</li>
+<li>Path: /order/getOrder</li>
+</ul></li>
+</ul>
 <h2 id='2-12-query-trade'>2.12. Query Trade ^查询成交</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"startTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1420674445"</span><span class="p">,</span><span class="w">  </span><span class="err">//Start</span><span class="w"> </span><span class="err">timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">query</span><span class="w"> </span><span class="err">(optional)</span><span class="w"> </span><span class="err">^查询起始时间戳（非必填）</span><span class="w">
+    </span><span class="s2">"endTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1420674445"</span><span class="p">,</span><span class="w">    </span><span class="err">//End</span><span class="w"> </span><span class="err">timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">query</span><span class="w"> </span><span class="err">(optional)</span><span class="w"> </span><span class="err">^查询结束时间戳（非必填）</span><span class="w">
+    </span><span class="s2">"instrumentID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="w">        </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">(optional)</span><span class="w"> </span><span class="err">^合约ID（非必填）</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="err">//example</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"tradeID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"141334225600003"</span><span class="p">,</span><span class="w">           </span><span class="err">//trade</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^成交ID</span><span class="w">
+        </span><span class="s2">"orderSysID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1412943752000004"</span><span class="p">,</span><span class="w">       </span><span class="err">//order</span><span class="w"> </span><span class="err">system</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由交易所分配的系统订单ID</span><span class="w">
+        </span><span class="s2">"orderLocalID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15362989689714502"</span><span class="p">,</span><span class="w">    </span><span class="err">//order</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">rather</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由用户（而非交易所）分配的本地订单ID</span><span class="w">
+        </span><span class="s2">"instrumentID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">              </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+        </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">                     </span><span class="err">//Direction</span><span class="p">:</span><span class="w"> </span><span class="err">buy/sell</span><span class="w"> </span><span class="err">^方向：买/卖</span><span class="w">
+        </span><span class="s2">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.1"</span><span class="p">,</span><span class="w">                         </span><span class="err">//Trade</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">^成交价格</span><span class="w">
+        </span><span class="s2">"priceSource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">                   </span><span class="err">//Source</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">^成交价来源</span><span class="w">
+        </span><span class="s2">"volume"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5.23512"</span><span class="p">,</span><span class="w">                    </span><span class="err">//Traded</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">execution</span><span class="w"> </span><span class="err">^本次成交的数量</span><span class="w">
+        </span><span class="s2">"fee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1"</span><span class="p">,</span><span class="w">                           </span><span class="err">//Fee</span><span class="w"> </span><span class="err">^手续费</span><span class="w">
+        </span><span class="s2">"tradeDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180829"</span><span class="p">,</span><span class="w">                </span><span class="err">//Date</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">^成交日期</span><span class="w">
+        </span><span class="s2">"tradeTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07:45:10"</span><span class="p">,</span><span class="w">                </span><span class="err">//Time</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">^成交时间</span><span class="w">
+        </span><span class="s2">"tradeTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1420674445"</span><span class="w">          </span><span class="err">//Timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">^成交时间戳</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">...</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
 <p>Query the maximum number of <font color="#dd0000" face="black">100</font> trades which is sorted by traded time <b>(starting from most recent trade to the oldest trade)</b>.</p>
 
-<p>最多查询 <font color="#dd0000" face="black">100</font> 条成交，按照成交时间排序<b>（最近的成交排在最前面）</b>。
-* Method: POST
-* Version: v1
-* Path: /trade/getTrade
-* Request:</p>
+<p>最多查询 <font color="#dd0000" face="black">100</font> 条成交，按照成交时间排序<b>（最近的成交排在最前面）</b>。</p>
 
-<p><code>json
-    {//example
-        &quot;startTimestamp&quot;: &quot;1420674445&quot;,  //Start timestamp of query (optional) ^查询起始时间戳（非必填）
-        &quot;endTimestamp&quot;: &quot;1420674445&quot;,    //End timestamp of query (optional) ^查询结束时间戳（非必填）
-        &quot;instrumentID&quot;: &quot;ETH-BTC&quot;        //Instrument ID (optional) ^合约ID（非必填）
-    }
-</code>
-* Response:</p>
-
-<p><code>json
-    [//example
-        {
-            &quot;tradeID&quot;: &quot;141334225600003&quot;,           //trade ID ^成交ID
-            &quot;orderSysID&quot;: &quot;1412943752000004&quot;,       //order system ID assigned by the exchange ^由交易所分配的系统订单ID
-            &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-            &quot;instrumentID&quot;: &quot;ETH-BTC&quot;,              //Instrument ID ^合约ID
-            &quot;direction&quot;: &quot;buy&quot;,                     //Direction: buy/sell ^方向：买/卖
-            &quot;price&quot;: &quot;1.1&quot;,                         //Trade price ^成交价格
-            &quot;priceSource&quot;: &quot;buy&quot;,                   //Source of trade price ^成交价来源
-            &quot;volume&quot;: &quot;5.23512&quot;,                    //Traded volume in the execution ^本次成交的数量
-            &quot;fee&quot;: &quot;0.1&quot;,                           //Fee ^手续费
-            &quot;tradeDate&quot;: &quot;20180829&quot;,                //Date of trade ^成交日期
-            &quot;tradeTime&quot;: &quot;07:45:10&quot;,                //Time of trade ^成交时间
-            &quot;tradeTimestamp&quot;: &quot;1420674445&quot;          //Timestamp of trade ^成交时间戳
-        }
-    ]
-</code></p>
+<ul>
+<li>Method: POST</li>
+<li>Version: v1</li>
+<li>Path: /trade/getTrade</li>
+</ul>
 <h2 id='2-13-query-level2-market-data-level2'>2.13. Query Level2 Market Data ^查询Level2行情数据</h2>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"instrumentID "</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">      </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+    </span><span class="s2">"buy"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"6500.11"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.45054140"</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="s2">"6500.10"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.35054140"</span><span class="p">],</span><span class="w"> </span><span class="err">...</span><span class="p">],</span><span class="w">   </span><span class="err">//Buy</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">^买价位</span><span class="w">
+    </span><span class="s2">"sell"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"6500.15"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.57753524"</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="s2">"6500.16"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.77753524"</span><span class="p">],</span><span class="w"> </span><span class="err">...</span><span class="p">],</span><span class="w">  </span><span class="err">//Sell</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">^卖价位</span><span class="w">
+    </span><span class="s2">"pubDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180907"</span><span class="p">,</span><span class="w">           </span><span class="err">//Publish</span><span class="w"> </span><span class="err">date</span><span class="w"> </span><span class="err">^发布日期</span><span class="w">
+    </span><span class="s2">"pubTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"09:08:07"</span><span class="p">,</span><span class="w">           </span><span class="err">//Publish</span><span class="w"> </span><span class="err">time</span><span class="w"> </span><span class="err">^发布时间</span><span class="w">
+    </span><span class="s2">"pubTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1420674445201"</span><span class="w">  </span><span class="err">//Publish</span><span class="w"> </span><span class="err">timestamp</span><span class="w"> </span><span class="err">^发布时间戳</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>Query Level2 market data for a specific instrument.</p>
 
-<p>查询指定合约的 level2 行情信息。
-* Method: GET
-* Version: v1
-* Path: /marketData/getLevel2?instrumentID=ETH-BTC
-Instrument ID must be specified.</p>
+<p>查询指定合约的 level2 行情信息。</p>
 
-<p>必须指定合约ID。
-* Response:</p>
+<ul>
+<li>Method: GET</li>
+<li>Version: v1</li>
+<li>Path: /marketData/getLevel2?instrumentID=ETH-BTC</li>
+</ul>
 
-<p><code>json
-    {//example
-        &quot;instrumentID &quot;: &quot;ETH-BTC&quot;,      //Instrument ID ^合约ID
-        &quot;buy&quot;: [[&quot;6500.11&quot;, &quot;0.45054140&quot;], [&quot;6500.10&quot;, &quot;0.35054140&quot;]...],   //Buy prices and volumes ^买价位
-        &quot;sell&quot;: [[&quot;6500.15&quot;, &quot;0.57753524&quot;], [&quot;6500.16&quot;, &quot;0.77753524&quot;]...],  //Sell prices and volumes ^卖价位
-        &quot;pubDate&quot;: &quot;20180907&quot;,           //Publish date ^发布日期
-        &quot;pubTime&quot;: &quot;09:08:07&quot;,           //Publish time ^发布时间
-        &quot;pubTimestamp&quot;: &quot;1420674445201&quot;  //Publish timestamp ^发布时间戳
-    }
-</code></p>
+<p>Instrument ID must be specified.</p>
+
+<p>必须指定合约ID。</p>
 <h1 id='3-websocket-interface-description-websocket'>3. WebSocket Interface Description ^WebSocket 接口说明</h1>
 <p>The WebSocket protocol, as defined by HTML5, allows the server to push/publish data to the client, which can save more server resources and bandwidth, and can communicate in real time. Through the WebSocket API, the client and the server only need one handshake to create a persistent connection and a two-way data transmission.</p>
 
 <p>HTML5 定义了 WebSocket 协议，允许服务端向客户端推送数据，能更好的节省服务器资源和带宽，并且能够实时地进行通讯。在 WebSocket API 中，客户端和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。</p>
 <h2 id='3-1-websocket-request-url-websocket-url'>3.1. WebSocket Request URL ^WebSocket 请求 URL</h2>
-<p>The WebSocket interface request URL is: wss://xdaex.com/APITradeWS/v1/messages.
-This request URL contains the following main components:
-* Protocol: wss
-* Domain name: xdaex.com (To access the test\preview environment, please replace it with the corresponding domain name.)
-* Interface name: APITradeWS
-* Version: v1
-* Path: /messages</p>
+<p>The WebSocket interface request URL is: wss://xdaex.com/APITradeWS/v1/messages.</p>
 
-<p>WebSocket 接口请求 URL 为: wss://xdaex.com/APITradeWS/v1/messages 。
-URL 中主要包括以下组成部分：
-* 协议: wss
-* 域名: xdaex.com （如访问测试或预览环境，则需替换成指定的域名）
-* 接口名称: APITradeWS
-* 版本: v1
-* 路径: /messages</p>
-<h2 id='3-2-private-message-flow'>3.2. Private Message Flow ^私有消息流</h2><h3 id='3-2-1-subscribe-to-private-message-flow'>3.2.1. Subscribe to Private Message Flow ^订阅私有消息流</h3>
+<p>This request URL contains the following main components:</p>
+
+<ul>
+<li>Protocol: wss</li>
+<li>Domain name: xdaex.com (To access the test\preview environment, please replace it with the corresponding domain name.)</li>
+<li>Interface name: APITradeWS</li>
+<li>Version: v1</li>
+<li>Path: /messages</li>
+</ul>
+
+<p>WebSocket 接口请求 URL 为: wss://xdaex.com/APITradeWS/v1/messages 。</p>
+
+<p>URL 中主要包括以下组成部分：</p>
+
+<ul>
+<li>协议: wss</li>
+<li>域名: xdaex.com （如访问测试或预览环境，则需替换成指定的域名）</li>
+<li>接口名称: APITradeWS</li>
+<li>版本: v1</li>
+<li>路径: /messages</li>
+</ul>
+<h2 id='3-2-private-message-flow'>3.2. Private Message Flow ^私有消息流</h2>
+<blockquote>
+<p>Example of subscribing request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Example of unsubscribing request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>API Users can subscribe to the private message flows published by the server. The subscription to the private flow needs the API-KEY for authentication.</p>
 
 <p>API 接入用户可通过订阅方式获取由交易所推送的私有消息流。提交私有流订阅请求时需要通过 API-KEY 进行认证。</p>
@@ -1069,16 +1113,6 @@ URL 中主要包括以下组成部分：
 <li>signedData = {&quot;r&quot;:&quot;vFDn9TZI041Xyeklcbnw8Qp20wx2ODfCgqa3dgm5t2s=&quot;, &quot;s&quot;:&quot;U7FgvfG+xjiZtxXtnKhGCSWwkSuUncsFOPr+M9UuV1k=&quot;, &quot;v&quot;:28}</li>
 </ul></li>
 </ul></li>
-<li><p>Example of subscribing request:</p></li>
-</ul>
-<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
-<ul>
-<li>Example of unsubscribing request:</li>
-</ul>
-<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
-<ul>
 <li><p>获得 AUTH-TYPE 为 &quot;PUB-PRIV&quot; 的 API-SIGNATURE 的步骤</p>
 
 <ul>
@@ -1093,16 +1127,6 @@ URL 中主要包括以下组成部分：
 <li>signedData = {&quot;r&quot;:&quot;vFDn9TZI041Xyeklcbnw8Qp20wx2ODfCgqa3dgm5t2s=&quot;, &quot;s&quot;:&quot;U7FgvfG+xjiZtxXtnKhGCSWwkSuUncsFOPr+M9UuV1k=&quot;, &quot;v&quot;:28}</li>
 </ul></li>
 </ul></li>
-<li><p>订阅请求，例如：</p></li>
-</ul>
-<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
-<ul>
-<li>取消订阅请求，例如：</li>
-</ul>
-<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
-<ul>
 <li><p>Steps to get an API-SIGNATURE with AUTH-TYPE &quot;HMAC&quot;</p>
 
 <ul>
@@ -1118,16 +1142,6 @@ SHA256HMAC): SHA256HMAC (secretKey, &quot;WSS/APITradeWS/v1/messages&quot;)</li>
 <li>signedData = &quot;pRXgKcONtvwSCAENxYTIjwBJaZtPa23GLQnm7+xPmhY=&quot;</li>
 </ul></li>
 </ul></li>
-<li><p>Example of subscribing request:</p></li>
-</ul>
-<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
-<ul>
-<li>Example of unsubscribing request:</li>
-</ul>
-<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
-<ul>
 <li><p>获得 AUTH-TYPE 为 &quot;HMAC&quot; 的 API-SIGNATURE 的步骤</p>
 
 <ul>
@@ -1142,140 +1156,163 @@ SHA256HMAC): SHA256HMAC (secretKey, &quot;WSS/APITradeWS/v1/messages&quot;)</li>
 <li>signedData = &quot;pRXgKcONtvwSCAENxYTIjwBJaZtPa23GLQnm7+xPmhY=&quot;</li>
 </ul></li>
 </ul></li>
-<li><p>订阅请求，例如：</p></li>
 </ul>
-<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
-<ul>
-<li>取消订阅请求，例如：</li>
-</ul>
-<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"user"</span><span class="p">:[</span><span class="err">API-KEY</span><span class="p">,</span><span class="w"> </span><span class="err">API-SIGNATURE</span><span class="p">,</span><span class="w"> </span><span class="err">AUTH-TYPE</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre><h3 id='3-2-2-receive-private-message-flow'>3.2.2. Receive Private Message Flow ^接收私有消息流</h3>
+
 <p>After subscribing to a private flow, the subscriber will receive the following types of messages:</p>
 
 <p>当订阅私有消息流之后，订阅者将收到以下几类消息：</p>
-<h4 id='3-2-2-1-change-of-order-status'>3.2.2.1. Change of Order Status ^订单状态变化</h4>
+<h2 id='3-2-1-change-of-order-status'>3.2.1. Change of Order Status ^订单状态变化</h2>
+<blockquote>
+<p>Messages:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order_return"</span><span class="p">,</span><span class="w">                </span><span class="err">//Message</span><span class="w"> </span><span class="err">type</span><span class="w"> </span><span class="err">^消息类型</span><span class="w">
+    </span><span class="s2">"orderSysID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1412943752000004"</span><span class="p">,</span><span class="w">      </span><span class="err">//order</span><span class="w"> </span><span class="err">system</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由交易所分配的系统订单编号</span><span class="w">
+    </span><span class="s2">"orderLocalID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15362989689714502"</span><span class="p">,</span><span class="w">   </span><span class="err">//order</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">rather</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange.</span><span class="w"> </span><span class="err">^由用户（而非交易所）分配的本地订单ID。</span><span class="w">
+    </span><span class="s2">"instrumentID "</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">            </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+    </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">                    </span><span class="err">//Direction</span><span class="p">:</span><span class="w"> </span><span class="err">buy/sell</span><span class="w"> </span><span class="err">^方向：买/卖</span><span class="w">
+    </span><span class="s2">"orderPriceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span><span class="w">             </span><span class="err">//Price</span><span class="w"> </span><span class="err">type</span><span class="p">,</span><span class="w"> </span><span class="err">limit</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">supported</span><span class="w"> </span><span class="err">now</span><span class="w"> </span><span class="err">(limit)</span><span class="w"> </span><span class="err">^订单价格类型，目前支持限价订单（limit）</span><span class="w">
+    </span><span class="s2">"limitPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"502.1"</span><span class="p">,</span><span class="w">                 </span><span class="err">//Price</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">limit</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">^限价订单的价格</span><span class="w">
+    </span><span class="s2">"volumeTotalOriginal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.34"</span><span class="p">,</span><span class="w">         </span><span class="err">//Original</span><span class="w"> </span><span class="err">total</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">^初始的总数量</span><span class="w">
+    </span><span class="s2">"volumeTotal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.33"</span><span class="p">,</span><span class="w">                 </span><span class="err">//Remaining</span><span class="w"> </span><span class="err">open</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">^剩余未成交量</span><span class="w">
+    </span><span class="s2">"volumeTraded"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1"</span><span class="p">,</span><span class="w">                 </span><span class="err">//Total</span><span class="w"> </span><span class="err">traded</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">^已成交总量</span><span class="w">
+    </span><span class="s2">"timeCondition"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GTC"</span><span class="p">,</span><span class="w">                </span><span class="err">//Time</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">force</span><span class="w"> </span><span class="err">conditions</span><span class="p">,</span><span class="w"> </span><span class="err">only</span><span class="w"> </span><span class="err">GTC</span><span class="w"> </span><span class="err">(Good</span><span class="w"> </span><span class="err">Till</span><span class="w"> </span><span class="err">Cancel)</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">supported</span><span class="w"> </span><span class="err">now.</span><span class="w"> </span><span class="err">GFS</span><span class="w"> </span><span class="err">(Good</span><span class="w"> </span><span class="err">For</span><span class="w"> </span><span class="err">Session)</span><span class="p">,</span><span class="w"> </span><span class="err">IOC</span><span class="w"> </span><span class="err">(Immediate</span><span class="w"> </span><span class="err">Or</span><span class="w"> </span><span class="err">Cancel)</span><span class="p">,</span><span class="w"> </span><span class="err">etc.</span><span class="w"> </span><span class="err">will</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">supported</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">future.</span><span class="w"> </span><span class="err">^有效期类型，目前支持</span><span class="w"> </span><span class="err">GTC（撤销前一直有效），未来计划支持</span><span class="w"> </span><span class="err">GFS（当前Session有效）、</span><span class="w"> </span><span class="err">IOC（立即成交否则撤销）等。</span><span class="w">
+    </span><span class="s2">"orderStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5"</span><span class="p">,</span><span class="w">                    </span><span class="err">//Order</span><span class="w"> </span><span class="err">status</span><span class="p">:</span><span class="w"> </span><span class="err">(</span><span class="mi">0</span><span class="err">-fully</span><span class="w"> </span><span class="err">executed;</span><span class="w"> </span><span class="mi">1</span><span class="err">-partially</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">still</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book;</span><span class="w"> </span><span class="mi">2</span><span class="err">-partially</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book;</span><span class="w"> </span><span class="mi">3</span><span class="err">-not</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">still</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book;</span><span class="w"> </span><span class="mi">4</span><span class="err">-not</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book;</span><span class="w"> </span><span class="mi">5</span><span class="err">-fully</span><span class="w"> </span><span class="err">cancelled;</span><span class="w"> </span><span class="mi">6</span><span class="err">-partially</span><span class="w"> </span><span class="err">executed</span><span class="p">,</span><span class="w"> </span><span class="err">partially</span><span class="w"> </span><span class="err">cancelled)</span><span class="w"> </span><span class="err">^订单状态（</span><span class="mi">0</span><span class="err">-全部成交；</span><span class="mi">1</span><span class="err">-部分成交，订单还在订单簿中；</span><span class="mi">2</span><span class="err">-部分成交，订单不在订单簿中；</span><span class="mi">3</span><span class="err">-未成交，订单还在订单簿中；</span><span class="mi">4</span><span class="err">-未成交，订单不在订单簿中；</span><span class="mi">5</span><span class="err">-订单全部被撤销；</span><span class="mi">6</span><span class="err">-部分成交，部分撤单）</span><span class="w">
+    </span><span class="s2">"actionTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1536298968123"</span><span class="p">,</span><span class="w">    </span><span class="err">//Timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">last</span><span class="w"> </span><span class="err">change</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">status^</span><span class="w"> </span><span class="err">状态变化时间戳</span><span class="w">
+    </span><span class="s2">"insertDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180907"</span><span class="p">,</span><span class="w">              </span><span class="err">//Date</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">insertion</span><span class="w"> </span><span class="err">^下单日期</span><span class="w">
+    </span><span class="s2">"insertTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"05:42:38"</span><span class="p">,</span><span class="w">              </span><span class="err">//Time</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">insertion</span><span class="w"> </span><span class="err">^下单时间</span><span class="w">
+    </span><span class="s2">"insertTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1536298968"</span><span class="p">,</span><span class="w">       </span><span class="err">//Timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">insertion</span><span class="w"> </span><span class="err">^下单时间戳</span><span class="w">
+    </span><span class="s2">"cancelDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180907"</span><span class="p">,</span><span class="w">              </span><span class="err">//Date</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">cancellation</span><span class="w"> </span><span class="err">^撤单日期</span><span class="w">
+    </span><span class="s2">"cancelTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"05:42:57"</span><span class="p">,</span><span class="w">              </span><span class="err">//Time</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">cancellation</span><span class="w"> </span><span class="err">^撤单时间</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>When the order status changes (e.g. success of insertion, success of cancellation, execution, etc.), the following message will be published:</p>
 
-<p>当订单状态发生变化时（如：下单成功、撤单成功、成交等），如下消息会被推送：
-* Messages:</p>
-
-<p><code>json
-    {//example
-        &quot;type&quot;: &quot;order_return&quot;,                //Message type ^消息类型
-        &quot;orderSysID&quot;: &quot;1412943752000004&quot;,      //order system ID assigned by the exchange ^由交易所分配的系统订单编号
-        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,   //order local ID assigned by the user rather than the exchange. ^由用户（而非交易所）分配的本地订单ID。
-        &quot;instrumentID &quot;: &quot;ETH-BTC&quot;,            //Instrument ID ^合约ID
-        &quot;direction&quot;: &quot;buy&quot;,                    //Direction: buy/sell ^方向：买/卖
-        &quot;orderPriceType&quot;: &quot;limit&quot;,             //Price type, limit order is supported now (limit) ^订单价格类型，目前支持限价订单（limit）
-        &quot;limitPrice&quot;: &quot;502.1&quot;,                 //Price of limit order ^限价订单的价格
-        &quot;volumeTotalOriginal&quot;: &quot;1.34&quot;,         //Original total volume ^初始的总数量
-        &quot;volumeTotal&quot;: &quot;1.33&quot;,                 //Remaining open volume ^剩余未成交量
-        &quot;volumeTraded&quot;: &quot;0.1&quot;,                 //Total traded volume ^已成交总量
-        &quot;timeCondition&quot;: &quot;GTC&quot;,                //Time in force conditions, only GTC (Good Till Cancel) is supported now. GFS (Good For Session), IOC (Immediate Or Cancel), etc. will be supported in the future. ^有效期类型，目前支持 GTC（撤销前一直有效），未来计划支持 GFS（当前Session有效）、 IOC（立即成交否则撤销）等。
-        &quot;orderStatus&quot;: &quot;5&quot;,                    //Order status: (0-fully executed; 1-partially executed, order still in order book; 2-partially executed, order not in order book; 3-not executed, order still in order book; 4-not executed, order not in order book; 5-fully cancelled; 6-partially executed, partially cancelled) ^订单状态（0-全部成交；1-部分成交，订单还在订单簿中；2-部分成交，订单不在订单簿中；3-未成交，订单还在订单簿中；4-未成交，订单不在订单簿中；5-订单全部被撤销；6-部分成交，部分撤单）
-        &quot;actionTimestamp&quot;: &quot;1536298968123&quot;,    //Timestamp of the last change to the order status^ 状态变化时间戳
-        &quot;insertDate&quot;: &quot;20180907&quot;,              //Date of insertion ^下单日期
-        &quot;insertTime&quot;: &quot;05:42:38&quot;,              //Time of insertion ^下单时间
-        &quot;insertTimestamp&quot;: &quot;1536298968&quot;,       //Timestamp of insertion ^下单时间戳
-        &quot;cancelDate&quot;: &quot;20180907&quot;,              //Date of cancellation ^撤单日期
-        &quot;cancelTime&quot;: &quot;05:42:57&quot;,              //Time of cancellation ^撤单时间
-    }
-</code></p>
-<h4 id='3-2-2-2-order-execution-report'>3.2.2.2. Order Execution Report ^订单成交回报</h4>
+<p>当订单状态发生变化时（如：下单成功、撤单成功、成交等），如下消息会被推送：</p>
+<h2 id='3-2-2-order-execution-report'>3.2.2. Order Execution Report ^订单成交回报</h2>
+<blockquote>
+<p>Messages:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trade_return"</span><span class="p">,</span><span class="w">                </span><span class="err">//Message</span><span class="w"> </span><span class="err">type</span><span class="w"> </span><span class="err">^消息类型</span><span class="w">
+    </span><span class="s2">"tradeID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"141334225600003"</span><span class="p">,</span><span class="w">          </span><span class="err">//trade</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^成交ID</span><span class="w">
+    </span><span class="s2">"orderSysID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1412943752000004"</span><span class="p">,</span><span class="w">      </span><span class="err">//order</span><span class="w"> </span><span class="err">system</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由交易所分配的系统订单ID</span><span class="w">
+    </span><span class="s2">"orderLocalID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15362989689714502"</span><span class="p">,</span><span class="w">   </span><span class="err">//order</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">rather</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由用户（而非交易所）分配的本地订单ID</span><span class="w">
+    </span><span class="s2">"instrumentID "</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">            </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+    </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">                    </span><span class="err">//Direction</span><span class="p">:</span><span class="w"> </span><span class="err">buy/sell</span><span class="w"> </span><span class="err">^方向：买/卖</span><span class="w">
+    </span><span class="s2">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"400.23"</span><span class="p">,</span><span class="w">                     </span><span class="err">//Trade</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">^成交价格</span><span class="w">
+    </span><span class="s2">"priceSource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Source</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">^成交价来源</span><span class="w">
+    </span><span class="s2">"volume"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5.23512"</span><span class="p">,</span><span class="w">                   </span><span class="err">//Traded</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">execution</span><span class="w"> </span><span class="err">^本次成交的数量</span><span class="w">
+    </span><span class="s2">"fee "</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">                       </span><span class="err">//Fee</span><span class="w"> </span><span class="err">^手续费</span><span class="w">
+    </span><span class="s2">"tradeDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180829"</span><span class="p">,</span><span class="w">               </span><span class="err">//Date</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">^成交日期</span><span class="w">
+    </span><span class="s2">"tradeTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"09:33:01"</span><span class="p">,</span><span class="w">               </span><span class="err">//Time</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">^成交时间</span><span class="w">
+    </span><span class="s2">"tradeTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1420674445201"</span><span class="p">,</span><span class="w">     </span><span class="err">//Timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">^成交时间戳</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>When the order is executed, the following message will be published:</p>
 
-<p>当订单成交时，如下消息会被推送：
-* Messages:</p>
+<p>当订单成交时，如下消息会被推送：</p>
+<h2 id='3-2-3-failure-to-inserting-order'>3.2.3. Failure to Inserting Order ^创建订单失败</h2>
+<blockquote>
+<p>Messages：</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order_insert_rsp"</span><span class="p">,</span><span class="w">             </span><span class="err">//Message</span><span class="w"> </span><span class="err">type</span><span class="w"> </span><span class="err">^消息类型</span><span class="w">
+    </span><span class="s2">"orderLocalID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15362989689714502"</span><span class="p">,</span><span class="w">    </span><span class="err">//order</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">rather</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由用户（而非交易所）分配的本地订单ID</span><span class="w">
+    </span><span class="s2">"respCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012"</span><span class="p">,</span><span class="w">                     </span><span class="err">//Failure</span><span class="w"> </span><span class="err">response</span><span class="w"> </span><span class="err">code.</span><span class="w"> </span><span class="err">Please</span><span class="w"> </span><span class="err">refer</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">contents</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">above</span><span class="w"> </span><span class="err">'Failure</span><span class="w"> </span><span class="err">Response</span><span class="w"> </span><span class="err">Table'</span><span class="w"> </span><span class="err">^失败应答码，请参见后面的“失败应答表”内容。</span><span class="w">
+    </span><span class="s2">"respMsg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Invalid volume"</span><span class="w">             </span><span class="err">//Failure</span><span class="w"> </span><span class="err">response</span><span class="w"> </span><span class="err">message.</span><span class="w"> </span><span class="err">Please</span><span class="w"> </span><span class="err">refer</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">contents</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">above</span><span class="w"> </span><span class="err">'Failure</span><span class="w"> </span><span class="err">Response</span><span class="w"> </span><span class="err">Table'</span><span class="w"> </span><span class="err">^失败应答消息，请参见后面的“失败应答表”内容。</span><span class="w">
 
-<p><code>json
-    {//example
-        &quot;type&quot;: &quot;trade_return&quot;,                //Message type ^消息类型
-        &quot;tradeID&quot;: &quot;141334225600003&quot;,          //trade ID ^成交ID
-        &quot;orderSysID&quot;: &quot;1412943752000004&quot;,      //order system ID assigned by the exchange ^由交易所分配的系统订单ID
-        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,   //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-        &quot;instrumentID &quot;: &quot;ETH-BTC&quot;,            //Instrument ID ^合约ID
-        &quot;direction&quot;: &quot;buy&quot;,                    //Direction: buy/sell ^方向：买/卖
-        &quot;price&quot;: &quot;400.23&quot;,                     //Trade price ^成交价格
-        &quot;priceSource&quot;: &quot;buy&quot;,                  //Source of trade price ^成交价来源
-        &quot;volume&quot;: &quot;5.23512&quot;,                   //Traded volume in the execution ^本次成交的数量
-        &quot;fee &quot;: &quot;0.001&quot;,                       //Fee ^手续费
-        &quot;tradeDate&quot;: &quot;20180829&quot;,               //Date of trade ^成交日期
-        &quot;tradeTime&quot;: &quot;09:33:01&quot;,               //Time of trade ^成交时间
-        &quot;tradeTimestamp&quot;: &quot;1420674445201&quot;,     //Timestamp of trade ^成交时间戳
-    }
-</code></p>
-<h4 id='3-2-2-3-failure-to-inserting-order'>3.2.2.3. Failure to Inserting Order ^创建订单失败</h4>
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>When order insertion fails, the following message will be published:</p>
 
-<p>当下单失败时，如下消息会被推送：
-* Messages：</p>
-
-<p>```json
-    {//example
-        &quot;type&quot;: &quot;order_insert_rsp&quot;,             //Message type ^消息类型
-        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-        &quot;respCode&quot;: &quot;2012&quot;,                     //Failure response code. Please refer to the contents of the above &#39;Failure Response Table&#39; ^失败应答码，请参见后面的“失败应答表”内容。
-        &quot;respMsg&quot;: &quot;Invalid volume&quot;             //Failure response message. Please refer to the contents of the above &#39;Failure Response Table&#39; ^失败应答消息，请参见后面的“失败应答表”内容。</p>
-
-<p>}
-    ```</p>
-<h4 id='3-2-2-4-failure-to-cancelling-order'>3.2.2.4. Failure to Cancelling Order ^撤销订单失败</h4>
+<p>当下单失败时，如下消息会被推送：</p>
+<h2 id='3-2-4-failure-to-cancelling-order'>3.2.4. Failure to Cancelling Order ^撤销订单失败</h2>
+<blockquote>
+<p>Messages：</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order_cancel_rsp"</span><span class="p">,</span><span class="w">             </span><span class="err">//Message</span><span class="w"> </span><span class="err">type</span><span class="w"> </span><span class="err">^消息类型</span><span class="w">
+    </span><span class="s2">"orderSysID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1412943752000004"</span><span class="p">,</span><span class="w">       </span><span class="err">//order</span><span class="w"> </span><span class="err">system</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由交易所分配的系统订单ID</span><span class="w">
+    </span><span class="s2">"orderLocalID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15362989689714502"</span><span class="p">,</span><span class="w">    </span><span class="err">//order</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">assigned</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">rather</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">exchange</span><span class="w"> </span><span class="err">^由用户（而非交易所）分配的本地订单ID</span><span class="w">
+    </span><span class="s2">"respCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1005"</span><span class="p">,</span><span class="w">                     </span><span class="err">//Failure</span><span class="w"> </span><span class="err">response</span><span class="w"> </span><span class="err">code.</span><span class="w"> </span><span class="err">Please</span><span class="w"> </span><span class="err">refer</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">contents</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">above</span><span class="w"> </span><span class="err">'Failure</span><span class="w"> </span><span class="err">Response</span><span class="w"> </span><span class="err">Table'</span><span class="w"> </span><span class="err">^失败应答码，请参见后面的“失败应答表”内容。</span><span class="w">
+    </span><span class="s2">"respMsg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Internal service error"</span><span class="w">     </span><span class="err">//Failure</span><span class="w"> </span><span class="err">response</span><span class="w"> </span><span class="err">message.</span><span class="w"> </span><span class="err">Please</span><span class="w"> </span><span class="err">refer</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">contents</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">above</span><span class="w"> </span><span class="err">'Failure</span><span class="w"> </span><span class="err">Response</span><span class="w"> </span><span class="err">Table'</span><span class="w"> </span><span class="err">^失败应答消息，请参见后面的“失败应答表”内容。</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>When order cancellation fails, the following message will be published:</p>
 
-<p>当撤单失败时，如下消息会被推送：
-* Messages：</p>
+<p>当撤单失败时，如下消息会被推送：</p>
+<h2 id='3-3-public-message-flow'>3.3. Public Message Flow ^公有消息流</h2>
+<p>The following message flows can be subscribed without API-SIGNATURE.</p>
 
-<p><code>json
-    {//example
-        &quot;type&quot;: &quot;order_cancel_rsp&quot;,             //Message type ^消息类型
-        &quot;orderSysID&quot;: &quot;1412943752000004&quot;,       //order system ID assigned by the exchange ^由交易所分配的系统订单ID
-        &quot;orderLocalID&quot;: &quot;15362989689714502&quot;,    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-        &quot;respCode&quot;: &quot;1005&quot;,                     //Failure response code. Please refer to the contents of the above &#39;Failure Response Table&#39; ^失败应答码，请参见后面的“失败应答表”内容。
-        &quot;respMsg&quot;: &quot;Internal service error&quot;     //Failure response message. Please refer to the contents of the above &#39;Failure Response Table&#39; ^失败应答消息，请参见后面的“失败应答表”内容。
-    }
-</code></p>
-<h2 id='3-3-public-message-flow'>3.3. Public Message Flow ^公有消息流</h2><h3 id='3-3-1-ticker'>3.3.1. Ticker ^逐笔成交信息</h3>
+<p>以下消息流不需要 API-SIGNATURE 就可订阅。</p>
+<h2 id='3-3-1-ticker'>3.3.1. Ticker ^逐笔成交信息</h2>
+<blockquote>
 <p>Subscribe and unsubscribe to ticker requests:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"ticker"</span><span class="p">:[</span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w"> </span><span class="s2">"CYB-BTC"</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
 
-<p>订阅和取消订阅 ticker 请求：
-* Messages:</p>
+</span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"ticker"</span><span class="p">:[</span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w"> </span><span class="s2">"CYB-BTC"</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Messages:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trade_detail"</span><span class="p">,</span><span class="w">         </span><span class="err">//Message</span><span class="w"> </span><span class="err">type</span><span class="w"> </span><span class="err">^消息类型</span><span class="w">
+    </span><span class="s2">"instrumentID "</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">     </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+    </span><span class="s2">"price "</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.97"</span><span class="p">,</span><span class="w">               </span><span class="err">//Trade</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">^成交价格</span><span class="w">
+    </span><span class="s2">"priceSource"</span><span class="p">:</span><span class="s2">"buy"</span><span class="p">,</span><span class="w">            </span><span class="err">//Source</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">^成交价来源</span><span class="w">
+    </span><span class="s2">"volume "</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.03"</span><span class="p">,</span><span class="w">              </span><span class="err">//Traded</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">execution</span><span class="w"> </span><span class="err">^本次成交的数量</span><span class="w">
+    </span><span class="s2">"tradeDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180907"</span><span class="p">,</span><span class="w">        </span><span class="err">//Date</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">^成交日期</span><span class="w">
+    </span><span class="s2">"tradeTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10:08:06"</span><span class="p">,</span><span class="w">        </span><span class="err">//Time</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">^成交时间</span><span class="w">
+    </span><span class="s2">"tradeTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1420674445"</span><span class="w">  </span><span class="err">//Timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">^成交时间戳</span><span class="w">
+</span><span class="p">}</span><span class="w">
 
-<p>```json
-    { &quot;type&quot;: &quot;subscribe&quot;, &quot;channel&quot;: {&quot;ticker&quot;:[&quot;ETH-BTC&quot;, &quot;CYB-BTC&quot;]} }</p>
-
-<p>{ &quot;type&quot;: &quot;unsubscribe&quot;, &quot;channel&quot;: {&quot;ticker&quot;:[&quot;ETH-BTC&quot;, &quot;CYB-BTC&quot;]} }
-    ```</p>
-
+</span><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trade_detail"</span><span class="p">,</span><span class="w">         </span><span class="err">//Message</span><span class="w"> </span><span class="err">type</span><span class="w"> </span><span class="err">^消息类型</span><span class="w">
+    </span><span class="s2">"instrumentID "</span><span class="p">:</span><span class="w"> </span><span class="s2">"CYB-BTC"</span><span class="p">,</span><span class="w">     </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+    </span><span class="s2">"price "</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.01"</span><span class="p">,</span><span class="w">               </span><span class="err">//Trade</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">^成交价格</span><span class="w">
+    </span><span class="s2">"priceSource"</span><span class="p">:</span><span class="s2">"buy"</span><span class="p">,</span><span class="w">            </span><span class="err">//Source</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">^成交价来源</span><span class="w">
+    </span><span class="s2">"volume "</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.03"</span><span class="p">,</span><span class="w">              </span><span class="err">//Traded</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">execution</span><span class="w"> </span><span class="err">^本次成交的数量</span><span class="w">
+    </span><span class="s2">"tradeDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180907"</span><span class="p">,</span><span class="w">        </span><span class="err">//Date</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">^成交日期</span><span class="w">
+    </span><span class="s2">"tradeTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10:08:06"</span><span class="p">,</span><span class="w">        </span><span class="err">//Time</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">^成交时间</span><span class="w">
+    </span><span class="s2">"tradeTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1420674445"</span><span class="w">  </span><span class="err">//Timestamp</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">^成交时间戳</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>If you&#39;ve subscribed to the ticker message flow, the following ticker message will be published when orders are executed:</p>
 
-<p>如果订阅了 ticker 消息流，当有订单被成交时，如下的 ticker 消息会被推送：
-* Messages:</p>
+<p>如果订阅了 ticker 消息流，当有订单被成交时，如下的 ticker 消息会被推送：</p>
+<h2 id='3-3-2-level2-market-data-level2'>3.3.2. Level2 Market Data ^Level2行情数据</h2>
+<blockquote>
+<p>订阅和取消订阅 level2 行情请求：</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"level2@10"</span><span class="p">:[</span><span class="s2">"ETH-BTC"</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
 
-<p>```json
-    {//example
-        &quot;type&quot;: &quot;trade_detail&quot;,         //Message type ^消息类型
-        &quot;instrumentID &quot;: &quot;ETH-BTC&quot;,     //Instrument ID ^合约ID
-        &quot;price &quot;: &quot;1.97&quot;,               //Trade price ^成交价格
-        &quot;priceSource&quot;:&quot;buy&quot;,            //Source of trade price ^成交价来源
-        &quot;volume &quot;: &quot;0.03&quot;,              //Traded volume in the execution ^本次成交的数量
-        &quot;tradeDate&quot;: &quot;20180907&quot;,        //Date of trade ^成交日期
-        &quot;tradeTime&quot;: &quot;10:08:06&quot;,        //Time of trade ^成交时间
-        &quot;tradeTimestamp&quot;: &quot;1420674445&quot;  //Timestamp of trade ^成交时间戳
-    }</p>
+</span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"level2@10"</span><span class="p">:[</span><span class="s2">"ETH-BTC"</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Messages:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"level2@10_snapshot"</span><span class="p">,</span><span class="w">           </span><span class="err">//Message</span><span class="w"> </span><span class="err">type</span><span class="p">:</span><span class="w"> </span><span class="err">full</span><span class="w"> </span><span class="err">snapshot</span><span class="w"> </span><span class="err">^消息类型：完整的行情快照</span><span class="w">
+    </span><span class="s2">"instrumentID "</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">             </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+    </span><span class="s2">"buy"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"5500.21"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.47545240"</span><span class="p">]</span><span class="err">...</span><span class="p">],</span><span class="w">  </span><span class="err">//Buy</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">^买价位</span><span class="w">
+    </span><span class="s2">"sell"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"5500.25"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.56544624"</span><span class="p">]</span><span class="err">...</span><span class="p">],</span><span class="w"> </span><span class="err">//Sell</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">^卖价位</span><span class="w">
+    </span><span class="s2">"pubDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180907"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Publish</span><span class="w"> </span><span class="err">date</span><span class="w"> </span><span class="err">^发布日期</span><span class="w">
+    </span><span class="s2">"pubTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"09:07:45"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Publish</span><span class="w"> </span><span class="err">time</span><span class="w"> </span><span class="err">^发布时间</span><span class="w">
+    </span><span class="s2">"pubTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1420674445201"</span><span class="w">         </span><span class="err">//Publish</span><span class="w"> </span><span class="err">timestamp</span><span class="w"> </span><span class="err">^发布时间戳</span><span class="w">
+</span><span class="p">}</span><span class="w">
 
-<p>{//example
-        &quot;type&quot;: &quot;trade_detail&quot;,         //Message type ^消息类型
-        &quot;instrumentID &quot;: &quot;CYB-BTC&quot;,     //Instrument ID ^合约ID
-        &quot;price &quot;: &quot;0.01&quot;,               //Trade price ^成交价格
-        &quot;priceSource&quot;:&quot;buy&quot;,            //Source of trade price ^成交价来源
-        &quot;volume &quot;: &quot;0.03&quot;,              //Traded volume in the execution ^本次成交的数量
-        &quot;tradeDate&quot;: &quot;20180907&quot;,        //Date of trade ^成交日期
-        &quot;tradeTime&quot;: &quot;10:08:06&quot;,        //Time of trade ^成交时间
-        &quot;tradeTimestamp&quot;: &quot;1420674445&quot;  //Timestamp of trade ^成交时间戳
-    }
-    ```</p>
-<h3 id='3-3-2-level2-market-data-level2'>3.3.2. Level2 Market Data ^Level2行情数据</h3>
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"level2@10_update"</span><span class="p">,</span><span class="w">             </span><span class="err">//Message</span><span class="w"> </span><span class="err">type</span><span class="p">:</span><span class="w"> </span><span class="err">incremental</span><span class="w"> </span><span class="err">update</span><span class="w"> </span><span class="err">^消息类型：增量的行情更新</span><span class="w">
+    </span><span class="s2">"instrumentID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">              </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
+    </span><span class="s2">"buy"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"5500.21"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.47545240"</span><span class="p">]</span><span class="err">...</span><span class="p">],</span><span class="w">  </span><span class="err">//Buy</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">^买价位</span><span class="w">
+    </span><span class="s2">"sell"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"5500.25"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0"</span><span class="p">]</span><span class="err">...</span><span class="p">],</span><span class="w">          </span><span class="err">//Sell</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">(note</span><span class="p">:</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="mi">0</span><span class="err">)</span><span class="w"> </span><span class="err">^卖价位（注意：数量为</span><span class="mi">0</span><span class="err">）</span><span class="w">
+    </span><span class="s2">"pubDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180907"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Publish</span><span class="w"> </span><span class="err">date</span><span class="w"> </span><span class="err">^发布日期</span><span class="w">
+    </span><span class="s2">"pubTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"09:07:45"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Publish</span><span class="w"> </span><span class="err">time</span><span class="w"> </span><span class="err">^发布时间</span><span class="w">
+    </span><span class="s2">"pubTimestamp"</span><span class="p">:</span><span class="s2">"1420674445201"</span><span class="w">          </span><span class="err">//Publish</span><span class="w"> </span><span class="err">timestamp</span><span class="w"> </span><span class="err">^发布时间戳</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>Different subscription topics correspond to different depths of market data (price levels), as below.</p>
 
 <p>行情的不同深度（价位档数）对应不同的订阅主题：</p>
@@ -1311,43 +1348,9 @@ SHA256HMAC): SHA256HMAC (secretKey, &quot;WSS/APITradeWS/v1/messages&quot;)</li>
 
 <p>Requests to subscribe and unsubscribe to level2 market data:</p>
 
-<p>订阅和取消订阅 level2 行情请求：</p>
-
-<ul>
-<li><p>Messages:</p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"level2@10"</span><span class="p">:[</span><span class="s2">"ETH-BTC"</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
-
-</span><span class="p">{</span><span class="w"> </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w"> </span><span class="s2">"channel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">"level2@10"</span><span class="p">:[</span><span class="s2">"ETH-BTC"</span><span class="p">]}</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre></li>
-</ul>
-
 <p>If you subscribe to level2 market data message flow, at first the full snapshot of level2 market data will be published and then only incremental updates of level2 market data are sent.</p>
 
 <p>如果订阅了 level2 行情消息流，首次先推送完整的行情快照，之后就仅推送增量的行情更新。</p>
-
-<ul>
-<li><p>Messages:</p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="err">//example</span><span class="w">
-    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"level2@10_snapshot"</span><span class="p">,</span><span class="w">           </span><span class="err">//Message</span><span class="w"> </span><span class="err">type</span><span class="p">:</span><span class="w"> </span><span class="err">full</span><span class="w"> </span><span class="err">snapshot</span><span class="w"> </span><span class="err">^消息类型：完整的行情快照</span><span class="w">
-    </span><span class="s2">"instrumentID "</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">             </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
-    </span><span class="s2">"buy"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"5500.21"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.47545240"</span><span class="p">]</span><span class="err">...</span><span class="p">],</span><span class="w">  </span><span class="err">//Buy</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">^买价位</span><span class="w">
-    </span><span class="s2">"sell"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"5500.25"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.56544624"</span><span class="p">]</span><span class="err">...</span><span class="p">],</span><span class="w"> </span><span class="err">//Sell</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">^卖价位</span><span class="w">
-    </span><span class="s2">"pubDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180907"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Publish</span><span class="w"> </span><span class="err">date</span><span class="w"> </span><span class="err">^发布日期</span><span class="w">
-    </span><span class="s2">"pubTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"09:07:45"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Publish</span><span class="w"> </span><span class="err">time</span><span class="w"> </span><span class="err">^发布时间</span><span class="w">
-    </span><span class="s2">"pubTimestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1420674445201"</span><span class="w">         </span><span class="err">//Publish</span><span class="w"> </span><span class="err">timestamp</span><span class="w"> </span><span class="err">^发布时间戳</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="p">{</span><span class="w">
-    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"level2@10_update"</span><span class="p">,</span><span class="w">             </span><span class="err">//Message</span><span class="w"> </span><span class="err">type</span><span class="p">:</span><span class="w"> </span><span class="err">incremental</span><span class="w"> </span><span class="err">update</span><span class="w"> </span><span class="err">^消息类型：增量的行情更新</span><span class="w">
-    </span><span class="s2">"instrumentID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH-BTC"</span><span class="p">,</span><span class="w">              </span><span class="err">//Instrument</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">^合约ID</span><span class="w">
-    </span><span class="s2">"buy"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"5500.21"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.47545240"</span><span class="p">]</span><span class="err">...</span><span class="p">],</span><span class="w">  </span><span class="err">//Buy</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">^买价位</span><span class="w">
-    </span><span class="s2">"sell"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"5500.25"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0"</span><span class="p">]</span><span class="err">...</span><span class="p">],</span><span class="w">          </span><span class="err">//Sell</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">volumes</span><span class="w"> </span><span class="err">(note</span><span class="p">:</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="mi">0</span><span class="err">)</span><span class="w"> </span><span class="err">^卖价位（注意：数量为</span><span class="mi">0</span><span class="err">）</span><span class="w">
-    </span><span class="s2">"pubDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20180907"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Publish</span><span class="w"> </span><span class="err">date</span><span class="w"> </span><span class="err">^发布日期</span><span class="w">
-    </span><span class="s2">"pubTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"09:07:45"</span><span class="p">,</span><span class="w">                  </span><span class="err">//Publish</span><span class="w"> </span><span class="err">time</span><span class="w"> </span><span class="err">^发布时间</span><span class="w">
-    </span><span class="s2">"pubTimestamp"</span><span class="p">:</span><span class="s2">"1420674445201"</span><span class="w">          </span><span class="err">//Publish</span><span class="w"> </span><span class="err">timestamp</span><span class="w"> </span><span class="err">^发布时间戳</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></li>
-</ul>
 <h2 id='3-4-heartbeat-mechanism'>3.4. Heartbeat Mechanism ^心跳机制</h2>
 <p>In order to implement the heartbeat mechanism, the WebSocket subscriber should sends a &#39;ping&#39; message to the server once per <b>15</b> seconds and then the server replies to the subscriber with a &#39;pong&#39; message.</p>
 
@@ -1612,64 +1615,6 @@ SHA256HMAC): SHA256HMAC (secretKey, &quot;WSS/APITradeWS/v1/messages&quot;)</li>
 </tbody></table>
 
 <hr>
-<h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
-
-<p>The Kittn API uses the following error codes:</p>
-
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
-</tr>
-</tbody></table>
 
       </div>
       <div class="dark-box">
