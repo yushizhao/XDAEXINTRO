@@ -911,20 +911,21 @@ In order to implement the heartbeat mechanism, the WebSocket subscriber should s
 # 4. Sample Code ^示例代码
 ## 4.1. REST Interface Sample Code ^REST接口示例代码
 * Java
-    +  Java SDK: https://github.com/XDAEX/API/raw/master/java/xdaex-trading-sdk-1.0.jar
-    +  Java Sample: https://github.com/XDAEX/API/wiki/REST_sample_java
+    +  [Java SDK](https://github.com/XDAEX/API/raw/master/java/xdaex-trading-sdk-1.0.jar)
+    +  [Java Sample](https://github.com/XDAEX/API/wiki/REST_sample_java)
 * Python
-    +  Python Sample: https://github.com/XDAEX/API/wiki/REST_sample_python
+    +  [Python Sample](https://github.com/XDAEX/API/wiki/REST_sample_python)
 * Golang
-    +  Golang Sample: https://github.com/XDAEX/API/wiki/REST_sample_golang
+    +  [Golang Package](https://github.com/XDAEX/API/tree/master/golang/eccutils)
+    +  [Golang Sample](https://github.com/XDAEX/API/wiki/REST_sample_golang)
 * C++
-    +  C++ header: https://github.com/XDAEX/API/raw/master/cpp/eccutils.hpp
-    +  C++ Sample: https://github.com/XDAEX/API_Docs/wiki/REST_sample_cpp
+    +  [C++ header](https://github.com/XDAEX/API/raw/master/cpp/eccutils.hpp)
+    +  [C++ Sample](https://github.com/XDAEX/API_Docs/wiki/REST_sample_cpp)
 
 ## 4.2. WebSocket Subscription Sample Code ^WebSocket订阅示例代码
-* JavaScript sample code for the public and private message flow subscription: https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_javascript
-* Golang sample code for the public and private message flow subscription: https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_golang
-* C++ sample code for the public and private message flow subscription: https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_cpp
+* [JavaScript](https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_javascript)
+* [Golang](https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_golang)
+* [C++](https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_cpp)
 
 # 5. Request-Response Code Table ^请求应答编码对照表
 ## 5.1. Success Response ^成功应答
