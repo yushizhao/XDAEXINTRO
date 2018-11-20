@@ -139,8 +139,6 @@ REST 接口请求 URL 形如： https://xdaex.com/APITrade/v1/account/assets
 | AUTH-TYPE             | The authorization method determined in the API-KEY application <br /> 申请当前 API-KEY 时所决定的授权方式 | "PUB-PRIV" \ "HMAC"                  |
 | Content-Type          | Content-Type defined by MIME (Multipurpose Internet Mail Extentions) <br /> MIME （ Multipurpose Internet Mail Extentions ）中定义的 Content-Type | "application/json"                 |
 
-------
-
 - Steps to get an API-SIGNATURE with AUTH-TYPE "PUB-PRIV"
   - Combine data: data = timestamp + HttpMethod + version + path + jsonBody
     - timestamp is the timestamp（UTC）in the HTTP request message header.
