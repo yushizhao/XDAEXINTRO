@@ -4,9 +4,6 @@ title: XDAEX Trading and Market Data API Specification ^XDAEX 交易及行情API
 language_tabs: # must be one of https://git.io/vQNgJ
   - json: JSON 
 
-includes:
-  - errors
-
 search: true
 ---
 
@@ -381,6 +378,7 @@ Calling this interface only returns whether or not the exchange has received the
 * Path: /order/insert
 
 ## 2.9. Cancel Order ^撤销订单
+
 > Request:
   
 ```json
@@ -399,6 +397,18 @@ Calling this interface only returns whether or not the exchange has received the
 }
 ```
 
+The order that is confirmed by the exchange, but not completely executed, can be canceled in 2 ways: either by orderLocalID or by orderSysID.
+
+已被交易所确认的订单，在未被完全成交之前可以撤销，有两种撤单的方式：根据本地订单ID（ orderLocalID ）撤单、根据系统订单ID（ orderSysID ）撤单。
+
+* Cancel the order by orderLocalID: The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user's side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">In this case, only one of these orders would be canceled by this request</font> . 
+<br />
+根据本地订单ID（ orderLocalID ）撤单： orderLocalID  是由用户（而非交易所）分配的本地订单ID。若由于用户自身的问题导致 orderLocalID 重复，则会存在多个订单具有相同的 orderLocalID ，<font color="#dd0000" face = "black">此时本接口仅会撤销其中的1笔订单</font>。
+
+  + Method: POST
+  + Version: v1
+  + Path: /order/cancelByLocalID 
+
 > Request:
   
 ```json
@@ -416,21 +426,8 @@ Calling this interface only returns whether or not the exchange has received the
 }
 ```
 
-The order that is confirmed by the exchange, but not completely executed, can be canceled in 2 ways: either by orderLocalID or by orderSysID.
-
-已被交易所确认的订单，在未被完全成交之前可以撤销，有两种撤单的方式：根据本地订单ID（ orderLocalID ）撤单、根据系统订单ID（ orderSysID ）撤单。
-
-* Cancel the order by orderLocalID: The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user's side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">In this case, only one of these orders would be canceled by this request</font> . <br /> <br />
-根据本地订单ID（ orderLocalID ）撤单： orderLocalID  是由用户（而非交易所）分配的本地订单ID。若由于用户自身的问题导致 orderLocalID 重复，则会存在多个订单具有相同的 orderLocalID ，<font color="#dd0000" face = "black">此时本接口仅会撤销其中的1笔订单</font>。
-
-  + Method: POST
-  + Version: v1
-  + Path: /order/cancelByLocalID 
-
-<br /> 
-<br /> 
-
-* Cancel the order by orderSysID: orderSysID is an order system ID assigned by the exchange, who guarantees that the orderSysID is unique. <br /> <br />
+* Cancel the order by orderSysID: orderSysID is an order system ID assigned by the exchange, who guarantees that the orderSysID is unique. 
+<br />
 根据系统订单ID（ orderSysID ）撤单： orderSysID 是由交易所分配的系统订单ID，交易所会保证其唯一性。
 
   + Method: POST
@@ -465,157 +462,174 @@ The interface can cancel up to a maximum of <font color="#dd0000" face="black">1
 
 ## 2.11. Query Order ^查询订单
 
+> Request:
+   
+```json
+{//example
+    "orderLocalID": "15362989689714502",    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+}
+```
+> Response:
+
+```json
+{//example
+    "orderSysID": "1412943752000004",      //order system ID assigned by the exchange ^由交易所分配的系统订单ID
+    "orderLocalID": "15362989689714502",   //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+    "instrumentID": "ETH-BTC",             //Instrument ID ^合约ID
+    "direction": "buy",                    //Direction: buy/sell ^方向：买/卖
+    "orderPriceType": "limit",             //Price type, only limit orders are supported now (limit) ^订单价格类型，目前支持限价订单（limit）
+    "limitPrice": "0.1",                   //Price of limit order ^限价订单的价格
+    "volumeTotalOriginal": "1",            //Original total volume ^初始的总数量
+    "volumeTotal ": "0.2",                 //Remaining open volume ^剩余未成交量
+    "volumeTraded": "0.8",                 //Total traded volume ^已成交总量
+    "timeCondition": "GTC",                //Time in force conditions, only GTC (Good Till Cancel) is supported now. GFS (Good For Session), IOC (Immediate Or Cancel), etc. will be supported in the future. ^有效期类型，目前支持 GTC（撤销前一直有效），未来计划支持 GFS（当前Session有效）、 IOC（立即成交否则撤销）等。
+    "orderStatus": "1",                    //Order status: (0-fully executed; 1-partially executed, order still in order book; 2-partially executed, order not in order book; 3-not executed, order still in order book; 4-not executed, order not in order book; 5-fully cancelled; 6-partially executed, partially cancelled) ^订单状态（0-全部成交；1-部分成交，订单还在订单簿中；2-部分成交，订单不在订单簿中；3-未成交，订单还在订单簿中；4-未成交，订单不在订单簿中；5-订单全部被撤销；6-部分成交，部分撤单）
+    "actionTimestamp": "1536298968123",    //Timestamp of the last change to the order status^ 状态变化时间戳
+    "insertDate": "20180829",              //Date of insertion ^下单日期
+    "insertTime": "07:45:10",              //Time of insertion ^下单时间
+    "insertTimestamp": "1536298968",       //Timestamp of insertion ^下单时间戳
+    "cancelDate": "20180907",              //Date of cancellation ^撤单日期
+    "cancelTime": "05:42:57",              //Time of cancellation ^撤单时间
+}
+```
+
 Similar to cancelling orders, there are two ways to query orders: either by orderLocalID or by orderSysID.
 
 与撤销订单类似，有两种查询订单的方式：分别根据本地订单ID（ orderLocalID ）、系统订单ID（ orderSysID ）查询。
 
-1. Query by order local ID (orderLocalID): only <font color="#dd0000" face="black">open orders, which have not been fully executed</font>, will be returned. The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user's side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">Only one of these orders will be returned by this interface</font> .
+* Query by order local ID (orderLocalID): only <font color="#dd0000" face="black">open orders, which have not been fully executed</font>, will be returned. The orderLocalID is an order local ID assigned by the user rather than the exchange. If the orderLocalIDs are repeated due to any problems on the user's side, there will be multiple orders with identical orderLocalID. <font color="#dd0000" face="black">Only one of these orders will be returned by this interface</font> .
+<br />
+根据本地订单ID（ orderLocalID ）查询订单：仅返回<font color="#dd0000" face = "black">还未被完全成交</font>的订单。 orderLocalID 是由用户（而非交易所）分配的本地订单ID。若由于用户自身的问题导致 orderLocalID 重复，则会存在多个订单具有相同的 orderLocalID ，<font color="#dd0000" face = "black">此时本接口仅返回其中的1笔订单</font>。
 
-   根据本地订单ID（ orderLocalID ）查询订单：仅返回<font color="#dd0000" face = "black">还未被完全成交</font>的订单。 orderLocalID 是由用户（而非交易所）分配的本地订单ID。若由于用户自身的问题导致 orderLocalID 重复，则会存在多个订单具有相同的 orderLocalID ，<font color="#dd0000" face = "black">此时本接口仅返回其中的1笔订单</font>。
-* Method: POST
-* Version: v1
-* Path: /order/getOrderByLocalID
-* Request:
-   
-    ```json
-    {//example
-        "orderLocalID": "15362989689714502",    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-    }
-    ```
-* Response:
-  
-    ```json
-    {//example
-        "orderSysID": "1412943752000004",      //order system ID assigned by the exchange ^由交易所分配的系统订单ID
-        "orderLocalID": "15362989689714502",   //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-        "instrumentID": "ETH-BTC",             //Instrument ID ^合约ID
-        "direction": "buy",                    //Direction: buy/sell ^方向：买/卖
-        "orderPriceType": "limit",             //Price type, only limit orders are supported now (limit) ^订单价格类型，目前支持限价订单（limit）
-        "limitPrice": "0.1",                   //Price of limit order ^限价订单的价格
-        "volumeTotalOriginal": "1",            //Original total volume ^初始的总数量
-        "volumeTotal ": "0.2",                 //Remaining open volume ^剩余未成交量
-        "volumeTraded": "0.8",                 //Total traded volume ^已成交总量
-        "timeCondition": "GTC",                //Time in force conditions, only GTC (Good Till Cancel) is supported now. GFS (Good For Session), IOC (Immediate Or Cancel), etc. will be supported in the future. ^有效期类型，目前支持 GTC（撤销前一直有效），未来计划支持 GFS（当前Session有效）、 IOC（立即成交否则撤销）等。
-        "orderStatus": "1",                    //Order status: (0-fully executed; 1-partially executed, order still in order book; 2-partially executed, order not in order book; 3-not executed, order still in order book; 4-not executed, order not in order book; 5-fully cancelled; 6-partially executed, partially cancelled) ^订单状态（0-全部成交；1-部分成交，订单还在订单簿中；2-部分成交，订单不在订单簿中；3-未成交，订单还在订单簿中；4-未成交，订单不在订单簿中；5-订单全部被撤销；6-部分成交，部分撤单）
-        "actionTimestamp": "1536298968123",    //Timestamp of the last change to the order status^ 状态变化时间戳
-        "insertDate": "20180829",              //Date of insertion ^下单日期
-        "insertTime": "07:45:10",              //Time of insertion ^下单时间
-        "insertTimestamp": "1536298968",       //Timestamp of insertion ^下单时间戳
-        "cancelDate": "20180907",              //Date of cancellation ^撤单日期
-        "cancelTime": "05:42:57",              //Time of cancellation ^撤单时间
-    }
-    ```
-***
+  + Method: POST
+  + Version: v1
+  + Path: /order/getOrderByLocalID
 
-2. Query by order system ID ( orderSysID ): If orderSysID is not specified, it will query the maximum number of <font color="#dd0000" face="black">100</font> orders, sorted by time of insertion <b>(starting from the most recent order to the oldest order)</b>.
-
-   根据系统订单ID（ orderSysID ）查询订单：如果不指定 orderSysID ，最多返回<font color="#dd0000" face = "black">100</font>条订单，按照下单时间排序<b>（最近的订单排在最前面）</b>。
-* Method: POST
-* Version: v1
-* Path: /order/getOrder
-* Request:
+> Request:
     
-    ```json
-    {//example
-        "startTimestamp": "1420674445",    //Start timestamp of query (optional) ^查询起始时间戳（非必填）
-        "endTimestamp": "1420674567",      //End timestamp of query (optional) ^查询结束时间戳（非必填）
-        "orderStatus": "active",           //Order status (optional) {(active-order still in order book, corresponding to status 1, 3), (closed-order not in order book, corresponding to status 0, 2, 4, 5, 6), (not specified or an empty string - all status)} ^订单状态（非必填）{(active-订单在订单簿中，对应状态1、3), (closed-订单不在订单簿中，对应状态0、2、4、5、6), (未指定本项或本项为空字符串-对应所有状态)｝。
-        "instrumentID": "ETH-BTC",         //Instrument ID (optional) ^合约ID（非必填）
-        "orderSysID": "1412943752000004"   //Order system ID (optional) ^系统订单ID（非必填）
-    }
-    ```
-* Response:
+```json
+{//example
+    "startTimestamp": "1420674445",    //Start timestamp of query (optional) ^查询起始时间戳（非必填）
+    "endTimestamp": "1420674567",      //End timestamp of query (optional) ^查询结束时间戳（非必填）
+    "orderStatus": "active",           //Order status (optional) {(active-order still in order book, corresponding to status 1, 3), (closed-order not in order book, corresponding to status 0, 2, 4, 5, 6), (not specified or an empty string - all status)} ^订单状态（非必填）{(active-订单在订单簿中，对应状态1、3), (closed-订单不在订单簿中，对应状态0、2、4、5、6), (未指定本项或本项为空字符串-对应所有状态)｝。
+    "instrumentID": "ETH-BTC",         //Instrument ID (optional) ^合约ID（非必填）
+    "orderSysID": "1412943752000004"   //Order system ID (optional) ^系统订单ID（非必填）
+}
+```
+
+> Response:
    
-    ```json
-    {//example
-        "orderSysID": "1412943752000004",     //order system ID assigned by the exchange ^由交易所分配的系统订单ID
-        "orderLocalID": "15362989689714502",  //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-        "instrumentID": "ETH-BTC",            //Instrument ID ^合约ID
-        "direction": "buy",                   //Direction: buy/sell ^方向：买/卖
-        "orderPriceType": "limit",            //Price type, limit order is supported now (limit) ^订单价格类型，目前支持限价订单（limit）
-        "limitPrice": "0.11",                 //Price of limit order ^限价订单的价格
-        "volumeTotalOriginal": "1",           //Original total volume ^初始的总数量
-        "volumeTotal ": "0.2",                //Remaining open volume ^剩余未成交量
-        "volumeTraded": "0",                  //Total traded volume ^已成交总量
-        "timeCondition": "GTC",               //Time in force conditions, GTC (Good Till Cancel) is supported now, GFS (Good For Session), IOC (Immediate Or Cancel), etc. will be supported in the future. ^有效期类型，目前支持 GTC （撤销前一直有效），未来计划支持 GFS （当前Session有效）、 IOC （立即成交否则撤销）等。
-        "orderStatus": "0",                   //Order status: (0-fully executed; 1-partially executed, order still in order book; 2-partially executed, order not in order book; 3-not executed, order still in order book; 4-not executed, order not in order book; 5-fully cancelled; 6-partially executed, partially cancelled) ^订单状态（0-全部成交；1-部分成交，订单还在订单簿中；2-部分成交，订单不在订单簿中；3-未成交，订单还在订单簿中；4-未成交，订单不在订单簿中；5-订单全部被撤销；6-部分成交，部分撤单）
-        "actionTimestamp": "1536298968123",    //Timestamp of the last change to the order status^ 状态变化时间戳
-        "insertDate": "20180829",             //Date of insertion ^下单日期
-        "insertTime": "07:45:10",             //Time of insertion ^下单时间
-        "insertTimestamp": "1536298968",      //Timestamp of insertion ^下单时间戳
-        "cancelDate": "20180907",             //Date of cancellation ^撤单日期
-        "cancelTime": "05:42:57",             //Time of cancellation ^撤单时间
-    }
-    ```
+```json
+{//example
+    "orderSysID": "1412943752000004",     //order system ID assigned by the exchange ^由交易所分配的系统订单ID
+    "orderLocalID": "15362989689714502",  //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+    "instrumentID": "ETH-BTC",            //Instrument ID ^合约ID
+    "direction": "buy",                   //Direction: buy/sell ^方向：买/卖
+    "orderPriceType": "limit",            //Price type, limit order is supported now (limit) ^订单价格类型，目前支持限价订单（limit）
+    "limitPrice": "0.11",                 //Price of limit order ^限价订单的价格
+    "volumeTotalOriginal": "1",           //Original total volume ^初始的总数量
+    "volumeTotal ": "0.2",                //Remaining open volume ^剩余未成交量
+    "volumeTraded": "0",                  //Total traded volume ^已成交总量
+    "timeCondition": "GTC",               //Time in force conditions, GTC (Good Till Cancel) is supported now, GFS (Good For Session), IOC (Immediate Or Cancel), etc. will be supported in the future. ^有效期类型，目前支持 GTC （撤销前一直有效），未来计划支持 GFS （当前Session有效）、 IOC （立即成交否则撤销）等。
+    "orderStatus": "0",                   //Order status: (0-fully executed; 1-partially executed, order still in order book; 2-partially executed, order not in order book; 3-not executed, order still in order book; 4-not executed, order not in order book; 5-fully cancelled; 6-partially executed, partially cancelled) ^订单状态（0-全部成交；1-部分成交，订单还在订单簿中；2-部分成交，订单不在订单簿中；3-未成交，订单还在订单簿中；4-未成交，订单不在订单簿中；5-订单全部被撤销；6-部分成交，部分撤单）
+    "actionTimestamp": "1536298968123",    //Timestamp of the last change to the order status^ 状态变化时间戳
+    "insertDate": "20180829",             //Date of insertion ^下单日期
+    "insertTime": "07:45:10",             //Time of insertion ^下单时间
+    "insertTimestamp": "1536298968",      //Timestamp of insertion ^下单时间戳
+    "cancelDate": "20180907",             //Date of cancellation ^撤单日期
+    "cancelTime": "05:42:57",             //Time of cancellation ^撤单时间
+}
+```
+
+* Query by order system ID ( orderSysID ): If orderSysID is not specified, it will query the maximum number of <font color="#dd0000" face="black">100</font> orders, sorted by time of insertion <b>(starting from the most recent order to the oldest order)</b>.
+<br />
+根据系统订单ID（ orderSysID ）查询订单：如果不指定 orderSysID ，最多返回<font color="#dd0000" face = "black">100</font>条订单，按照下单时间排序<b>（最近的订单排在最前面）</b>。
+
+  - Method: POST
+  - Version: v1
+  - Path: /order/getOrder
 
 ## 2.12. Query Trade ^查询成交
+
+> Request:
+  
+```json
+{//example
+    "startTimestamp": "1420674445",  //Start timestamp of query (optional) ^查询起始时间戳（非必填）
+    "endTimestamp": "1420674445",    //End timestamp of query (optional) ^查询结束时间戳（非必填）
+    "instrumentID": "ETH-BTC"        //Instrument ID (optional) ^合约ID（非必填）
+}
+```
+
+> Response:
+    
+```json
+[//example
+    {
+        "tradeID": "141334225600003",           //trade ID ^成交ID
+        "orderSysID": "1412943752000004",       //order system ID assigned by the exchange ^由交易所分配的系统订单ID
+        "orderLocalID": "15362989689714502",    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+        "instrumentID": "ETH-BTC",              //Instrument ID ^合约ID
+        "direction": "buy",                     //Direction: buy/sell ^方向：买/卖
+        "price": "1.1",                         //Trade price ^成交价格
+        "priceSource": "buy",                   //Source of trade price ^成交价来源
+        "volume": "5.23512",                    //Traded volume in the execution ^本次成交的数量
+        "fee": "0.1",                           //Fee ^手续费
+        "tradeDate": "20180829",                //Date of trade ^成交日期
+        "tradeTime": "07:45:10",                //Time of trade ^成交时间
+        "tradeTimestamp": "1420674445"          //Timestamp of trade ^成交时间戳
+    },
+    ...
+]
+```
+
 Query the maximum number of <font color="#dd0000" face="black">100</font> trades which is sorted by traded time <b>(starting from most recent trade to the oldest trade)</b>.
 
 最多查询 <font color="#dd0000" face="black">100</font> 条成交，按照成交时间排序<b>（最近的成交排在最前面）</b>。
+
 * Method: POST
 * Version: v1
 * Path: /trade/getTrade
-* Request:
-  
-    ```json
-    {//example
-        "startTimestamp": "1420674445",  //Start timestamp of query (optional) ^查询起始时间戳（非必填）
-        "endTimestamp": "1420674445",    //End timestamp of query (optional) ^查询结束时间戳（非必填）
-        "instrumentID": "ETH-BTC"        //Instrument ID (optional) ^合约ID（非必填）
-    }
-    ```
-* Response:
-    
-    ```json
-    [//example
-        {
-            "tradeID": "141334225600003",           //trade ID ^成交ID
-            "orderSysID": "1412943752000004",       //order system ID assigned by the exchange ^由交易所分配的系统订单ID
-            "orderLocalID": "15362989689714502",    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-            "instrumentID": "ETH-BTC",              //Instrument ID ^合约ID
-            "direction": "buy",                     //Direction: buy/sell ^方向：买/卖
-            "price": "1.1",                         //Trade price ^成交价格
-            "priceSource": "buy",                   //Source of trade price ^成交价来源
-            "volume": "5.23512",                    //Traded volume in the execution ^本次成交的数量
-            "fee": "0.1",                           //Fee ^手续费
-            "tradeDate": "20180829",                //Date of trade ^成交日期
-            "tradeTime": "07:45:10",                //Time of trade ^成交时间
-            "tradeTimestamp": "1420674445"          //Timestamp of trade ^成交时间戳
-        }
-    ]
-    ```
 
 ## 2.13. Query Level2 Market Data ^查询Level2行情数据
+
+> Response:
+    
+```json
+{//example
+    "instrumentID ": "ETH-BTC",      //Instrument ID ^合约ID
+    "buy": [["6500.11", "0.45054140"], ["6500.10", "0.35054140"], ...],   //Buy prices and volumes ^买价位
+    "sell": [["6500.15", "0.57753524"], ["6500.16", "0.77753524"], ...],  //Sell prices and volumes ^卖价位
+    "pubDate": "20180907",           //Publish date ^发布日期
+    "pubTime": "09:08:07",           //Publish time ^发布时间
+    "pubTimestamp": "1420674445201"  //Publish timestamp ^发布时间戳
+}
+```
+
 Query Level2 market data for a specific instrument.
 
 查询指定合约的 level2 行情信息。
+
 * Method: GET
 * Version: v1
 * Path: /marketData/getLevel2?instrumentID=ETH-BTC
+
 Instrument ID must be specified.
 
 必须指定合约ID。
-* Response:
-    
-    ```json
-    {//example
-        "instrumentID ": "ETH-BTC",      //Instrument ID ^合约ID
-        "buy": [["6500.11", "0.45054140"], ["6500.10", "0.35054140"]...],   //Buy prices and volumes ^买价位
-        "sell": [["6500.15", "0.57753524"], ["6500.16", "0.77753524"]...],  //Sell prices and volumes ^卖价位
-        "pubDate": "20180907",           //Publish date ^发布日期
-        "pubTime": "09:08:07",           //Publish time ^发布时间
-        "pubTimestamp": "1420674445201"  //Publish timestamp ^发布时间戳
-    }
-    ```
 
 # 3. WebSocket Interface Description ^WebSocket 接口说明
+
 The WebSocket protocol, as defined by HTML5, allows the server to push/publish data to the client, which can save more server resources and bandwidth, and can communicate in real time. Through the WebSocket API, the client and the server only need one handshake to create a persistent connection and a two-way data transmission.
 
 HTML5 定义了 WebSocket 协议，允许服务端向客户端推送数据，能更好的节省服务器资源和带宽，并且能够实时地进行通讯。在 WebSocket API 中，客户端和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。
 
 ## 3.1. WebSocket Request URL ^WebSocket 请求 URL
+
 The WebSocket interface request URL is: wss://xdaex.com/APITradeWS/v1/messages.
+
 This request URL contains the following main components:
+
 * Protocol: wss
 * Domain name: xdaex.com (To access the test\preview environment, please replace it with the corresponding domain name.)
 * Interface name: APITradeWS
@@ -623,7 +637,9 @@ This request URL contains the following main components:
 * Path: /messages
 
 WebSocket 接口请求 URL 为: wss://xdaex.com/APITradeWS/v1/messages 。
+
 URL 中主要包括以下组成部分：
+
 * 协议: wss
 * 域名: xdaex.com （如访问测试或预览环境，则需替换成指定的域名）
 * 接口名称: APITradeWS
@@ -631,7 +647,18 @@ URL 中主要包括以下组成部分：
 * 路径: /messages
 
 ## 3.2. Private Message Flow ^私有消息流
-### 3.2.1. Subscribe to Private Message Flow ^订阅私有消息流
+
+> Example of subscribing request:
+
+```json
+{ "type": "subscribe", "channel": {"user":[API-KEY, API-SIGNATURE, AUTH-TYPE]} }
+```
+
+> Example of unsubscribing request:
+
+```json
+{ "type": "unsubscribe", "channel": {"user":[API-KEY, API-SIGNATURE, AUTH-TYPE]} }
+```
 
 API Users can subscribe to the private message flows published by the server. The subscription to the private flow needs the API-KEY for authentication.
 
@@ -651,18 +678,6 @@ API 接入用户可通过订阅方式获取由交易所推送的私有消息流�
       - Output:
         - signedData = {"r":"vFDn9TZI041Xyeklcbnw8Qp20wx2ODfCgqa3dgm5t2s=", "s":"U7FgvfG+xjiZtxXtnKhGCSWwkSuUncsFOPr+M9UuV1k=", "v":28}
 
-- Example of subscribing request:
-
-  ```json
-  { "type": "subscribe", "channel": {"user":[API-KEY, API-SIGNATURE, AUTH-TYPE]} }
-  ```
-
-- Example of unsubscribing request:
-
-  ```json
-  { "type": "unsubscribe", "channel": {"user":[API-KEY, API-SIGNATURE, AUTH-TYPE]} }
-  ```
-
 - 获得 AUTH-TYPE 为 "PUB-PRIV" 的 API-SIGNATURE 的步骤
 
   - 用私钥对字串 "WSS/APITradeWS/v1/messages" 签名（算法： ECC ，椭圆曲线： secp256k1 ）: sign("WSS/APITradeWS/v1/messages")
@@ -672,18 +687,6 @@ API 接入用户可通过订阅方式获取由交易所推送的私有消息流�
         - privateKey = "VAoASo72TbEYsasQAD64nHlZVyBglPw13kfvlqM1j5Z="
       - 输出：
         - signedData = {"r":"vFDn9TZI041Xyeklcbnw8Qp20wx2ODfCgqa3dgm5t2s=", "s":"U7FgvfG+xjiZtxXtnKhGCSWwkSuUncsFOPr+M9UuV1k=", "v":28}
-
-- 订阅请求，例如：
-
-  ```json
-  { "type": "subscribe", "channel": {"user":[API-KEY, API-SIGNATURE, AUTH-TYPE]} }
-  ```
-
-- 取消订阅请求，例如：
-
-  ```json
-  { "type": "unsubscribe", "channel": {"user":[API-KEY, API-SIGNATURE, AUTH-TYPE]} }
-  ```
 
 - Steps to get an API-SIGNATURE with AUTH-TYPE "HMAC"
 
@@ -696,18 +699,6 @@ API 接入用户可通过订阅方式获取由交易所推送的私有消息流�
       - Output:
         - signedData = "pRXgKcONtvwSCAENxYTIjwBJaZtPa23GLQnm7+xPmhY="
 
-- Example of subscribing request:
-
-  ```json
-  { "type": "subscribe", "channel": {"user":[API-KEY, API-SIGNATURE, AUTH-TYPE]} }
-  ```
-
-- Example of unsubscribing request:
-
-  ```json
-  { "type": "unsubscribe", "channel": {"user":[API-KEY, API-SIGNATURE, AUTH-TYPE]} }
-  ```
-
 - 获得 AUTH-TYPE 为 "HMAC" 的 API-SIGNATURE 的步骤
 
   - 用密钥结合字串计算出消息验证码（算法： SHA256HMAC ）: SHA256HMAC(secretKey, "WSS/APITradeWS/v1/messages")
@@ -718,151 +709,182 @@ API 接入用户可通过订阅方式获取由交易所推送的私有消息流�
       - 输出：
         - signedData = "pRXgKcONtvwSCAENxYTIjwBJaZtPa23GLQnm7+xPmhY="
 
-- 订阅请求，例如：
-
-  ```json
-  { "type": "subscribe", "channel": {"user":[API-KEY, API-SIGNATURE, AUTH-TYPE]} }
-  ```
-
-- 取消订阅请求，例如：
-
-  ```json
-  { "type": "unsubscribe", "channel": {"user":[API-KEY, API-SIGNATURE, AUTH-TYPE]} }
-  ```
-
-### 3.2.2. Receive Private Message Flow ^接收私有消息流
-
 After subscribing to a private flow, the subscriber will receive the following types of messages:
 
 当订阅私有消息流之后，订阅者将收到以下几类消息：
 
-#### 3.2.2.1. Change of Order Status ^订单状态变化
+## 3.2.1. Change of Order Status ^订单状态变化
+
+> Messages:
+    
+```json
+{//example
+    "type": "order_return",                //Message type ^消息类型
+    "orderSysID": "1412943752000004",      //order system ID assigned by the exchange ^由交易所分配的系统订单编号
+    "orderLocalID": "15362989689714502",   //order local ID assigned by the user rather than the exchange. ^由用户（而非交易所）分配的本地订单ID。
+    "instrumentID ": "ETH-BTC",            //Instrument ID ^合约ID
+    "direction": "buy",                    //Direction: buy/sell ^方向：买/卖
+    "orderPriceType": "limit",             //Price type, limit order is supported now (limit) ^订单价格类型，目前支持限价订单（limit）
+    "limitPrice": "502.1",                 //Price of limit order ^限价订单的价格
+    "volumeTotalOriginal": "1.34",         //Original total volume ^初始的总数量
+    "volumeTotal": "1.33",                 //Remaining open volume ^剩余未成交量
+    "volumeTraded": "0.1",                 //Total traded volume ^已成交总量
+    "timeCondition": "GTC",                //Time in force conditions, only GTC (Good Till Cancel) is supported now. GFS (Good For Session), IOC (Immediate Or Cancel), etc. will be supported in the future. ^有效期类型，目前支持 GTC（撤销前一直有效），未来计划支持 GFS（当前Session有效）、 IOC（立即成交否则撤销）等。
+    "orderStatus": "5",                    //Order status: (0-fully executed; 1-partially executed, order still in order book; 2-partially executed, order not in order book; 3-not executed, order still in order book; 4-not executed, order not in order book; 5-fully cancelled; 6-partially executed, partially cancelled) ^订单状态（0-全部成交；1-部分成交，订单还在订单簿中；2-部分成交，订单不在订单簿中；3-未成交，订单还在订单簿中；4-未成交，订单不在订单簿中；5-订单全部被撤销；6-部分成交，部分撤单）
+    "actionTimestamp": "1536298968123",    //Timestamp of the last change to the order status^ 状态变化时间戳
+    "insertDate": "20180907",              //Date of insertion ^下单日期
+    "insertTime": "05:42:38",              //Time of insertion ^下单时间
+    "insertTimestamp": "1536298968",       //Timestamp of insertion ^下单时间戳
+    "cancelDate": "20180907",              //Date of cancellation ^撤单日期
+    "cancelTime": "05:42:57",              //Time of cancellation ^撤单时间
+}
+```
+
 When the order status changes (e.g. success of insertion, success of cancellation, execution, etc.), the following message will be published:
 
 当订单状态发生变化时（如：下单成功、撤单成功、成交等），如下消息会被推送：
-* Messages:
-    
-    ```json
-    {//example
-        "type": "order_return",                //Message type ^消息类型
-        "orderSysID": "1412943752000004",      //order system ID assigned by the exchange ^由交易所分配的系统订单编号
-        "orderLocalID": "15362989689714502",   //order local ID assigned by the user rather than the exchange. ^由用户（而非交易所）分配的本地订单ID。
-        "instrumentID ": "ETH-BTC",            //Instrument ID ^合约ID
-        "direction": "buy",                    //Direction: buy/sell ^方向：买/卖
-        "orderPriceType": "limit",             //Price type, limit order is supported now (limit) ^订单价格类型，目前支持限价订单（limit）
-        "limitPrice": "502.1",                 //Price of limit order ^限价订单的价格
-        "volumeTotalOriginal": "1.34",         //Original total volume ^初始的总数量
-        "volumeTotal": "1.33",                 //Remaining open volume ^剩余未成交量
-        "volumeTraded": "0.1",                 //Total traded volume ^已成交总量
-        "timeCondition": "GTC",                //Time in force conditions, only GTC (Good Till Cancel) is supported now. GFS (Good For Session), IOC (Immediate Or Cancel), etc. will be supported in the future. ^有效期类型，目前支持 GTC（撤销前一直有效），未来计划支持 GFS（当前Session有效）、 IOC（立即成交否则撤销）等。
-        "orderStatus": "5",                    //Order status: (0-fully executed; 1-partially executed, order still in order book; 2-partially executed, order not in order book; 3-not executed, order still in order book; 4-not executed, order not in order book; 5-fully cancelled; 6-partially executed, partially cancelled) ^订单状态（0-全部成交；1-部分成交，订单还在订单簿中；2-部分成交，订单不在订单簿中；3-未成交，订单还在订单簿中；4-未成交，订单不在订单簿中；5-订单全部被撤销；6-部分成交，部分撤单）
-        "actionTimestamp": "1536298968123",    //Timestamp of the last change to the order status^ 状态变化时间戳
-        "insertDate": "20180907",              //Date of insertion ^下单日期
-        "insertTime": "05:42:38",              //Time of insertion ^下单时间
-        "insertTimestamp": "1536298968",       //Timestamp of insertion ^下单时间戳
-        "cancelDate": "20180907",              //Date of cancellation ^撤单日期
-        "cancelTime": "05:42:57",              //Time of cancellation ^撤单时间
-    }
-    ```
 
-#### 3.2.2.2. Order Execution Report ^订单成交回报
+## 3.2.2. Order Execution Report ^订单成交回报
+
+> Messages:
+    
+```json
+{//example
+    "type": "trade_return",                //Message type ^消息类型
+    "tradeID": "141334225600003",          //trade ID ^成交ID
+    "orderSysID": "1412943752000004",      //order system ID assigned by the exchange ^由交易所分配的系统订单ID
+    "orderLocalID": "15362989689714502",   //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+    "instrumentID ": "ETH-BTC",            //Instrument ID ^合约ID
+    "direction": "buy",                    //Direction: buy/sell ^方向：买/卖
+    "price": "400.23",                     //Trade price ^成交价格
+    "priceSource": "buy",                  //Source of trade price ^成交价来源
+    "volume": "5.23512",                   //Traded volume in the execution ^本次成交的数量
+    "fee ": "0.001",                       //Fee ^手续费
+    "tradeDate": "20180829",               //Date of trade ^成交日期
+    "tradeTime": "09:33:01",               //Time of trade ^成交时间
+    "tradeTimestamp": "1420674445201",     //Timestamp of trade ^成交时间戳
+}
+```
+
 When the order is executed, the following message will be published:
 
 当订单成交时，如下消息会被推送：
-* Messages:
-    
-    ```json
-    {//example
-        "type": "trade_return",                //Message type ^消息类型
-        "tradeID": "141334225600003",          //trade ID ^成交ID
-        "orderSysID": "1412943752000004",      //order system ID assigned by the exchange ^由交易所分配的系统订单ID
-        "orderLocalID": "15362989689714502",   //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-        "instrumentID ": "ETH-BTC",            //Instrument ID ^合约ID
-        "direction": "buy",                    //Direction: buy/sell ^方向：买/卖
-        "price": "400.23",                     //Trade price ^成交价格
-        "priceSource": "buy",                  //Source of trade price ^成交价来源
-        "volume": "5.23512",                   //Traded volume in the execution ^本次成交的数量
-        "fee ": "0.001",                       //Fee ^手续费
-        "tradeDate": "20180829",               //Date of trade ^成交日期
-        "tradeTime": "09:33:01",               //Time of trade ^成交时间
-        "tradeTimestamp": "1420674445201",     //Timestamp of trade ^成交时间戳
-    }
-    ```
 
-#### 3.2.2.3. Failure to Inserting Order ^创建订单失败
+## 3.2.3. Failure to Inserting Order ^创建订单失败
+
+> Messages：
+    
+```json
+{//example
+    "type": "order_insert_rsp",             //Message type ^消息类型
+    "orderLocalID": "15362989689714502",    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+    "respCode": "2012",                     //Failure response code. Please refer to the contents of the above 'Failure Response Table' ^失败应答码，请参见后面的“失败应答表”内容。
+    "respMsg": "Invalid volume"             //Failure response message. Please refer to the contents of the above 'Failure Response Table' ^失败应答消息，请参见后面的“失败应答表”内容。
+
+}
+```
+
 When order insertion fails, the following message will be published:
 
 当下单失败时，如下消息会被推送：
-* Messages：
-    
-    ```json
-    {//example
-        "type": "order_insert_rsp",             //Message type ^消息类型
-        "orderLocalID": "15362989689714502",    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-        "respCode": "2012",                     //Failure response code. Please refer to the contents of the above 'Failure Response Table' ^失败应答码，请参见后面的“失败应答表”内容。
-        "respMsg": "Invalid volume"             //Failure response message. Please refer to the contents of the above 'Failure Response Table' ^失败应答消息，请参见后面的“失败应答表”内容。
 
-    }
-    ```
-#### 3.2.2.4. Failure to Cancelling Order ^撤销订单失败
+## 3.2.4. Failure to Cancelling Order ^撤销订单失败
+
+> Messages：
+
+```json
+{//example
+    "type": "order_cancel_rsp",             //Message type ^消息类型
+    "orderSysID": "1412943752000004",       //order system ID assigned by the exchange ^由交易所分配的系统订单ID
+    "orderLocalID": "15362989689714502",    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
+    "respCode": "1005",                     //Failure response code. Please refer to the contents of the above 'Failure Response Table' ^失败应答码，请参见后面的“失败应答表”内容。
+    "respMsg": "Internal service error"     //Failure response message. Please refer to the contents of the above 'Failure Response Table' ^失败应答消息，请参见后面的“失败应答表”内容。
+}
+```
+
 When order cancellation fails, the following message will be published:
 
 当撤单失败时，如下消息会被推送：
-* Messages：
-    
-    ```json
-    {//example
-        "type": "order_cancel_rsp",             //Message type ^消息类型
-        "orderSysID": "1412943752000004",       //order system ID assigned by the exchange ^由交易所分配的系统订单ID
-        "orderLocalID": "15362989689714502",    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
-        "respCode": "1005",                     //Failure response code. Please refer to the contents of the above 'Failure Response Table' ^失败应答码，请参见后面的“失败应答表”内容。
-        "respMsg": "Internal service error"     //Failure response message. Please refer to the contents of the above 'Failure Response Table' ^失败应答消息，请参见后面的“失败应答表”内容。
-    }
-    ```
 
 ## 3.3. Public Message Flow ^公有消息流
-### 3.3.1. Ticker ^逐笔成交信息
-Subscribe and unsubscribe to ticker requests:
 
-订阅和取消订阅 ticker 请求：
-* Messages:
+The following message flows can be subscribed without API-SIGNATURE.
+
+以下消息流不需要 API-SIGNATURE 就可订阅。
+
+## 3.3.1. Ticker ^逐笔成交信息
+
+> Subscribe and unsubscribe to ticker requests:
     
-    ```json
-    { "type": "subscribe", "channel": {"ticker":["ETH-BTC", "CYB-BTC"]} }
+```json
+{ "type": "subscribe", "channel": {"ticker":["ETH-BTC", "CYB-BTC"]} }
 
-    { "type": "unsubscribe", "channel": {"ticker":["ETH-BTC", "CYB-BTC"]} }
-    ```
+{ "type": "unsubscribe", "channel": {"ticker":["ETH-BTC", "CYB-BTC"]} }
+```
+
+> Messages:
+   
+```json
+{//example
+    "type": "trade_detail",         //Message type ^消息类型
+    "instrumentID ": "ETH-BTC",     //Instrument ID ^合约ID
+    "price ": "1.97",               //Trade price ^成交价格
+    "priceSource":"buy",            //Source of trade price ^成交价来源
+    "volume ": "0.03",              //Traded volume in the execution ^本次成交的数量
+    "tradeDate": "20180907",        //Date of trade ^成交日期
+    "tradeTime": "10:08:06",        //Time of trade ^成交时间
+    "tradeTimestamp": "1420674445"  //Timestamp of trade ^成交时间戳
+}
+
+{//example
+    "type": "trade_detail",         //Message type ^消息类型
+    "instrumentID ": "CYB-BTC",     //Instrument ID ^合约ID
+    "price ": "0.01",               //Trade price ^成交价格
+    "priceSource":"buy",            //Source of trade price ^成交价来源
+    "volume ": "0.03",              //Traded volume in the execution ^本次成交的数量
+    "tradeDate": "20180907",        //Date of trade ^成交日期
+    "tradeTime": "10:08:06",        //Time of trade ^成交时间
+    "tradeTimestamp": "1420674445"  //Timestamp of trade ^成交时间戳
+}
+```
 
 If you've subscribed to the ticker message flow, the following ticker message will be published when orders are executed:
 
 如果订阅了 ticker 消息流，当有订单被成交时，如下的 ticker 消息会被推送：
-* Messages:
+
+## 3.3.2. Level2 Market Data ^Level2行情数据
+
+> 订阅和取消订阅 level2 行情请求：
+  
+```json
+{ "type": "subscribe", "channel": {"level2@10":["ETH-BTC"]} }
+
+{ "type": "unsubscribe", "channel": {"level2@10":["ETH-BTC"]} }
+```
+> Messages:
    
-    ```json
-    {//example
-        "type": "trade_detail",         //Message type ^消息类型
-        "instrumentID ": "ETH-BTC",     //Instrument ID ^合约ID
-        "price ": "1.97",               //Trade price ^成交价格
-        "priceSource":"buy",            //Source of trade price ^成交价来源
-        "volume ": "0.03",              //Traded volume in the execution ^本次成交的数量
-        "tradeDate": "20180907",        //Date of trade ^成交日期
-        "tradeTime": "10:08:06",        //Time of trade ^成交时间
-        "tradeTimestamp": "1420674445"  //Timestamp of trade ^成交时间戳
-    }
+```json
+{//example
+    "type": "level2@10_snapshot",           //Message type: full snapshot ^消息类型：完整的行情快照
+    "instrumentID ": "ETH-BTC",             //Instrument ID ^合约ID
+    "buy": [["5500.21", "0.47545240"]...],  //Buy prices and volumes ^买价位
+    "sell": [["5500.25", "0.56544624"]...], //Sell prices and volumes ^卖价位
+    "pubDate": "20180907",                  //Publish date ^发布日期
+    "pubTime": "09:07:45",                  //Publish time ^发布时间
+    "pubTimestamp": "1420674445201"         //Publish timestamp ^发布时间戳
+}
 
-    {//example
-        "type": "trade_detail",         //Message type ^消息类型
-        "instrumentID ": "CYB-BTC",     //Instrument ID ^合约ID
-        "price ": "0.01",               //Trade price ^成交价格
-        "priceSource":"buy",            //Source of trade price ^成交价来源
-        "volume ": "0.03",              //Traded volume in the execution ^本次成交的数量
-        "tradeDate": "20180907",        //Date of trade ^成交日期
-        "tradeTime": "10:08:06",        //Time of trade ^成交时间
-        "tradeTimestamp": "1420674445"  //Timestamp of trade ^成交时间戳
-    }
-    ```
+{
+    "type": "level2@10_update",             //Message type: incremental update ^消息类型：增量的行情更新
+    "instrumentID": "ETH-BTC",              //Instrument ID ^合约ID
+    "buy": [["5500.21", "0.47545240"]...],  //Buy prices and volumes ^买价位
+    "sell": [["5500.25", "0"]...],          //Sell prices and volumes (note: volume is 0) ^卖价位（注意：数量为0）
+    "pubDate": "20180907",                  //Publish date ^发布日期
+    "pubTime": "09:07:45",                  //Publish time ^发布时间
+    "pubTimestamp":"1420674445201"          //Publish timestamp ^发布时间戳
+}
+```
 
-### 3.3.2. Level2 Market Data ^Level2行情数据
 Different subscription topics correspond to different depths of market data (price levels), as below.
 
 行情的不同深度（价位档数）对应不同的订阅主题：
@@ -876,45 +898,12 @@ level2@50|50                   |2
 
 Requests to subscribe and unsubscribe to level2 market data:
 
-订阅和取消订阅 level2 行情请求：
-
-* Messages:
-  
-    ```json
-    { "type": "subscribe", "channel": {"level2@10":["ETH-BTC"]} }
-
-    { "type": "unsubscribe", "channel": {"level2@10":["ETH-BTC"]} }
-    ```
-
 If you subscribe to level2 market data message flow, at first the full snapshot of level2 market data will be published and then only incremental updates of level2 market data are sent.
 
 如果订阅了 level2 行情消息流，首次先推送完整的行情快照，之后就仅推送增量的行情更新。
 
-* Messages:
-   
-    ```json
-    {//example
-        "type": "level2@10_snapshot",           //Message type: full snapshot ^消息类型：完整的行情快照
-        "instrumentID ": "ETH-BTC",             //Instrument ID ^合约ID
-        "buy": [["5500.21", "0.47545240"]...],  //Buy prices and volumes ^买价位
-        "sell": [["5500.25", "0.56544624"]...], //Sell prices and volumes ^卖价位
-        "pubDate": "20180907",                  //Publish date ^发布日期
-        "pubTime": "09:07:45",                  //Publish time ^发布时间
-        "pubTimestamp": "1420674445201"         //Publish timestamp ^发布时间戳
-    }
-
-    {
-        "type": "level2@10_update",             //Message type: incremental update ^消息类型：增量的行情更新
-        "instrumentID": "ETH-BTC",              //Instrument ID ^合约ID
-        "buy": [["5500.21", "0.47545240"]...],  //Buy prices and volumes ^买价位
-        "sell": [["5500.25", "0"]...],          //Sell prices and volumes (note: volume is 0) ^卖价位（注意：数量为0）
-        "pubDate": "20180907",                  //Publish date ^发布日期
-        "pubTime": "09:07:45",                  //Publish time ^发布时间
-        "pubTimestamp":"1420674445201"          //Publish timestamp ^发布时间戳
-    }
-    ```
-
 ## 3.4. Heartbeat Mechanism ^心跳机制
+
 In order to implement the heartbeat mechanism, the WebSocket subscriber should sends a 'ping' message to the server once per <b>15</b> seconds and then the server replies to the subscriber with a 'pong' message.
 
 为了实现心跳机制，WebSocket 订阅方每<b>15</b>秒向服务器发送一次"ping" 消息，然后服务器会向订阅方回复一个 "pong" 消息。
