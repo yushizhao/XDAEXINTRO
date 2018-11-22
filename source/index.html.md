@@ -852,7 +852,7 @@ If you've subscribed to the ticker message flow, the following ticker message wi
 
 ## 3.3.2. Level2 Market Data<br \>&emsp;^Level2行情数据
 
-> 订阅和取消订阅 level2 行情请求：
+> Requests to subscribe and unsubscribe to level2 market data:
   
 ```json
 { "type": "subscribe", "channel": {"level2@10":["ETH-BTC"]} }
@@ -865,8 +865,8 @@ If you've subscribed to the ticker message flow, the following ticker message wi
 {//example
     "type": "level2@10_snapshot",           //Message type: full snapshot ^消息类型：完整的行情快照
     "instrumentID ": "ETH-BTC",             //Instrument ID ^合约ID
-    "buy": [["5500.21", "0.47545240"]...],  //Buy prices and volumes ^买价位
-    "sell": [["5500.25", "0.56544624"]...], //Sell prices and volumes ^卖价位
+    "buy": [["5500.21", "0.47545240"], ...],  //Buy prices and volumes ^买价位
+    "sell": [["5500.25", "0.56544624"], ...], //Sell prices and volumes ^卖价位
     "pubDate": "20180907",                  //Publish date ^发布日期
     "pubTime": "09:07:45",                  //Publish time ^发布时间
     "pubTimestamp": "1420674445201"         //Publish timestamp ^发布时间戳
@@ -875,8 +875,8 @@ If you've subscribed to the ticker message flow, the following ticker message wi
 {
     "type": "level2@10_update",             //Message type: incremental update ^消息类型：增量的行情更新
     "instrumentID": "ETH-BTC",              //Instrument ID ^合约ID
-    "buy": [["5500.21", "0.47545240"]...],  //Buy prices and volumes ^买价位
-    "sell": [["5500.25", "0"]...],          //Sell prices and volumes (note: volume is 0) ^卖价位（注意：数量为0）
+    "buy": [["5500.21", "0.47545240"], ...],  //Buy prices and volumes ^买价位
+    "sell": [["5500.25", "0"], ...],          //Sell prices and volumes (note: volume is 0) ^卖价位（注意：数量为0）
     "pubDate": "20180907",                  //Publish date ^发布日期
     "pubTime": "09:07:45",                  //Publish time ^发布时间
     "pubTimestamp":"1420674445201"          //Publish timestamp ^发布时间戳
@@ -893,8 +893,6 @@ level2   |5                    |2
 level2@10|10                   |2
 level2@20|20                   |2
 level2@50|50                   |2
-
-Requests to subscribe and unsubscribe to level2 market data:
 
 If you subscribe to level2 market data message flow, at first the full snapshot of level2 market data will be published and then only incremental updates of level2 market data are sent.
 
