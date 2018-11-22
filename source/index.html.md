@@ -4,7 +4,7 @@ title: XDAEX Trading and Market Data API Specification ^XDAEX 交易及行情API
 # language_tabs: # must be one of https://git.io/vQNgJ
 #   - json: JSON 
 
-search: true
+search: false
 ---
 
 # 1. Quick Start ^快速入门
@@ -87,7 +87,7 @@ Note: For related information about API access management, rate limit and test/p
 
 注意：关于 API 接入管理、流量控制和测试环境等内容，请查阅后面的有关章节。在本文档的最后，有多种编程语言的“示例代码”供您参考。
 
-## 1.3. Test Environment And Preview Environment ^测试环境和预览环境
+## 1.3. Test Environment And Preview Environment<br \>&emsp;^测试环境和预览环境
 In addition to the production environment, where users interact with the real market, the exchange provides other two environments:
 
 * Test Environment: In order to protect users' assets, it is highly recommended that API users complete the necessary system tests in the test environment before accessing the production environment for trading. 
@@ -106,8 +106,8 @@ API users can send an email to support@xdaex.com to apply for accessing the test
 
 API 用户可以发送邮件至 support@xdaex.com ，申请使用测试环境和预览环境。
 
-# 2. REST Interface Description ^REST接口说明
-## 2.1. HTTP Request URL ^HTTP 请求 URL
+# 2. REST Interface Description<br \>&emsp;^REST接口说明
+## 2.1. HTTP Request URL<br \>&emsp;^HTTP 请求 URL
 The REST interface requests a URL as: https://xdaex.com/APITrade/v1/account/assets
 This request URL contains the following main components:
 
@@ -126,7 +126,7 @@ REST 接口请求 URL 形如： https://xdaex.com/APITrade/v1/account/assets
 * 版本: v1
 * 路径: 使用不同功能要访问不同的路径，例如：查询用户资产余额对应的路径是 /account/assets
 
-## 2.2. HTTP Request Message Header ^HTTP 请求消息头
+## 2.2. HTTP Request Message Header<br \>&emsp;^HTTP 请求消息头
 
 - The HTTP request message header of the REST interface must contain the following:
 - REST 接口 HTTP 请求消息头（Header）中必须包含以下内容：
@@ -224,7 +224,7 @@ REST 接口请求 URL 形如： https://xdaex.com/APITrade/v1/account/assets
       - 输出：
         - signedData = "Gkg0nwKpeQNw7h3hSiNGH1jem2y9M+vILdSDnG3ucSQ="
 
-## 2.3. Query Server Time ^查询服务器时间
+## 2.3. Query Server Time<br \>&emsp;^查询服务器时间
 
 > Response:
   
@@ -242,7 +242,7 @@ Query the server time in UTC (Coordinated Universal Time).
 * Version: v1
 * Path: /info/time
 
-## 2.4. Query API Release Number ^查询 API 发行号
+## 2.4. Query API Release Number<br \>&emsp;^查询 API 发行号
 
 > Response:
  
@@ -260,7 +260,7 @@ Query the API release number that applies to the current environment.
 * Version: v1
 * Path: /info/version
 
-## 2.5. Query Instrument ^查询合约
+## 2.5. Query Instrument<br \>&emsp;^查询合约
 
 > Response:
   
@@ -285,7 +285,7 @@ Query instrument information. If instrumentID is not specified, then this return
 * Path: /referenceData/instrument or
 /referenceData/instrument?instrumentID=ETH-BTC&instrumentID=CYB-BTC（Optional）
 
-## 2.6. Query User's Assets ^查询用户资产
+## 2.6. Query User's Assets<br \>&emsp;^查询用户资产
 
 > Response:
   
@@ -308,7 +308,7 @@ Query the user's asset information.
 * Version: v1
 * Path: /account/assets
 
-## 2.7. Query the User's Rate Limit ^查询流量控制
+## 2.7. Query the User's Rate Limit<br \>&emsp;^查询流量控制
 
 > Response:
    
@@ -331,7 +331,7 @@ Note: If there are m order IDs in 1 batch cancel order, the number of orders cou
 
 注意：1个批量撤单（ batchCancel ）中若包括了m个订单ID，则计入流量指标的数量是m。
 
-## 2.8. Insert Order ^创建订单
+## 2.8. Insert Order<br \>&emsp;^创建订单
 
 > Request:
    
@@ -375,7 +375,7 @@ Calling this interface only returns whether or not the exchange has received the
 * Version: v1
 * Path: /order/insert
 
-## 2.9. Cancel Order ^撤销订单
+## 2.9. Cancel Order<br \>&emsp;^撤销订单
 
 > Request:
   
@@ -432,7 +432,7 @@ The order that is confirmed by the exchange, but not completely executed, can be
   + Version: v1
   + Path: /order/cancelBySysID
 
-## 2.10. Batch Cancel Order ^批量撤销订单
+## 2.10. Batch Cancel Order<br \>&emsp;^批量撤销订单
 
 > Request:
    
@@ -458,7 +458,7 @@ The interface can cancel up to a maximum of <font color="#dd0000" face="black">1
 * Version: v1
 * Path: /order/batchCancel
 
-## 2.11. Query Order ^查询订单
+## 2.11. Query Order<br \>&emsp;^查询订单
 
 > Request:
    
@@ -547,7 +547,7 @@ Similar to cancelling orders, there are two ways to query orders: either by orde
   - Version: v1
   - Path: /order/getOrder
 
-## 2.12. Query Trade ^查询成交
+## 2.12. Query Trade<br \>&emsp;^查询成交
 
 > Request:
   
@@ -589,7 +589,7 @@ Query the maximum number of <font color="#dd0000" face="black">100</font> trades
 * Version: v1
 * Path: /trade/getTrade
 
-## 2.13. Query Level2 Market Data ^查询Level2行情数据
+## 2.13. Query Level2 Market Data<br \>&emsp;^查询Level2行情数据
 
 > Response:
     
@@ -616,13 +616,13 @@ Instrument ID must be specified.
 
 必须指定合约ID。
 
-# 3. WebSocket Interface Description ^WebSocket 接口说明
+# 3. WebSocket Interface Description<br \>&emsp;^WebSocket 接口说明
 
 The WebSocket protocol, as defined by HTML5, allows the server to push/publish data to the client, which can save more server resources and bandwidth, and can communicate in real time. Through the WebSocket API, the client and the server only need one handshake to create a persistent connection and a two-way data transmission.
 
 HTML5 定义了 WebSocket 协议，允许服务端向客户端推送数据，能更好的节省服务器资源和带宽，并且能够实时地进行通讯。在 WebSocket API 中，客户端和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。
 
-## 3.1. WebSocket Request URL ^WebSocket 请求 URL
+## 3.1. WebSocket Request URL<br \>&emsp;^WebSocket 请求 URL
 
 The WebSocket interface request URL is: wss://xdaex.com/APITradeWS/v1/messages.
 
@@ -644,7 +644,7 @@ URL 中主要包括以下组成部分：
 * 版本: v1
 * 路径: /messages
 
-## 3.2. Private Message Flow ^私有消息流
+## 3.2. Private Message Flow<br \>&emsp;^私有消息流
 
 > Example of subscribing request:
 
@@ -711,7 +711,7 @@ After subscribing to a private flow, the subscriber will receive the following t
 
 当订阅私有消息流之后，订阅者将收到以下几类消息：
 
-## 3.2.1. Change of Order Status ^订单状态变化
+## 3.2.1. Change of Order Status<br \>&emsp;^订单状态变化
 
 > Messages:
     
@@ -742,7 +742,7 @@ When the order status changes (e.g. success of insertion, success of cancellatio
 
 当订单状态发生变化时（如：下单成功、撤单成功、成交等），如下消息会被推送：
 
-## 3.2.2. Order Execution Report ^订单成交回报
+## 3.2.2. Order Execution Report<br \>&emsp;^订单成交回报
 
 > Messages:
     
@@ -768,7 +768,7 @@ When the order is executed, the following message will be published:
 
 当订单成交时，如下消息会被推送：
 
-## 3.2.3. Failure to Inserting Order ^创建订单失败
+## 3.2.3. Failure to Inserting Order<br \>&emsp;^创建订单失败
 
 > Messages：
     
@@ -786,7 +786,7 @@ When order insertion fails, the following message will be published:
 
 当下单失败时，如下消息会被推送：
 
-## 3.2.4. Failure to Cancelling Order ^撤销订单失败
+## 3.2.4. Failure to Cancelling Order<br \>&emsp;^撤销订单失败
 
 > Messages：
 
@@ -804,13 +804,13 @@ When order cancellation fails, the following message will be published:
 
 当撤单失败时，如下消息会被推送：
 
-## 3.3. Public Message Flow ^公有消息流
+## 3.3. Public Message Flow<br \>&emsp;^公有消息流
 
 The following message flows can be subscribed without API-SIGNATURE.
 
 以下消息流不需要 API-SIGNATURE 就可订阅。
 
-## 3.3.1. Ticker ^逐笔成交信息
+## 3.3.1. Ticker<br \>&emsp;^逐笔成交信息
 
 > Subscribe and unsubscribe to ticker requests:
     
@@ -850,7 +850,7 @@ If you've subscribed to the ticker message flow, the following ticker message wi
 
 如果订阅了 ticker 消息流，当有订单被成交时，如下的 ticker 消息会被推送：
 
-## 3.3.2. Level2 Market Data ^Level2行情数据
+## 3.3.2. Level2 Market Data<br \>&emsp;^Level2行情数据
 
 > 订阅和取消订阅 level2 行情请求：
   
@@ -900,14 +900,14 @@ If you subscribe to level2 market data message flow, at first the full snapshot 
 
 如果订阅了 level2 行情消息流，首次先推送完整的行情快照，之后就仅推送增量的行情更新。
 
-## 3.4. Heartbeat Mechanism ^心跳机制
+## 3.4. Heartbeat Mechanism<br \>&emsp;^心跳机制
 
 In order to implement the heartbeat mechanism, the WebSocket subscriber should sends a 'ping' message to the server once per <b>15</b> seconds and then the server replies to the subscriber with a 'pong' message.
 
 为了实现心跳机制，WebSocket 订阅方每<b>15</b>秒向服务器发送一次"ping" 消息，然后服务器会向订阅方回复一个 "pong" 消息。
 
 # 4. Sample Code ^示例代码
-## 4.1. REST Interface Sample Code ^REST接口示例代码
+## 4.1. REST Interface ^REST接口
 * Java
     +  [Java SDK](https://github.com/XDAEX/API/raw/master/java/xdaex-trading-sdk-1.0.jar)
     +  [Java Sample](https://github.com/XDAEX/API/wiki/REST_sample_java)
@@ -920,18 +920,18 @@ In order to implement the heartbeat mechanism, the WebSocket subscriber should s
     +  [C++ header](https://github.com/XDAEX/API/raw/master/cpp/eccutils.hpp)
     +  [C++ Sample](https://github.com/XDAEX/API_Docs/wiki/REST_sample_cpp)
 
-## 4.2. WebSocket Subscription Sample Code ^WebSocket订阅示例代码
+## 4.2. WebSocket Subscription ^WebSocket订阅
 * [JavaScript](https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_javascript)
 * [Golang](https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_golang)
 * [C++](https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_cpp)
 
-# 5. Request-Response Code Table ^请求应答编码对照表
+# 5. Request-Response Code Table<br \>&emsp;^请求应答编码对照表
 ## 5.1. Success Response ^成功应答
 The HTTP response code is 200 for all success responses which may contain other information about the response. Please refer to the details of the specific interface.
 
 对于成功的请求，HTTP 协议状态返回码均为 200 ，同时包含具体 Response 信息，具体可详见各类业务接口。
 
-## 5.2. Failure Response Table ^失败应答表
+## 5.2. Failure Response ^失败应答
 Failure modes are described by respcode and respmsg in the failure response.
 
 对于失败的请求，在其应答中通过 respCode 和 respMsg 说明失败的原因。
