@@ -198,7 +198,7 @@
     </style>
     <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all_nosearch.js"></script>
+      <script src="javascripts/all.js"></script>
   </head>
 
   <body class="index" data-languages="[]">
@@ -210,6 +210,10 @@
     </a>
     <div class="toc-wrapper">
       <img src="images/logo.png" class="logo" alt="Logo" />
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
           <li>
             <a href="#1-quick-start" class="toc-h1 toc-link" data-title="1. Quick Start ^快速入门">1. Quick Start ^快速入门</a>
@@ -221,7 +225,7 @@
                     <a href="#1-2-trading" class="toc-h2 toc-link" data-title="1.2. Trading ^交易">1.2. Trading ^交易</a>
                   </li>
                   <li>
-                    <a href="#1-3-test-environment-and-preview-environment-emsp" class="toc-h2 toc-link" data-title="1.3. Test Environment And Preview Environment ^测试环境和预览环境">1.3. Test Environment And Preview Environment<br> ^测试环境和预览环境</a>
+                    <a href="#1-3-environments-for-test-and-preview-emsp" class="toc-h2 toc-link" data-title="1.3. Environments for Test and Preview  ^测试环境和预览环境">1.3. Environments for Test and Preview <br> ^测试环境和预览环境</a>
                   </li>
               </ul>
           </li>
@@ -308,10 +312,10 @@
             <a href="#4-sample-code" class="toc-h1 toc-link" data-title="4. Sample Code ^示例代码">4. Sample Code ^示例代码</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#4-1-rest-interface-rest" class="toc-h2 toc-link" data-title="4.1. REST Interface ^REST接口">4.1. REST Interface ^REST接口</a>
+                    <a href="#4-1-rest-interface-rest" class="toc-h2 toc-link" data-title="4.1. REST Interface ^REST 接口">4.1. REST Interface ^REST 接口</a>
                   </li>
                   <li>
-                    <a href="#4-2-websocket-subscription-websocket" class="toc-h2 toc-link" data-title="4.2. WebSocket Subscription ^WebSocket订阅">4.2. WebSocket Subscription ^WebSocket订阅</a>
+                    <a href="#4-2-websocket-subscription-emsp-websocket" class="toc-h2 toc-link" data-title="4.2. WebSocket Subscription ^WebSocket 订阅">4.2. WebSocket Subscription<br> ^WebSocket 订阅</a>
                   </li>
               </ul>
           </li>
@@ -429,7 +433,7 @@
 <p>Note: For related information about API access management, rate limit and test/preview environment, please refer to the relevant contents in later sections. There are &#39;sample codes&#39; in some programming languages for your reference at the end of this document.</p>
 
 <p>注意：关于 API 接入管理、流量控制和测试环境等内容，请查阅后面的有关章节。在本文档的最后，有多种编程语言的“示例代码”供您参考。</p>
-<h2 id='1-3-test-environment-and-preview-environment-emsp'>1.3. Test Environment And Preview Environment<br \>&emsp;^测试环境和预览环境</h2>
+<h2 id='1-3-environments-for-test-and-preview-emsp'>1.3. Environments for Test and Preview <br \>&emsp;^测试环境和预览环境</h2>
 <p>In addition to the production environment, where users interact with the real market, the exchange provides other two environments:</p>
 
 <ul>
@@ -1344,7 +1348,7 @@ SHA256HMAC): SHA256HMAC (secretKey, &quot;WSS/APITradeWS/v1/messages&quot;)</li>
 <p>In order to implement the heartbeat mechanism, the WebSocket subscriber should sends a &#39;ping&#39; message to the server once per <b>15</b> seconds and then the server replies to the subscriber with a &#39;pong&#39; message.</p>
 
 <p>为了实现心跳机制，WebSocket 订阅方每<b>15</b>秒向服务器发送一次&quot;ping&quot; 消息，然后服务器会向订阅方回复一个 &quot;pong&quot; 消息。</p>
-<h1 id='4-sample-code'>4. Sample Code ^示例代码</h1><h2 id='4-1-rest-interface-rest'>4.1. REST Interface ^REST接口</h2>
+<h1 id='4-sample-code'>4. Sample Code ^示例代码</h1><h2 id='4-1-rest-interface-rest'>4.1. REST Interface ^REST 接口</h2>
 <ul>
 <li>Java
 
@@ -1370,7 +1374,7 @@ SHA256HMAC): SHA256HMAC (secretKey, &quot;WSS/APITradeWS/v1/messages&quot;)</li>
 <li> <a href="https://github.com/XDAEX/API_Docs/wiki/REST_sample_cpp">C++ Sample</a></li>
 </ul></li>
 </ul>
-<h2 id='4-2-websocket-subscription-websocket'>4.2. WebSocket Subscription ^WebSocket订阅</h2>
+<h2 id='4-2-websocket-subscription-emsp-websocket'>4.2. WebSocket Subscription<br \>&emsp;^WebSocket 订阅</h2>
 <ul>
 <li><a href="https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_javascript">JavaScript</a></li>
 <li><a href="https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_golang">Golang</a></li>
