@@ -4,7 +4,7 @@ title: XDAEX Trading and Market Data API Specification ^XDAEX 交易及行情API
 # language_tabs: # must be one of https://git.io/vQNgJ
 #   - json: JSON 
 
-search: false
+search: true
 ---
 
 # 1. Quick Start ^快速入门
@@ -87,7 +87,7 @@ Note: For related information about API access management, rate limit and test/p
 
 注意：关于 API 接入管理、流量控制和测试环境等内容，请查阅后面的有关章节。在本文档的最后，有多种编程语言的“示例代码”供您参考。
 
-## 1.3. Test Environment And Preview Environment<br \>&emsp;^测试环境和预览环境
+## 1.3. Environments for Test and Preview <br \>&emsp;^测试环境和预览环境
 In addition to the production environment, where users interact with the real market, the exchange provides other two environments:
 
 * Test Environment: In order to protect users' assets, it is highly recommended that API users complete the necessary system tests in the test environment before accessing the production environment for trading. 
@@ -905,7 +905,7 @@ In order to implement the heartbeat mechanism, the WebSocket subscriber should s
 为了实现心跳机制，WebSocket 订阅方每<b>15</b>秒向服务器发送一次"ping" 消息，然后服务器会向订阅方回复一个 "pong" 消息。
 
 # 4. Sample Code ^示例代码
-## 4.1. REST Interface ^REST接口
+## 4.1. REST Interface ^REST 接口
 * Java
     +  [Java SDK](https://github.com/XDAEX/API/raw/master/java/xdaex-trading-sdk-1.0.jar)
     +  [Java Sample](https://github.com/XDAEX/API/wiki/REST_sample_java)
@@ -918,7 +918,7 @@ In order to implement the heartbeat mechanism, the WebSocket subscriber should s
     +  [C++ header](https://github.com/XDAEX/API/raw/master/cpp/eccutils.hpp)
     +  [C++ Sample](https://github.com/XDAEX/API_Docs/wiki/REST_sample_cpp)
 
-## 4.2. WebSocket Subscription ^WebSocket订阅
+## 4.2. WebSocket Subscription<br \>&emsp;^WebSocket 订阅
 * [JavaScript](https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_javascript)
 * [Golang](https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_golang)
 * [C++](https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_cpp)
