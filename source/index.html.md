@@ -228,7 +228,7 @@ REST 接口请求 URL 形如： https://xdaex.com/APITrade/v1/account/assets
 
 > Response:
   
-```json
+```javascript
 {//example
     "timestamp": "1420674445201" //timestamp (UTC) ^时间戳（UTC）
 }
@@ -246,7 +246,7 @@ Query the server time in UTC (Coordinated Universal Time).
 
 > Response:
  
-```json
+```javascript
 {//example
     "version": "4.1.2"    //API release number ^API 发行号
 }
@@ -264,7 +264,7 @@ Query the API release number that applies to the current environment.
 
 > Response:
   
-```json
+```javascript
 [//example
     {
         "instrumentID": "ETH-BTC",    //Instrument ID ^合约ID
@@ -289,7 +289,7 @@ Query instrument information. If instrumentID is not specified, then this return
 
 > Response:
   
-```json
+```javascript
 [//example
     {
     "accountID": "0000000020",    //User's account ID ^用户的账户ID
@@ -312,7 +312,7 @@ Query the user's asset information.
 
 > Response:
    
-```json
+```javascript
 {//example
     "queryRateLimit": "10",      //Rate limit for query interfaces (times per second) ^查询接口限速值（次/秒）
     "orderRateLimit": "300",    //Rate limit for inserting and canceling order interfaces (times per second) ^下单和撤单接口限速值（次/秒）
@@ -335,7 +335,7 @@ Note: If there are m order IDs in 1 batch cancel order, the number of orders cou
 
 > Request:
    
-```json
+```javascript
 {//example
     "instrumentID": "ETH-BTC",             //Instrument ID ^合约ID
     "orderPriceType": "limit",             //Price type, only limit orders are supported now (limit) ^订单价格类型，目前支持限价订单（limit）
@@ -349,7 +349,7 @@ Note: If there are m order IDs in 1 batch cancel order, the number of orders cou
 
 > Response:
     
-```json
+```javascript
 {//example
     "orderLocalID": "15362989689714502",    //orderLocalID is an order local ID assigned by the user rather than the exchange. It should be incremental and unique. ^orderLocalID 是由用户（而非交易所）分配的本地订单ID，建议确保其增长性及唯一性。
 }
@@ -379,7 +379,7 @@ Calling this interface only returns whether or not the exchange has received the
 
 > Request:
   
-```json
+```javascript
 {//example
     "orderLocalID": "15362989689714502"    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
 }
@@ -387,7 +387,7 @@ Calling this interface only returns whether or not the exchange has received the
 
 > Response:
    
-```json
+```javascript
 //example
 {
     "orderLocalID": "15362989689714502",    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
@@ -409,7 +409,7 @@ The order that is confirmed by the exchange, but not completely executed, can be
 
 > Request:
   
-```json
+```javascript
 {//example
     "orderSysID": "1412943752000004"    //order system ID assigned by the exchange ^由交易所分配的系统订单ID
 }
@@ -417,7 +417,7 @@ The order that is confirmed by the exchange, but not completely executed, can be
 
 > Response:
    
-```json
+```javascript
 {//example
     "orderSysID": "1412943752000004",    //order system ID assigned by the exchange ^由交易所分配的系统订单ID
     "message": "received"                //Status: "received"/"failed". "received" - the exchange has received a cancellation request, but this does not mean that the order has been canceled. ^状态：“ received 已收到”/“ failed 已失败”。“ received ” - 表示交易所已收到了撤单请求，但不代表已经撤单完毕。
@@ -436,7 +436,7 @@ The order that is confirmed by the exchange, but not completely executed, can be
 
 > Request:
    
-```json
+```javascript
 {//example
     "orderSysIDs": [ "1412943752000004",...]    //The group can contain up to 10 orderSysIDs ^最多可包含10个系统订单ID
 }
@@ -444,7 +444,7 @@ The order that is confirmed by the exchange, but not completely executed, can be
 
 > Response:
    
-```json
+```javascript
 [//example
     "1412943752000004",...    //The orderSysIDs received by the exchange to cancel ^交易所收到的请求撤单的系统订单ID
 ]
@@ -462,14 +462,14 @@ The interface can cancel up to a maximum of <font color="#dd0000" face="black">1
 
 > Request:
    
-```json
+```javascript
 {//example
     "orderLocalID": "15362989689714502",    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
 }
 ```
 > Response:
 
-```json
+```javascript
 {//example
     "orderSysID": "1412943752000004",      //order system ID assigned by the exchange ^由交易所分配的系统订单ID
     "orderLocalID": "15362989689714502",   //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
@@ -505,7 +505,7 @@ Similar to cancelling orders, there are two ways to query orders: either by orde
 
 > Request:
     
-```json
+```javascript
 {//example
     "startTimestamp": "1420674445",    //Start timestamp of query (optional) ^查询起始时间戳（非必填）
     "endTimestamp": "1420674567",      //End timestamp of query (optional) ^查询结束时间戳（非必填）
@@ -517,7 +517,7 @@ Similar to cancelling orders, there are two ways to query orders: either by orde
 
 > Response:
    
-```json
+```javascript
 {//example
     "orderSysID": "1412943752000004",     //order system ID assigned by the exchange ^由交易所分配的系统订单ID
     "orderLocalID": "15362989689714502",  //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
@@ -551,7 +551,7 @@ Similar to cancelling orders, there are two ways to query orders: either by orde
 
 > Request:
   
-```json
+```javascript
 {//example
     "startTimestamp": "1420674445",  //Start timestamp of query (optional) ^查询起始时间戳（非必填）
     "endTimestamp": "1420674445",    //End timestamp of query (optional) ^查询结束时间戳（非必填）
@@ -561,7 +561,7 @@ Similar to cancelling orders, there are two ways to query orders: either by orde
 
 > Response:
     
-```json
+```javascript
 [//example
     {
         "tradeID": "141334225600003",           //trade ID ^成交ID
@@ -593,7 +593,7 @@ Query the maximum number of <font color="#dd0000" face="black">100</font> trades
 
 > Response:
     
-```json
+```javascript
 {//example
     "instrumentID ": "ETH-BTC",      //Instrument ID ^合约ID
     "buy": [["6500.11", "0.45054140"], ["6500.10", "0.35054140"], ...],   //Buy prices and volumes ^买价位
@@ -648,13 +648,13 @@ URL 中主要包括以下组成部分：
 
 > Example of subscribing request:
 
-```json
+```javascript
 { "type": "subscribe", "channel": {"user":[API-KEY, API-SIGNATURE, AUTH-TYPE]} }
 ```
 
 > Example of unsubscribing request:
 
-```json
+```javascript
 { "type": "unsubscribe", "channel": {"user":[API-KEY, API-SIGNATURE, AUTH-TYPE]} }
 ```
 
@@ -715,7 +715,7 @@ After subscribing to a private flow, the subscriber will receive the following t
 
 > Messages:
     
-```json
+```javascript
 {//example
     "type": "order_return",                //Message type ^消息类型
     "orderSysID": "1412943752000004",      //order system ID assigned by the exchange ^由交易所分配的系统订单编号
@@ -746,7 +746,7 @@ When the order status changes (e.g. success of insertion, success of cancellatio
 
 > Messages:
     
-```json
+```javascript
 {//example
     "type": "trade_return",                //Message type ^消息类型
     "tradeID": "141334225600003",          //trade ID ^成交ID
@@ -772,7 +772,7 @@ When the order is executed, the following message will be published:
 
 > Messages：
     
-```json
+```javascript
 {//example
     "type": "order_insert_rsp",             //Message type ^消息类型
     "orderLocalID": "15362989689714502",    //order local ID assigned by the user rather than the exchange ^由用户（而非交易所）分配的本地订单ID
@@ -790,7 +790,7 @@ When order insertion fails, the following message will be published:
 
 > Messages：
 
-```json
+```javascript
 {//example
     "type": "order_cancel_rsp",             //Message type ^消息类型
     "orderSysID": "1412943752000004",       //order system ID assigned by the exchange ^由交易所分配的系统订单ID
@@ -814,7 +814,7 @@ The following message flows can be subscribed without API-SIGNATURE.
 
 > Subscribe and unsubscribe to ticker requests:
     
-```json
+```javascript
 { "type": "subscribe", "channel": {"ticker":["ETH-BTC", "CYB-BTC"]} }
 
 { "type": "unsubscribe", "channel": {"ticker":["ETH-BTC", "CYB-BTC"]} }
@@ -822,7 +822,7 @@ The following message flows can be subscribed without API-SIGNATURE.
 
 > Messages:
    
-```json
+```javascript
 {//example
     "type": "trade_detail",         //Message type ^消息类型
     "instrumentID ": "ETH-BTC",     //Instrument ID ^合约ID
@@ -854,14 +854,14 @@ If you've subscribed to the ticker message flow, the following ticker message wi
 
 > Requests to subscribe and unsubscribe to level2 market data:
   
-```json
+```javascript
 { "type": "subscribe", "channel": {"level2@10":["ETH-BTC"]} }
 
 { "type": "unsubscribe", "channel": {"level2@10":["ETH-BTC"]} }
 ```
 > Messages:
    
-```json
+```javascript
 {//example
     "type": "level2@10_snapshot",           //Message type: full snapshot ^消息类型：完整的行情快照
     "instrumentID ": "ETH-BTC",             //Instrument ID ^合约ID
