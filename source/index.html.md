@@ -7,7 +7,7 @@ title: Home
 search: true
 ---
 
-# Welcome to XDAEX API ^欢迎使用 XDAEX API
+# Welcome to XDAEX API<br \>欢迎使用 XDAEX API
 
 **Following functions can be implemented easily with API：**
 
@@ -25,7 +25,7 @@ Please sign in xdaex.com and visit "User Center - API Interface" to manage your 
 
 Frequently asked questions [FAQ](https://support.xdaex.com/hc/en-us/search?utf8=%E2%9C%93&query=api)
 
-**通过API可以快速实现以下功能：**
+**通过 API 可以快速实现以下功能：**
 
 * 获取市场最新行情
 * 获取买卖深度信息
@@ -33,7 +33,7 @@ Frequently asked questions [FAQ](https://support.xdaex.com/hc/en-us/search?utf8=
 * 查询自己当前尚未成交的挂单
 * 批量撤单
 
-**操作前请您务必阅读[XDAEX程序化交易接入说明](https://github.com/XDAEX/API/wiki/XDAEX_API_Introduction)。**
+**操作前请您务必阅读 [XDAEX 程序化交易接入说明](https://github.com/XDAEX/API/wiki/XDAEX_API_Introduction)。**
 
 **想了解XDAEX程序化交易预览环境，请您阅读[预览环境接入说明](https://github.com/XDAEX/API/wiki/XDAEX_API_Preview_Environment_introduction)。**
 
@@ -41,13 +41,13 @@ Frequently asked questions [FAQ](https://support.xdaex.com/hc/en-us/search?utf8=
 
 常见问题请参考 [FAQ](https://support.xdaex.com/hc/zh-cn/search?utf8=✓&query=api)
 
-# XDAEX API Introduction ^XDAEX程序化交易接入说明
-* [XDAEX API Introduction ^XDAEX程序化交易接入说明](https://github.com/XDAEX/API/wiki/XDAEX_API_Introduction)
+# XDAEX API Introduction<br \>XDAEX 程序化交易接入说明
+* [XDAEX API Introduction ^XDAEX 程序化交易接入说明](https://github.com/XDAEX/API/wiki/XDAEX_API_Introduction)
 * [Introduction to Preview Environment ^预览环境接入说明](https://github.com/XDAEX/API/wiki/XDAEX_API_Preview_Environment_introduction)
 * [API Letter of Agreement(PDF)](https://github.com/XDAEX/API/raw/master/documents/API_Letter_of_Agreement_EN.pdf) ^[API协议信(PDF)](https://github.com/XDAEX/API/raw/master/documents/API_Letter_of_Agreement_CN.pdf)
 * [API Application Information(PDF)](https://github.com/XDAEX/API/raw/master/documents/API_Application_Information_EN.pdf) ^[API申请信息表(PDF)](https://github.com/XDAEX/API/raw/master/documents/API_Application_Information_CN.pdf)
 
-# API Specification ^API说明文档
+# API Specification<br \>API说明文档
 
 * For production environment and test environment ^生产环境与测试环境:
 
@@ -57,8 +57,8 @@ Frequently asked questions [FAQ](https://support.xdaex.com/hc/en-us/search?utf8=
 
   [API Specification ^API说明文档 v4.2.0](https://yushizhao.github.io/XDAEXAPI/#1-quick-start)
 
-# 4. Sample Code ^示例代码
-## 4.1. REST Interface ^REST 接口
+# Sample Code<br \>示例代码
+## REST Interface<br \>REST 接口
 * Java
     +  [Java SDK](https://github.com/XDAEX/API/raw/master/java/xdaex-trading-sdk-1.0.jar)
     +  [Java Sample](https://github.com/XDAEX/API/wiki/REST_sample_java)
@@ -71,7 +71,7 @@ Frequently asked questions [FAQ](https://support.xdaex.com/hc/en-us/search?utf8=
     +  [C++ header](https://github.com/XDAEX/API/raw/master/cpp/eccutils.hpp)
     +  [C++ Sample](https://github.com/XDAEX/API_Docs/wiki/REST_sample_cpp)
 
-## 4.2. WebSocket Subscription ^WebSocket 订阅
+## WebSocket Subscription<br \>WebSocket 订阅
 * [JavaScript](https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_javascript)
 * [Golang](https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_golang)
 * [C++](https://github.com/XDAEX/API/wiki/WebSocket_subscription_sample_cpp)
