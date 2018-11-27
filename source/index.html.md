@@ -38,9 +38,9 @@ To apply for XDAEX API, please follow the steps below in order to acquire the qu
 （5）通过资质和技术评鉴，获得接入资格。
 
 ## 2. Become an XDAEX User<br \>&emsp;^成为XDAEX交易所用户
-Please visit www.xdaex.com. Complete the registration and account activation process following the on-screen instructions.
+Please visit [www.xdaex.com](www.xdaex.com). Complete the registration and account activation process following the on-screen instructions.
 
-请您访问 www.xdaex.com， 按照导航提示完成用户的注册和激活。
+请您访问 [www.xdaex.com](www.xdaex.com)， 按照导航提示完成用户的注册和激活。
 
 ## 3. KYC Level 1 Verification and 2FA<br \>&emsp;^完成KYC1级认证与2FA验证
 After you have successfully activated your account, you need to complete the KYC level 1 verification and enable the 2FA settings inside the “User Center” section of your account. XDAEX Support team will assist in completing your verification timely within business hours.
@@ -106,14 +106,14 @@ If your host is unable to easily resolve the domain name, you can bind api-test.
 
 ### 5.3. Connector Documents<br \>&emsp;^接口文档
 Refer to the link below to know more details about the XDAEX connector：
-https://yushizhao.github.io/XDAEXAPI/
+[https://yushizhao.github.io/XDAEXAPI/](https://yushizhao.github.io/XDAEXAPI/)
 Refer to the FAQ link below to know more details about the XDAEX interface: 
-https://support.xdaex.com/hc/en-us/search?query=api&utf8=%E2%9C%93
+[FAQ](https://support.xdaex.com/hc/en-us/search?query=api&utf8=%E2%9C%93)
 
 若您想了解关于XDAEX接口的文档，请您移步：
-https://yushizhao.github.io/XDAEXAPI/
+[https://yushizhao.github.io/XDAEXAPI/](https://yushizhao.github.io/XDAEXAPI/)
 若您想了解关于XDAEX接口的FAQ，请您移步：
-https://support.xdaex.com/hc/zh-cn/search?utf8=✓&query=api
+[FAQ](https://support.xdaex.com/hc/zh-cn/search?utf8=✓&query=api)
 
 ### 5.4. Staging Environment Regulations<br \>&emsp;^联调测试守则
 The staging environment also deploys threat-awareness strategies like threat-awareness strategies, connector traffic limit. In order to provide a stable staging environment for you and other users, we will reject all security, performance and traffic testing to be performed.
