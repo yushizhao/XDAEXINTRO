@@ -106,12 +106,12 @@ If your host is unable to easily resolve the domain name, you can bind [api-test
 
 ### 5.3. Connector Documents<br \>&emsp;^接口文档
 Refer to the link below to know more details about the HashKey Pro connector：
-[https://yushizhao.github.io/XDAEXAPI/](https://yushizhao.github.io/XDAEXAPI/)
+[https://hashkeypro.github.io/api-spec/](https://hashkeypro.github.io/api-spec/)
 Refer to the FAQ link below to know more details about the HashKey Pro interface: 
 [FAQ](https://support.xdaex.com/hc/en-us/search?query=api&utf8=%E2%9C%93)
 
 若您想了解关于HashKey Pro接口的文档，请您移步：
-[https://yushizhao.github.io/XDAEXAPI/](https://yushizhao.github.io/XDAEXAPI/)
+[https://hashkeypro.github.io/api-spec/](https://hashkeypro.github.io/api-spec/)
 若您想了解关于HashKey Pro接口的FAQ，请您移步：
 [FAQ](https://support.xdaex.com/hc/zh-cn/search?utf8=✓&query=api)
 
