@@ -108,12 +108,12 @@ If your host is unable to easily resolve the domain name, you can bind [api-test
 Refer to the link below to know more details about the HashKey Pro connector：
 [https://hashkeypro.github.io/api-spec/](https://hashkeypro.github.io/api-spec/)
 Refer to the FAQ link below to know more details about the HashKey Pro interface: 
-[FAQ](https://support.xdaex.com/hc/en-us/search?query=api&utf8=%E2%9C%93)
+[FAQ](https://support.pro.hashkey.com/hc/en-us/search?utf8=%E2%9C%93&query=API)
 
 若您想了解关于HashKey Pro接口的文档，请您移步：
 [https://hashkeypro.github.io/api-spec/](https://hashkeypro.github.io/api-spec/)
 若您想了解关于HashKey Pro接口的FAQ，请您移步：
-[FAQ](https://support.xdaex.com/hc/zh-cn/search?utf8=✓&query=api)
+[FAQ](https://support.pro.hashkey.com/hc/zh-cn/search?utf8=%E2%9C%93&query=API)
 
 ### 5.4. Staging Environment Regulations<br \>&emsp;^联调测试守则
 The staging environment also deploys threat-awareness strategies like threat-awareness strategies, connector traffic limit. In order to provide a stable staging environment for you and other users, we will reject all security, performance and traffic testing to be performed.
