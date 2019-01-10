@@ -38,9 +38,9 @@ To apply for HashKey Pro API, please follow the steps below in order to acquire 
 （5）通过资质和技术评鉴，获得接入资格。
 
 ## 2. Become an HashKey Pro User<br \>&emsp;^成为 HashKey Pro 交易所用户
-Please visit [pro.hashkey.com](pro.hashkey.com). Complete the registration and account activation process following the on-screen instructions.
+Please visit [pro.hashkey.com](https://pro.hashkey.com). Complete the registration and account activation process following the on-screen instructions.
 
-请您访问 [pro.hashkey.com](pro.hashkey.com)， 按照导航提示完成用户的注册和激活。
+请您访问 [pro.hashkey.com](https://pro.hashkey.com)， 按照导航提示完成用户的注册和激活。
 
 ## 3. KYC Level 1 Verification and 2FA<br \>&emsp;^完成KYC1级认证与2FA验证
 After you have successfully activated your account, you need to complete the KYC level 1 verification and enable the 2FA settings inside the “User Center” section of your account. HashKey Pro Support team will assist in completing your verification timely within business hours.
