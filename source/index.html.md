@@ -9,6 +9,8 @@ search: true
 toc_footers:
     - Introduction Version 3.0
     - November 09, 2018
+    - <a href='https://hashkeypro.github.io/api'>API home page</a>
+    - <a href='https://pro.hashkey.com'>Hashkey Pro Official Site</a>
 ---
 
 # API Introduction<br \>^程序化交易接入说明
